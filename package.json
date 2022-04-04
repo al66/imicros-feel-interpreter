@@ -1,0 +1,43 @@
+{
+  "name": "imicros-feel-interpreter",
+  "version": "0.0.1",
+  "author": "Andreas Leinen <andreas.leinen@imicros.de> (www.imicros.de)",
+  "license": "MIT",
+  "description": "FEEL interpreter",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage --no-cache",
+    "test-parser": "jest test/parser.spec.js --no-cache"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "lib/*.js",
+      "lib/util/*.js",
+      "!node_modules/",
+      "!/dev/",
+      "!test/helper/*.js"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dev/"
+    ],
+    "rootDir": ".",
+    "roots": [
+      "./test"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/al66/imicros-feel-interpreter.git"
+  },
+  "keywords": [
+    "FEEL"
+  ],
+  "devDependencies": {
+    "jest": "^27.5.1"
+  },
+  "dependencies": {
+    "nearley": "^2.20.1",
+    "peggy": "^1.2.0"
+  }
+}
