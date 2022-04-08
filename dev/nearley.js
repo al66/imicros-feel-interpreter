@@ -1,6 +1,6 @@
 
 const nearley = require("nearley");
-const grammar = require("./feel.grammar.js");
+const grammar = require("./../lib/feel.grammar.js");
 const util = require('util');
 
 function create() {

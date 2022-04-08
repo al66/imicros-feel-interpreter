@@ -37,7 +37,7 @@
     "jest": "^27.5.1"
   },
   "dependencies": {
-    "nearley": "^2.20.1",
-    "peggy": "^1.2.0"
+    "moo": "^0.5.1",
+    "nearley": "^2.20.1"
   }
 }
