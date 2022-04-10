@@ -7,7 +7,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage --no-cache",
-    "test-parser": "jest test/parser.spec.js --no-cache"
+    "test-parser": "jest test/parser.*.spec.js --no-cache",
+    "test-interpreter": "jest test/interpreter.spec.js --no-cache"
   },
   "jest": {
     "collectCoverageFrom": [
