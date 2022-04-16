@@ -11,7 +11,7 @@ try {
     // Create a Parser object from our grammar.
     var parser = create();
     // Parse something!
-    parser.feed(" if a then b else if c then d else e ");
+    parser.feed("today().year");
     // parser.results is an array of possible parsings.
     console.log(util.inspect(parser.results, { showHidden: false, depth: null, colors: true }));
 } catch (e) {
