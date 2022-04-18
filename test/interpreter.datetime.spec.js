@@ -97,4 +97,31 @@ describe("Test interpreter", () => {
         });
     });
 
+    describe("Build-in functions - temporal", () => {
+        it("should evaluate today().year -> current year", () => {
+            let result = interpreter.evaluate("today().year");
+            expect(result).toEqual(new Date().getFullYear());
+        });
+        it("should evaluate now().minute -> current minute", () => {
+            let result = interpreter.evaluate("now().minute");
+            expect(result).toEqual(new Date().getMinutes());
+        });
+        it("should evaluate day of week(@\"2022-04-16\") -> \"Saturday\"", () => {
+            let result = interpreter.evaluate("day of week(@\"2022-04-16\")");
+            expect(result).toEqual("Saturday");
+        });
+        it("should evaluate day of year(@\"2022-04-16\") -> 106", () => {
+            let result = interpreter.evaluate("day of year(@\"2022-04-16\")");
+            expect(result).toEqual(106);
+        });
+        it("should evaluate month of year(@\"2022-04-16\") -> \"April\"", () => {
+            let result = interpreter.evaluate("month of year(@\"2022-04-16\")");
+            expect(result).toEqual("April");
+        });
+        it("should evaluate week of year(@\"2022-04-16\") -> 15", () => {
+            let result = interpreter.evaluate("week of year(@\"2022-04-16\")");
+            expect(result).toEqual(15);
+        });
+    });
+
 });

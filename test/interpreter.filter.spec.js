@@ -47,6 +47,30 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("[{a:4},{b:3},{c:2},{d:1}][2]");
             expect(result).toEqual({b:3});
         });
+        it("should evaluate [1,2,3,4][item > 2] -> [3,4]", () => {
+            let result = interpreter.evaluate("[1,2,3,4][item > 2]");
+            expect(result).toEqual([3,4]);
+        });
+        it("should evaluate [1,2,3,4][item = 2] -> [2]", () => {
+            let result = interpreter.evaluate("[1,2,3,4][item = 2]");
+            expect(result).toEqual([2]);
+        });
+        it("should evaluate [1,2,3,4][item + 1 = 3] -> [2]", () => {
+            let result = interpreter.evaluate("[1,2,3,4][item + 1 = 3]");
+            expect(result).toEqual([2]);
+        });
+        it("should evaluate [1,2,3,4,5,6,7,8,9][a*(item+1)=6] with {a:2}-> [2]", () => {
+            let result = interpreter.evaluate("[1,2,3,4,5,6,7,8,9][a*(item+1)=6]",{a:2});
+            expect(result).toEqual([2]);
+        });
+        it("should evaluate [1,2,3,4][item > 5] -> []", () => {
+            let result = interpreter.evaluate("[1,2,3,4][item > 5]");
+            expect(result).toEqual([]);
+        });
+        it("should evaluate [1,2,3,4][even(item)] -> [2,4]", () => {
+            let result = interpreter.evaluate("[1,2,3,4][even(item)]");
+            expect(result).toEqual([2,4]);
+        });
     });
 
 });

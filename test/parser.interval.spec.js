@@ -73,6 +73,21 @@ describe("Interval Expressions", () => {
         expect(results[0].to.node).toEqual(Node.NUMBER);
         expect(results[0].to.decimals).toEqual(99);
     });
+    it("Expression:(0.85...99[", (exp = "(0.85...99[") => {
+        let success = interpreter.parse(exp);
+        let results = interpreter.ast;
+        // console.log(util.inspect(results, { showHidden: false, depth: null, colors: true }));
+        expect(success).toEqual(true);
+        expect(results).toBeDefined();
+        expect(results.length).toEqual(1);
+        expect(results[0].node).toEqual(Node.INTERVAL);
+        expect(results[0].open).toEqual("(");
+        expect(results[0].close).toEqual("[");
+        expect(results[0].from.node).toEqual(Node.NUMBER);
+        expect(results[0].from.decimals).toEqual(85);
+        expect(results[0].to.node).toEqual(Node.NUMBER);
+        expect(results[0].to.decimals).toEqual(99);
+    });
     it("Expression:[from something..to something]", (exp = "[from something..to something]") => {
         let success = interpreter.parse(exp);
         let results = interpreter.ast;

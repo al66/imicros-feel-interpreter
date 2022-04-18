@@ -67,6 +67,46 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate('date("2022-04-05") + @"P2D" > date("2022-04-06")');
             expect(result).toEqual(true);
         });
+        it('should evaluate @"P5D" > @"P2D" -> true', () => {
+            let result = interpreter.evaluate('@"P5D" > @"P2D"');
+            expect(result).toEqual(true);
+        });
+        it('should evaluate @"P5D" > @"P4DT23H" -> true', () => {
+            let result = interpreter.evaluate('@"P5D" > @"P4DT23H"');
+            expect(result).toEqual(true);
+        });
+        it('should evaluate @"P5D" = @"P4DT24H" -> true', () => {
+            let result = interpreter.evaluate('@"P5D" = @"P4DT24H"');
+            expect(result).toEqual(true);
+        });
+        it('should evaluate 5 in [0..9] -> true', () => {
+            let result = interpreter.evaluate('5 in [0..9]');
+            expect(result).toEqual(true);
+        });
+        it('should evaluate a in [0..9) with {a:8} -> true', () => {
+            let result = interpreter.evaluate('a in [0..9)',{a:8});
+            expect(result).toEqual(true);
+        });
+        it('should evaluate a in [0..9) with {a:9} -> false', () => {
+            let result = interpreter.evaluate('a in [0..9)',{a:9});
+            expect(result).toEqual(false);
+        });
+        it('should evaluate date("2022-04-05") in [date("2022-04-04")..date("2022-04-06")] -> true', () => {
+            let result = interpreter.evaluate('date("2022-04-05") in [date("2022-04-04")..date("2022-04-06")]');
+            expect(result).toEqual(true);
+        });
+        it('should evaluate (date("2022-04-01")+duration("P3D")) in [date("2022-04-04")..date("2022-04-06")] -> true', () => {
+            let result = interpreter.evaluate('(date("2022-04-01")+duration("P3D")) in [date("2022-04-04")..date("2022-04-06")]');
+            expect(result).toEqual(true);
+        });
+        it('should evaluate 5 between 3 and 7 -> true', () => {
+            let result = interpreter.evaluate('5 between 3 and 7');
+            expect(result).toEqual(true);
+        });
+        it('should evaluate date("2022-04-05") between date("2022-04-04") and date("2022-04-06") -> true', () => {
+            let result = interpreter.evaluate('date("2022-04-05") between date("2022-04-04") and date("2022-04-06")');
+            expect(result).toEqual(true);
+        });
     });
 
 });

@@ -74,7 +74,7 @@ describe("Boxed Expressions", () => {
         expect(results.length).toEqual(1);
         expect(results[0].node).toEqual(Node.CONTEXT);
         expect(results[0].data.node).toEqual(Node.LIST);
-        expect(results[0].data.entries).toContainEqual(expect.objectContaining({ node: Node.CONTEXT_ENTRY, key: { node: Node.STRING, value: '"a"' }, expression: { node: Node.NUMBER, integer: 1, decimals: NaN, float: 1 } }));
+        expect(results[0].data.entries).toContainEqual(expect.objectContaining({ node: Node.CONTEXT_ENTRY, key: { node: Node.STRING, value: "a" }, expression: { node: Node.NUMBER, integer: 1, decimals: NaN, float: 1 } }));
         expect(results[0].data.entries).toContainEqual(expect.objectContaining({ node:Node.CONTEXT_ENTRY, key: { node: Node.NAME, value: "b" }, expression: { node: Node.NUMBER, integer: 3, decimals: NaN, float: 3 } }));
     });
     it("Expression:{a:1 + 2}", (exp = "{a:1 + 2}") => {

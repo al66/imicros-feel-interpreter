@@ -209,7 +209,21 @@ describe("Comparison expressions", () => {
         expect(results[0].left.node).toEqual(Node.NAME);
         expect(results[0].left.value).toEqual("a");
         expect(results[0].right.node).toEqual(Node.STRING);
-        expect(results[0].right.value).toEqual("\"this is a string\"");
+        expect(results[0].right.value).toEqual("this is a string");
+    });
+    it("Expression:5 in [0..9]", (exp = "5 in [0..9]") => {
+        let success = interpreter.parse(exp);
+        let results = interpreter.ast;
+        // console.log(util.inspect(results, { showHidden: false, depth: null, colors: true }));
+        expect(success).toEqual(true);
+        expect(results).toBeDefined();
+        expect(results.length).toEqual(1);
+        expect(results[0].node).toEqual(Node.IN);
+        expect(results[0].test.node).toEqual(Node.INTERVAL);
+        expect(results[0].test.open).toEqual("[");
+        expect(results[0].test.close).toEqual("]");
+        expect(results[0].test.from.integer).toEqual(0);
+        expect(results[0].test.to.integer).toEqual(9);
     });
 
 });

@@ -39,6 +39,10 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("a in b",{a:5,b:5});
             expect(result).toEqual(true);
         });
+        it("should evaluate 2 in [1,2,3,4] -> true", () => {
+            let result = interpreter.evaluate("2 in [1,2,3,4]");
+            expect(result).toEqual(true);
+        });
     });
 
 });
