@@ -8,7 +8,8 @@
   "scripts": {
     "test": "jest --coverage --no-cache",
     "test-parser": "jest test/parser.*.spec.js --no-cache",
-    "test-interpreter": "jest test/interpreter.*.spec.js --no-cache"
+    "test-interpreter": "jest test/interpreter.*.spec.js --no-cache",
+    "test-decision": "jest test/interpreter.decisiontable.spec.js --no-cache"
   },
   "jest": {
     "collectCoverageFrom": [

@@ -71,6 +71,62 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("[1,2,3,4][even(item)]");
             expect(result).toEqual([2,4]);
         });
+        it('should evaluate flight list[item.status = "cancelled"].flight number -> [234]', () => {
+            let result = interpreter.evaluate('flight list[item.status = "cancelled"].flight number', {"flight list": [{ "flight number": 123, status: "boarding"},{ "flight number": 234, status: "cancelled"}]});
+            expect(result).toEqual([234]);
+        });
     });
+
+    describe("List functions", () => {
+        it("should evaluate list contains([1,2,3,4],2) -> true", () => {
+            let result = interpreter.evaluate("list contains([1,2,3,4],2)");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate count([1,2,3,4]) -> 4", () => {
+            let result = interpreter.evaluate("count([1,2,3,4])");
+            expect(result).toEqual(4);
+        });
+        it("should evaluate min([1,2,3,4]) -> 1", () => {
+            let result = interpreter.evaluate("min([1,2,3,4])");
+            expect(result).toEqual(1);
+        });
+        it("should evaluate min(1,2,3,4) -> 1", () => {
+            let result = interpreter.evaluate("min(1,2,3,4)");
+            expect(result).toEqual(1);
+        });
+        it("should evaluate max([1,2,3,4]) -> 4", () => {
+            let result = interpreter.evaluate("max([1,2,3,4])");
+            expect(result).toEqual(4);
+        });
+        it("should evaluate max(1,2,3,4) -> 4", () => {
+            let result = interpreter.evaluate("max(1,2,3,4)");
+            expect(result).toEqual(4);
+        });
+        it("should evaluate sum([1,2,3,4]) -> 10", () => {
+            let result = interpreter.evaluate("sum([1,2,3,4])");
+            expect(result).toEqual(10);
+        });
+        it("should evaluate sum(1,2,3,4) -> 10", () => {
+            let result = interpreter.evaluate("sum(1,2,3,4)");
+            expect(result).toEqual(10);
+        });
+        it("should evaluate product([1,2,3,4]) -> 24", () => {
+            let result = interpreter.evaluate("product([1,2,3,4])");
+            expect(result).toEqual(24);
+        });
+        it("should evaluate product(1,2,3,4) -> 24", () => {
+            let result = interpreter.evaluate("product(1,2,3,4)");
+            expect(result).toEqual(24);
+        });
+        it("should evaluate mean([1,2,3,4]) -> 2.5", () => {
+            let result = interpreter.evaluate("mean([1,2,3,4])");
+            expect(result).toEqual(2.5);
+        });
+        it("should evaluate mean(1,2,3,4) -> 2.5", () => {
+            let result = interpreter.evaluate("mean(1,2,3,4)");
+            expect(result).toEqual(2.5);
+        });
+    });
+
 
 });

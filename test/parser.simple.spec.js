@@ -106,7 +106,7 @@ describe("Test parser", () => {
             expect(results[0].node).toEqual(Node.STRING);
             expect(results[0].value).toEqual("this is a string with something :9999 inside");
         });
-        it('Expression:"this is a string with \'a string\' inside"', (exp = '"this is a string with \'a string\' inside"') => {
+        it(`Expression:"this is a string with 'a string' inside"`, (exp = `"this is a string with 'a string' inside"`) => {
             let success = interpreter.parse(exp);
             let results = interpreter.ast;
             // console.log(util.inspect(results, { showHidden: false, depth: null, colors: true }));
@@ -116,8 +116,8 @@ describe("Test parser", () => {
             expect(results[0].node).toEqual(Node.STRING);
             expect(results[0].value).toEqual("this is a string with 'a string' inside");
         });
-        // TODO: Escape character \" - must be already fixed in the tokenizer!
-        it('Expression:"this is a string with \"escaped quotes\" inside"', (exp = "\"this is a string with \\\"escaped quotes\\\" inside\"") => {
+        // TODO: Escape character \" - must be already fixed in the tokenizer! tokenizer returns already single double quote " instead of \"
+        it('Expression:"this is a string with \"escaped quotes\" inside"', (exp = `"this is a string with \\"escaped quotes\\" inside"`) => {
             let success = interpreter.parse(exp);
             let results = interpreter.ast;
             // console.log(util.inspect(results, { showHidden: false, depth: null, colors: true }));
@@ -126,7 +126,6 @@ describe("Test parser", () => {
             expect(results).toBeDefined();
             expect(results.length).toEqual(1);
             expect(results[0].node).toEqual(Node.STRING);
-            // TODO: how to test string in string in string...
             expect(results[0].value).toEqual("this is a string with \\\"escaped quotes\\\" inside");
         });
         it('Expression:"(d{3})(\d{3})"', (exp = '"(d{3})(\d{3})"') => {

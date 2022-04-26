@@ -183,7 +183,7 @@ NamedParameterList -> NamedParameter _ ("," _ NamedParameter):* {% (data) => { r
 
 NamedParameter -> Name _ ":" _ Expression {% (data) => { return new Node({ node: Node.NAMED_PARAMETER, name: concat(data[0]), expression: reduce(data[4]) });} %}
 
-PositionalParameterList -> Expression _ ("," _ Expression):*  {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(data[0]).concat(extractObj(data[2],2)) });} %}
+PositionalParameterList -> Expression _ ("," _ Expression):*  {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(reduce(data[0])).concat(reduce(extractObj(data[2],2))) });} %}
 
 PathExpression -> Expression "." Name {% (data, location, reject) => { return allowedPath(data[0]) ? new Node({ node: Node.PATH, object:reduce(data[0]), property:data[2]}) : reject ;} %}
     | Name
