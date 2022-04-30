@@ -224,22 +224,25 @@ BasicType -> ("boolean"|"number"|"string"|"date"|"time"|"date and time"|"day-tim
     | "date" __ "time" {% (data) => concat(data) %}
 
 BoxedExpression -> List
-    | FunctionDefintion
+    | FunctionDefintion {% (data) => { return reduce(data);} %}
     | Context __ Expression {% (data) => { return new Node({ node: Node.BOXED, context: reduce(data[0]), result: reduce(data[2]) }); } %}
-    | Context
+    | Context {% (data) => { return reduce(data);} %}
 
 List -> "[" _ ListEntries _ "]" {% (data) => { return new Node({ node: Node.LIST, entries: data[2] }); } %}
+    | "[" _ "]" {% (data) => { return new Node({ node: Node.LIST, entries: [] }); } %}
 
 ListEntries -> ListEntry _ ("," _ ListEntry):* {% (data) => { return [].concat(data[0]).concat(extractObj(data[2],2)); } %}
 
 ListEntry -> Expression {% (data) => reduce(data) %}
     | UnaryDash 
 
-FunctionDefintion -> "function" _ "(" _ FormalParameterList _ ")" _ Expression  {% (data) => { return new Node({ node: Node.FUNCTION_DEFINITION, parameters: reduce(data[4]), expression: reduce(data[84]) });} %}
+FunctionDefintion -> "function" _ "(" _ FormalParameterList _ ")" _ Expression  {% (data) => { return new Node({ node: Node.FUNCTION_DEFINITION, parameters: reduce(data[4]), expression: reduce(data[8]) });} %}
 
-FormalParameterList-> FormalParameter _ ("," _ FormalParameter):* {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(data[0]).concat(extractObj(data[2],2)) });} %}
+FormalParameterList-> FormalParameter _ ("," _ FormalParameter):* {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(reduce(data[0])).concat(reduce(extractObj(data[2],2))) });} %}
 
-FormalParameter -> Name _ (":" _ Type):? {% (data) => { return new Node({ node: Node.FORMAL_PARAMETER, name: concat(data[0]), type: reduce(data[4]) });} %}
+FormalParameter -> Name _ FormalParameterType:? {% (data) => { return new Node({ node: Node.FORMAL_PARAMETER, name: concat(data[0]), type: reduce(data[2]) });} %}
+
+FormalParameterType -> ":" _ Type {% (data) => { return reduce(data[2]); } %}
 
 Context -> "{" _ (ContextEntries):? _ "}" {% (data) => { return new Node({ node: Node.CONTEXT, data: reduce(data[2]) }); } %}
 
@@ -258,11 +261,6 @@ DateTimeFunction -> DateTimeFunctionName _ Parameters {% (data) => { return new 
 DateTimeFunctionName -> ("date"|"time"|"duration"|"date and time") {% (data) => reduce([data]).value %}
 
 WhiteSpace -> %whitespace
-    #| VerticalSpace
-
-#VerticalSpace
-#    -> [\u000A]
-#    | [\u000D]
 
 _  -> WhiteSpace:* {% null %}
 

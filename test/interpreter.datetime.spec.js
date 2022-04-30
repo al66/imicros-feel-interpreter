@@ -122,6 +122,10 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("week of year(@\"2022-04-16\")");
             expect(result).toEqual(15);
         });
+        it(`should evaluate abs(@"-P7M2Y") -> "P7M2Y"`, () => {
+            let result = interpreter.evaluate(`abs(@"-P7M2Y")`);
+            expect(result).toEqual("P7M2Y");
+        });
     });
 
 });

@@ -47,6 +47,42 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate(exp,{patient: { age: 65, history: "bad"}});
             expect(result).toEqual({ "Applicant Risk Rating": "High" });
         });
+        it("should evaluate a context for use in a following decision table", () => {
+            let exp = `boxed expression({ "Applicant Age": patient.age,
+            "Medical History": patient.history }, 
+                decision table(
+                    outputs: ["Applicant Risk Rating"],
+                    inputs: ["Applicant Age","Medical History"],
+                    rule list: [
+                        [>60,"good","Medium"],
+                        [>60,"bad","High"],
+                        [[25..60],-,"Medium"],
+                        [<25,"good","Low"],
+                        [<25,"bad","Medium"]
+                    ],
+                    hit policy: "Unique"
+                ))`
+            let result = interpreter.evaluate(exp,{patient: { age: 65, history: "bad"}});
+            expect(result).toEqual({ "Applicant Risk Rating": "High" });
+        });
+        it("should evaluate a context for use in a following decision table", () => {
+            let exp = `boxed expression(context: { "Applicant Age": patient.age,
+            "Medical History": patient.history }, 
+                expression: decision table(
+                    outputs: ["Applicant Risk Rating"],
+                    inputs: ["Applicant Age","Medical History"],
+                    rule list: [
+                        [>60,"good","Medium"],
+                        [>60,"bad","High"],
+                        [[25..60],-,"Medium"],
+                        [<25,"good","Low"],
+                        [<25,"bad","Medium"]
+                    ],
+                    hit policy: "Unique"
+                ))`
+            let result = interpreter.evaluate(exp,{patient: { age: 65, history: "bad"}});
+            expect(result).toEqual({ "Applicant Risk Rating": "High" });
+        });
     });
 
     

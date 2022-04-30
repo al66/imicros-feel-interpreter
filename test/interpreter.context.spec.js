@@ -39,6 +39,33 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("[{a:\"p1\",b:1},{a:\"p2\",b:2}].a");
             expect(result).toEqual(["p1","p2"]);
         });
+        it("should evaluate [{a:3,b:1},{a:4,b:2}][item.a > 3] -> [{a:4,b:2}]", () => {
+            let result = interpreter.evaluate("[{a:3,b:1},{a:4,b:2}][item.a > 3]");
+            expect(result).toEqual([{a:4,b:2}]);
+        });
     });
+
+    describe("Context - build in functions", () => {
+        it('should evaluate get value({a:3},"a") -> 3', () => {
+            let result = interpreter.evaluate('get value({a:3},"a")');
+            expect(result).toEqual(3);
+        });
+        it('should evaluate get value(key: "a",context: {a:3}) -> 3', () => {
+            let result = interpreter.evaluate('get value(key: "a",context: {a:3})');
+            expect(result).toEqual(3);
+        });
+        it('should evaluate get entries({a:3}) -> [{ key: "a", value: 3 }]', () => {
+            let result = interpreter.evaluate('get entries({a:3})');
+            expect(result).toEqual([{ key: "a", value: 3 }]);
+        });
+        it('should evaluate put({a:3},"b",4).b -> 4', () => {
+            let result = interpreter.evaluate('put({a:3},"b",4).b');
+            expect(result).toEqual(4);
+        });
+        it('should evaluate put all({a:3},{b:4},{c:5}) -> {a:3, b:4, c:5}', () => {
+            let result = interpreter.evaluate('put all({a:3},{b:4},{c:5})');
+            expect(result).toEqual({a:3, b:4, c:5});
+        });
+    })
 
 });

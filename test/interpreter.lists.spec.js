@@ -126,6 +126,54 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("mean(1,2,3,4)");
             expect(result).toEqual(2.5);
         });
+
+        it("should evaluate stddev([23,4,6,457,65,7,45,8]) -> 145.13565852332775", () => {
+            let result = interpreter.evaluate("stddev([23, 4, 6, 457, 65, 7, 45, 8])");
+            expect(result).toEqual(145.13565852332775);
+        });
+        it("should evaluate stddev([1,2,3,4,5]) -> 1.4142135623730951", () => {
+            let result = interpreter.evaluate("stddev([1,2,3,4,5])");
+            expect(result).toEqual(1.4142135623730951);
+        });
+        it("should evaluate stddev(1,2,3,4,5) -> 1.4142135623730951", () => {
+            let result = interpreter.evaluate("stddev(1,2,3,4,5)");
+            expect(result).toEqual(1.4142135623730951);
+        });
+
+        it("should evaluate all(false,true) -> false", () => {
+            let result = interpreter.evaluate("all(false,true)");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate all([false,true]) -> false", () => {
+            let result = interpreter.evaluate("all([false,true])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate all([true]) -> true", () => {
+            let result = interpreter.evaluate("all([true])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate all([]) -> true", () => {
+            let result = interpreter.evaluate("all([])");
+            expect(result).toEqual(true);
+        });
+
+        it("should evaluate any(false,true) -> true", () => {
+            let result = interpreter.evaluate("any(false,true)");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate any([false,true]) -> true", () => {
+            let result = interpreter.evaluate("any([false,true])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate any([true]) -> true", () => {
+            let result = interpreter.evaluate("any([true])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate any([]) -> false", () => {
+            let result = interpreter.evaluate("any([])");
+            expect(result).toEqual(false);
+        });
+
     });
 
 
