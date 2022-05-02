@@ -49,6 +49,14 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("with white space",{"with white space": 7});
             expect(result).toEqual(7);
         });
+        it("should return a variable with leading ?", () => {
+            let result = interpreter.evaluate("?test var",{"?test var": 7});
+            expect(result).toEqual(7);
+        });
+        it("should return a variable with leading _", () => {
+            let result = interpreter.evaluate("_test var",{"_test var": 7});
+            expect(result).toEqual(7);
+        });
     });
 
 });

@@ -11,25 +11,23 @@
 
     const lexer = moo.compile({
         // string      : /((['"])(?:(?!\2|\\).|\\(?:\r\n|[\s\S]))*(\2)?|`(?:[^`\\$]|\\[\s\S]|\$(?!\{)|\$\{(?:[^{}]|\{[^}]*\}?)*\}?)*(`)?)/
+        // string      : /["][^"]*["]/,
         string      : { match: /"(?:\\"|[^"])*?"/, value: s => s.slice(1, -1) },
-        dayandtime  : /date[ ]+and[ ]+time/,
-        fn          : /string[ ]+length|week[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+week/,            
-        types       : /day-time-duration|year-month-duration/,
-        instance    : /instance[ ]+of/,
+        // whitespace  : { match: /[ \t\n\r]+|\u00A0|\uFEFF|\u000D|\u000A/, lineBreaks: true },
         whitespace  : { match: /[ \t\n\r\u00A0\uFEFF\u000D\u000A]+/, lineBreaks: true },
-        word        : { match: /[\?_A-Za-z]+/, type: moo.keywords({
-            keywords    : ['for','return','if','true','false','in','and','or','between','some','every','then','else'],
-            not         : ['not'],
-            types       : ['string','number','boolean'],
-            null        : ['null'],
-            dayandtime  : ['date','time','duration'],
-            fn          : ['even','abs','length']
-        }) },
+        functions   : /date and time/,
+        types       : /day-time-duration|year-month-duration/,
+        instance    : /instance|of/,
+        keywords    : /for|return|if|true|false|in|and|or|between|some|every|then|else|even/,
+        word        : /[A-Za-z]+/,
         number      : /[0-9]+/,
         comparator  : /!=|==|<=|>=|<{1}|>{1}|={1}/,
         operator    : /-|\+|\.\.|\/|\*{1,2}/,
         punctuator  : /@|[.,:;[\](){}]/
     });
+
+    // store context keys to check names with special characters
+    var keys = [];
 
     function concat(e) {
         if (Array.isArray(e)) return e.reduce((prev,curr) => prev.concat(concat(curr)), [] ).join(''); 
@@ -49,6 +47,45 @@
     function extractObj(data, i) {
         if (Array.isArray(data)) return data.reduce((prev,curr) => prev.concat(curr[i]), [] ); 
         return [];
+    }
+
+    function isKeyword(data) {
+        if (["for","if","then","else","some","every","satisfies","true","false","in","and","or","instance","null","not"].indexOf(concat([data])) >= 0) return true;
+        return false;
+    }
+
+    function isReservedName(data) {
+        if (["for","if","some","every","satisfies","true","false","in","and","or","instance","null","not","number","string","boolean","day-time-duration","year-month-duration","date and time"].indexOf(concat([data])) >= 0) return true;
+        return false;
+    }
+
+    function isDateTimeFunction(data) {
+        if (["date","time","duration","date and time"].indexOf(concat([data])) >= 0) return true;
+        return false;
+    }
+
+    function addToContext(key) {
+        if (key?.value && keys.indexOf(key.value) < 0) keys.push(key.value);
+    } 
+
+    function isValidName(data) {
+        if (keys.length > 0) {
+            // context entry
+            if (keys.indexOf(data) >= 0) return true;
+            // check for context entries starting with...
+            const result = keys.findIndex((key) => { return key.match(new RegExp(data+"[\s \+\.\-\/\*]+[.]*"));});
+            if (result >= 0) return false; 
+        }
+        // special characters otherwise not allowed
+        return data.match(/[\+\.\-\/\*]/) ? false : true;
+    }
+
+    function isUnvalidName(data) {
+        return isDateTimeFunction(data) || isReservedName(data) || !isValidName(data);
+    }
+
+    function isUnvalidKey(data) {
+        return isDateTimeFunction(data) || isReservedName(data);
     }
 
     function allowedPath(data) {
@@ -74,6 +111,8 @@ Expression -> BoxedExpression
 
 TextualExpression -> ForExpression | IfExpression | QuantifiedExpression
     | LogicalExpression
+    # | Comparison
+    # | ArithmeticExpression
 
 ArithmeticExpression -> Sum
 
@@ -82,6 +121,7 @@ NonArithmeticExpression -> InstanceOf
     | FilterExpression
     | ArithmeticNegation
     | SimplePositiveUnaryTest
+    #| Literal
     | "(" _ Expression _ ")" {% (data) => { return new Node({ node: Node.EVAL, expression: data[2] }); } %}
 
 SimplePositiveUnaryTest -> ("<"|"<="|">"|">=") _ Endpoint {% (data) => { return new Node({ node: Node.UNARY, operator: reduce(data[0]).value, value: reduce(data[2]) }); } %}
@@ -97,11 +137,12 @@ PositiveUnarytest -> Expression
 PositiveUnarytests -> PositiveUnarytest _ ("," _ PositiveUnarytest):+ {% (data) => { return new Node({ node:Node.LIST, entries: [].concat(data[0]).concat(extractObj(data[2],2)) }) ;} %}
 
 UnaryTests -> PositiveUnarytests {% (data) => { return new Node({ node: Node.UNARYTESTS, list: reduce([data]) }); } %} 
+    # | Expression _ "in" _ Interval {% (data) => { return new Node({ node:Node.IN_INTERVAL, input: reduce(data[0]), interval: reduce(data[4]) });} %}
     | Expression _ "in" _ List {% (data) => { return new Node({ node:Node.IN_LIST, input: reduce(data[0]), list: reduce(data[4]) });} %}
     | UnaryNot
     | UnaryDash
 
-UnaryNot -> %not _ "(" _ PositiveUnarytests _ ")" {% (data) => { return new Node({ node: Node.UNARY_NOT, test: reduce(data[4]) }); } %}
+UnaryNot -> "not" _ "(" _ PositiveUnarytests _ ")" {% (data) => { return new Node({ node: Node.UNARY_NOT, test: reduce(data[4]) }); } %}
 
 UnaryDash -> _ "-" _  {% (data) => { return new Node({ node: Node.DASH }); } %}
 
@@ -122,15 +163,25 @@ Exponentation -> NonArithmeticExpression _ ("**") _ Exponentation {% (data, loca
 QualifiedName -> Name _ "." _ Name {% (data) => { return new Node({ node: Node.PATH, object:data[0], property:data[4]}); } %}
     | Name
 
-Name -> PotentialName {% (data) => {  return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+Name -> PotentialName {% (data, location, reject) => { if (isUnvalidName(concat([data]))) return reject; return new Node({ node: Node.NAME, value: concat([data]) }); } %}
 
-PotentialName -> NameStart (__ NamePart):* {% (data) => { return concat([data]); } %}
-NameStart -> %word %number:? {% (data) => { return concat(data)} %}
-NamePart -> %word %number:?  {% (data) => { return concat(data)} %}
-    | %types {% (data) => { return concat(data)} %}
+PotentialName -> NameStart (__ NamePart):* {% (data, location, reject) => { if (isKeyword(concat([data[0]]))) return reject; return concat([data]); } %}
+#Name -> NameStart (__ NamePart):* {% (data, location, reject) => { if (isKeyword(concat([data[0]]))) return reject; return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+#NameStart -> %keyword:? %word %number:?   --- doesn't work
+#NamePart -> %keyword:? %word %number:?    --- doesn't work
+
+# no other way found to exclude string type here - should not be found by the grammar rules below, but is found ... :-(
+NameStart -> NameStartChar (NamePartChar):* {% (data, location, reject) => { if (isKeyword(concat([data]))) return reject; if(data[0] && data[0][0] && data[0][0].type === "string") return reject; return concat([data]); } %}
+
+NamePart -> NameStartChar (NamePartChar):*  {% (data, location, reject) => { if (isKeyword(concat([data]))) return reject; return concat([data]); } %}
+
+NameStartChar -> "?" | [A-Z] | [a-z] | "_"
+#NameStartChar -> %keyword:? %word
+
+NamePartChar -> NameStartChar | %number | "." | "/" | "-" | "'" | "+" | "*"
 
 Literal -> SimpleLiteral
-    | %null {% (data) => { return new Node({ node: Node.NULL }); } %}
+    | "null" {% (data) => { return new Node({ node: Node.NULL }); } %}
 
 SimpleLiteral -> NumericLiteral | BooleanLiteral 
     | StringLiteral
@@ -145,11 +196,13 @@ NumericLiteral -> Digits ("." Digits):? {% (data) => { return new Node({ node:No
 
 Digits -> %number {% (data) => { return concat([data]); } %}
 
+#FunctionInvocation -> Expression _ Parameters {% (data, location, reject) => { if(isKeyword(concat([data[0]]))) return reject;  return { node: "call", name: reduce(data[0]), parameters: reduce(data[2]) };} %}
+#FunctionInvocation -> FunctionName _ Parameters {% (data, location, reject) => { if(isKeyword(concat([data[0]]))) return reject;  return new Node({ node: Node.FUNCTION_CALL, name: reduce(data[0]), parameters: reduce(data[2]) });} %}
 FunctionInvocation -> FunctionName _ Parameters {% (data, location, reject) => { return new Node({ node: Node.FUNCTION_CALL, name: reduce(data[0]), parameters: reduce(data[2]) });} %}
-    | %not _ "(" _ Expression _ ")" {% (data, location, reject) => { return new Node({ node: Node.NOT, parameters: reduce(data[4]) });} %}
+    | "not" _ "(" _ Expression _ ")" {% (data, location, reject) => { return new Node({ node: Node.NOT, parameters: reduce(data[4]) });} %}
 
-FunctionName -> %fn {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
-    | PotentialName {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+FunctionName -> PotentialName {% (data, location, reject) => { if(!isValidName(concat([data]))) return reject; if (isDateTimeFunction(concat([data]))) return reject; return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+#FunctionName -> Name {% (data,location,reject) => { if return data;} %}
 
 Parameters -> "(" _ (NamedParameterList|PositionalParameterList):?  _ ")" {% (data) => reduce(data[2]) %}
 
@@ -182,7 +235,7 @@ Comparison -> Comparison _ ("="|"!="|"<"|"<="|">"|">=") _ Sum {% (data) => { ret
 
 FilterExpression -> Expression _ "[" _ Expression _ "]" {% (data) => { return new Node({ node: Node.FILTER, list: reduce(data[0]), filter: reduce(data[4])});} %}
 
-InstanceOf -> Expression _ %instance _ Type {% (data) => { return new Node({ node: Node.INSTANCE_OF, instance: reduce(data[0]), of: reduce(data[4])}); } %}
+InstanceOf -> Expression _ "instance" _ "of" _ Type {% (data) => { return new Node({ node: Node.INSTANCE_OF, instance: reduce(data[0]), of: reduce(data[6])}); } %}
 
 Type -> QualifiedName
     | "list" _ "<" _ Type _ ">" {% (data) => { return new Node({ node: Node.LIST_OF, single: reduce(data[4]) }); } %}
@@ -222,15 +275,17 @@ Context -> "{" _ (ContextEntries):? _ "}" {% (data) => { return new Node({ node:
 
 ContextEntries -> ContextEntry _ ("," _ ContextEntry):* {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(data[0]).concat(extractObj(data[2],2)) });} %}
 
-ContextEntry -> Key _ ":" _ Expression {% (data) => { return new Node({ node: Node.CONTEXT_ENTRY, key: reduce(data[0]), expression: reduce(data[4]) });} %}
+ContextEntry -> Key _ ":" _ Expression {% (data) => { addToContext(reduce(data[0])); return new Node({ node: Node.CONTEXT_ENTRY, key: reduce(data[0]), expression: reduce(data[4]) });} %}
 
-Key -> Name
+Key -> PotentialName {% (data, location, reject) => { if (isUnvalidKey(concat([data]))) return reject; return new Node({ node: Node.NAME, value: concat([data]) }); } %}
     | StringLiteral
 
 DateTimeLiteral -> AtLiteral 
     | DateTimeFunction
 
-DateTimeFunction -> %dayandtime _ Parameters {% (data) => { return new Node({ node: Node.DATE_AND_TIME, name: data[0].value, parameters: reduce(data[2]) });} %}
+DateTimeFunction -> DateTimeFunctionName _ Parameters {% (data) => { return new Node({ node: Node.DATE_AND_TIME, name: reduce(data[0]), parameters: reduce(data[2]) });} %}
+
+DateTimeFunctionName -> ("date"|"time"|"duration"|"date and time") {% (data) => reduce([data]).value %}
 
 WhiteSpace -> %whitespace
 
