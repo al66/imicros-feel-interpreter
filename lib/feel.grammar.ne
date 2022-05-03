@@ -75,7 +75,8 @@ Expression -> BoxedExpression
 TextualExpression -> ForExpression | IfExpression | QuantifiedExpression
     | LogicalExpression
 
-ArithmeticExpression -> Sum
+#ArithmeticExpression -> Sum
+#ArithmeticExpression -> ArithmeticNegation
 
 NonArithmeticExpression -> InstanceOf
     | PathExpression
@@ -111,6 +112,8 @@ SimpleValue -> QualifiedName
     | SimpleLiteral
 
 ArithmeticNegation -> "-" _ Expression {% (data, location, reject) => { if (!allowedNegationTerm(reduce(data[2]))) return reject; return new Node({ node: Node.NEGATION, expression: data[2] });} %}
+#ArithmeticNegation -> "-" _ Sum {% (data) => { return new Node({ node: Node.NEGATION, expression: data[2] });} %}
+#    | Sum
 
 Sum -> Sum _ ("+"|"-") _ Product {% (data, location, reject) => { if (!allowedTerm(reduce(data[0])) || !allowedTerm(reduce(data[4]))) return reject; return new Node({ node: Node.SUM, left: reduce(data[0]), operator: reduce(data[2]).value, right: reduce(data[4]) }); } %}
     | Product
@@ -179,6 +182,7 @@ Comparison -> Comparison _ ("="|"!="|"<"|"<="|">"|">=") _ Sum {% (data) => { ret
     | Expression __ "in" __ UnaryDash {% (data) => { return new Node({ node: Node.IN, input: reduce(data[0]), test: reduce(data[4])});} %}
     | Expression __ "in" _ "(" _ PositiveUnarytests _ ")" {% (data) => { return new Node({ node: Node.IN_LIST, input: reduce(data[0]), list: reduce(data[6])});} %}
     | Sum
+ #   | ArithmeticNegation
 
 FilterExpression -> Expression _ "[" _ Expression _ "]" {% (data) => { return new Node({ node: Node.FILTER, list: reduce(data[0]), filter: reduce(data[4])});} %}
 

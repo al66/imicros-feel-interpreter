@@ -1,6 +1,6 @@
 "use strict";
 
-const Interpreter = require("../lib/interpreter.js");
+const { Interpreter } = require("../index.js");
 
 const interpreter = new Interpreter();
 

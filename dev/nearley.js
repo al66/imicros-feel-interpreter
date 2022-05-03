@@ -4,6 +4,8 @@ const grammar = require("./../lib/feel.grammar.js");
 const util = require('util');
 
 function create() {
+    // grammar.test = "hello";
+    // grammar.types= ['string','number','boolean'];
     return new nearley.Parser(nearley.Grammar.fromCompiled(grammar));
 }
 
