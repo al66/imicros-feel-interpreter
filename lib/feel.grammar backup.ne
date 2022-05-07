@@ -13,7 +13,7 @@
         // string      : /((['"])(?:(?!\2|\\).|\\(?:\r\n|[\s\S]))*(\2)?|`(?:[^`\\$]|\\[\s\S]|\$(?!\{)|\$\{(?:[^{}]|\{[^}]*\}?)*\}?)*(`)?)/
         string      : { match: /"(?:\\"|[^"])*?"/, value: s => s.slice(1, -1) },
         dayandtime  : /date[ ]+and[ ]+time/,
-        fn          : /put[ ]+all|string[ ]+length|string[ ]+join|week[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+week/,            
+        fn          : /string[ ]+length|week[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+week/,            
         types       : /day-time-duration|year-month-duration/,
         instance    : /instance[ ]+of/,
         whitespace  : { match: /[ \t\n\r\u00A0\uFEFF\u000D\u000A]+/, lineBreaks: true },
@@ -23,21 +23,13 @@
             types       : ['string','number','boolean'],
             null        : ['null'],
             dayandtime  : ['date','time','duration'],
-            fn          : ['even','abs','length','all','any']
+            fn          : ['even','abs','length']
         }) },
         number      : /[0-9]+/,
         comparator  : /!=|==|<=|>=|<{1}|>{1}|={1}/,
         operator    : /-|\+|\.\.|\/|\*{1,2}/,
         punctuator  : /@|[.,:;[\](){}]/
     });
-
-    // store context keys to check names with special characters
-    var keys = [];
-    var locations = [];
-
-    function addToContext(key) {
-        if (key?.value && keys.indexOf(key.value) < 0) keys.push(key.value);
-    } 
 
     function concat(e) {
         if (Array.isArray(e)) return e.reduce((prev,curr) => prev.concat(concat(curr)), [] ).join(''); 
@@ -55,52 +47,21 @@
     }
 
     function extractObj(data, i) {
-        if (Array.isArray(data)) return data.reduce((prev,curr) => prev.concat(reduce(curr[i])), [] ); 
+        if (Array.isArray(data)) return data.reduce((prev,curr) => prev.concat(curr[i]), [] ); 
         return [];
     }
 
-    /*
-    function checkSpecialName(data, location) {
-        // console.log("check",data, keys, keys.indexOf(data));
-        if (keys.indexOf(data) >= 0) locations.push(location);
-        if (keys.indexOf(data) >= 0) return true;
-        return false;
-    }
-    */
-
-    function checkLocation(location,data) {
-        /*
-        console.log("check", location,locations,reduce([data]));
-        return false;
-        if (locations.indexOf(location) >= 0) {
-            if (data?.node == Node.NAME && keys.indexOf(data?.value) >= 0) return false;
-            return true;
-        }
-        return false;
-        return locations.indexOf(location) >= 0 ? true : false;
-        function check(obj, reject) {
-            Object.keys(obj).forEach(function(key,index) {
-                if (typeof obj[key] == 'object' && obj[key] instanceof Node) {
-                    if (obj[key].node == Node.NAME && obj[key].location == location && keys.indexOf(obj[key].value) < 0) reject = true;
-                    check(obj[key]);
-                }
-            });
-            return reject;
-        };
-        // return locations.indexOf(location) >= 0 ? true : false;
-        // console.log(location,locations,reduce([data]),locations.indexOf(location));
-        if (locations.indexOf(location) >= 0 && typeof data == 'object') {
-            const result = check(data, false);
-            // console.log("checked", location,locations,reduce([data]),result);
-            return result;
-            // console.log("reject", location,locations,reduce([data]),locations.indexOf(location));
-            // return false; 
-        }
-        // console.log("accept", location,locations,reduce([data]),locations.indexOf(location));
-        */
-        return false;
+    function allowedPath(data) {
+        return [Node.SUM,Node.PRODUCT,Node.EXPONENTATION,Node.NEGATION].indexOf(data && data.node ? data.node : "") >= 0 ? false : true;
     }
 
+    function allowedTerm(data) {
+        return [Node.LOGICAL,Node.QUANTIFIED].indexOf(data && data.node ? data.node : "") >= 0 ? false : true;
+    }
+
+    function allowedNegationTerm(data) {
+        return [Node.SUM,Node.PRODUCT].indexOf(data && data.node ? data.node : "") >= 0 ? false : true;
+    }
 %}
 
 @lexer lexer
@@ -112,20 +73,15 @@ Expression -> BoxedExpression
     | TextualExpression {% (data) => reduce([data]) %}
 
 TextualExpression -> ForExpression | IfExpression | QuantifiedExpression
-#    | SpecialCharacterName
-    | LogicalExpression {% (data,location,reject) => { if (checkLocation(location,data)) return reject; return data; } %}
-#    | LogicalExpression:? SpecialCharacterName:? {% (data,location,reject) => { if (checkLocation(location,data)) return reject; return data[0] ? data[0] : data[1] ; } %}
+    | LogicalExpression
 
-
-#SpecialCharacterName -> NameStart (__ (NamePart | "and" | "*" | "-" | "+" | "/" | "'") ):+ {% (data, location, reject) => { if(!checkSpecialName(concat([data]), location)) return reject; return new Node({ node: Node.NAME, location, type: 'SP', value: concat([data]) }); } %}
-
-#NonArithmeticExpression -> SpecialCharacterName
-#    | OtherNonArithmeticExpression {% (data,location,reject) => { if (checkLocation(location,data)) return reject; return data; } %}
+#ArithmeticExpression -> Sum
+#ArithmeticExpression -> ArithmeticNegation
 
 NonArithmeticExpression -> InstanceOf
-#OtherNonArithmeticExpression -> InstanceOf
     | PathExpression
     | FilterExpression
+    | ArithmeticNegation
     | SimplePositiveUnaryTest
     | "(" _ Expression _ ")" {% (data) => { return new Node({ node: Node.EVAL, expression: data[2] }); } %}
 
@@ -135,6 +91,7 @@ SimplePositiveUnaryTest -> ("<"|"<="|">"|">=") _ Endpoint {% (data) => { return 
 Interval -> ("("|"]"|"[") _ Endpoint _ ".." _ Endpoint _ (")"|"["|"]") {% (data) => { return new Node({ node: Node.INTERVAL, open: reduce(data[0]).value, from: reduce(data[2]), to: reduce(data[6]), close: reduce(data[8]).value }) } %}
     | FunctionInvocation
     | Literal
+      
 
 PositiveUnarytest -> Expression
 
@@ -154,21 +111,21 @@ Endpoint -> SimpleValue
 SimpleValue -> QualifiedName
     | SimpleLiteral
 
-ArithmeticNegation -> "-" _ NonArithmeticExpression {% (data) => { return new Node({ node: Node.NEGATION, expression: reduce(data[2]) });} %}
-    | NonArithmeticExpression
+ArithmeticNegation -> "-" _ Expression {% (data, location, reject) => { if (!allowedNegationTerm(reduce(data[2]))) return reject; return new Node({ node: Node.NEGATION, expression: data[2] });} %}
+#ArithmeticNegation -> "-" _ Sum {% (data) => { return new Node({ node: Node.NEGATION, expression: data[2] });} %}
+#    | Sum
 
-Sum -> Sum _ ("+"|"-") _ Product {% (data) => { return new Node({ node: Node.SUM, left: reduce(data[0]), operator: reduce(data[2]).value, right: reduce(data[4]) }); } %}
+Sum -> Sum _ ("+"|"-") _ Product {% (data, location, reject) => { if (!allowedTerm(reduce(data[0])) || !allowedTerm(reduce(data[4]))) return reject; return new Node({ node: Node.SUM, left: reduce(data[0]), operator: reduce(data[2]).value, right: reduce(data[4]) }); } %}
     | Product
-Product -> Product _ ("*"|"/") _ Exponentation {% (data) => { return new Node({ node: Node.PRODUCT, left: reduce(data[0]), operator: reduce(data[2]).value, right: reduce(data[4]) }); } %}
+Product -> Product _ ("*"|"/") _ Exponentation {% (data, location, reject) => { if (!allowedTerm(reduce(data[0])) || !allowedTerm(reduce(data[4]))) return reject; return new Node({ node: Node.PRODUCT, left: reduce(data[0]), operator: reduce(data[2]).value, right: reduce(data[4]) }); } %}
     | Exponentation
-Exponentation -> Exponentation _ ("**") _ ArithmeticNegation {% (data, location, reject) => { return new Node({ node: Node.EXPONENTATION, left: reduce(data[0]), operator: reduce(data[2]).value, right: reduce(data[4]) }); } %}
-    | ArithmeticNegation
+Exponentation -> NonArithmeticExpression _ ("**") _ Exponentation {% (data, location, reject) => { return new Node({ node: Node.EXPONENTATION, left: reduce(data[0]), operator: reduce(data[2]).value, right: reduce(data[4]) }); } %}
+    | NonArithmeticExpression
 
 QualifiedName -> Name _ "." _ Name {% (data) => { return new Node({ node: Node.PATH, object:data[0], property:data[4]}); } %}
     | Name
 
-#Name -> PotentialName {% (data, location, reject) => {  return new Node({ node: Node.NAME, location, value: concat([data]) }); } %}
-Name -> PotentialName {% (data, location, reject) => {  return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+Name -> PotentialName {% (data) => {  return new Node({ node: Node.NAME, value: concat([data]) }); } %}
 
 PotentialName -> NameStart (__ NamePart):* {% (data) => { return concat([data]); } %}
 NameStart -> %word %number:? {% (data) => { return concat(data)} %}
@@ -205,8 +162,7 @@ NamedParameter -> Name _ ":" _ Expression {% (data) => { return new Node({ node:
 
 PositionalParameterList -> Expression _ ("," _ Expression):*  {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(reduce(data[0])).concat(reduce(extractObj(data[2],2))) });} %}
 
-PathExpression -> NonArithmeticExpression "." Name {% (data) => { return new Node({ node: Node.PATH, object:reduce(data[0]), property:data[2]});} %}
-    | BoxedExpression "." Name {% (data) => { return new Node({ node: Node.PATH, object:reduce(data[0]), property:data[2]});} %}
+PathExpression -> Expression "." Name {% (data, location, reject) => { return allowedPath(data[0]) ? new Node({ node: Node.PATH, object:reduce(data[0]), property:data[2]}) : reject ;} %}
     | Name
 
 ForExpression -> "for" __ Name __ "in" __ Expression __ "return" __ Expression {% (data) => { return new Node({ node: Node.FOR, var: data[2], context: data[6], return: data[10]}); } %}
@@ -226,6 +182,7 @@ Comparison -> Comparison _ ("="|"!="|"<"|"<="|">"|">=") _ Sum {% (data) => { ret
     | Expression __ "in" __ UnaryDash {% (data) => { return new Node({ node: Node.IN, input: reduce(data[0]), test: reduce(data[4])});} %}
     | Expression __ "in" _ "(" _ PositiveUnarytests _ ")" {% (data) => { return new Node({ node: Node.IN_LIST, input: reduce(data[0]), list: reduce(data[6])});} %}
     | Sum
+ #   | ArithmeticNegation
 
 FilterExpression -> Expression _ "[" _ Expression _ "]" {% (data) => { return new Node({ node: Node.FILTER, list: reduce(data[0]), filter: reduce(data[4])});} %}
 
@@ -269,7 +226,7 @@ Context -> "{" _ (ContextEntries):? _ "}" {% (data) => { return new Node({ node:
 
 ContextEntries -> ContextEntry _ ("," _ ContextEntry):* {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(data[0]).concat(extractObj(data[2],2)) });} %}
 
-ContextEntry -> Key _ ":" _ Expression {% (data) => { addToContext(reduce(data[0])); return new Node({ node: Node.CONTEXT_ENTRY, key: reduce(data[0]), expression: reduce(data[4]) });} %}
+ContextEntry -> Key _ ":" _ Expression {% (data) => { return new Node({ node: Node.CONTEXT_ENTRY, key: reduce(data[0]), expression: reduce(data[4]) });} %}
 
 Key -> Name
     | StringLiteral

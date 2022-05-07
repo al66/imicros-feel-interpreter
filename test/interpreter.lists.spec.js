@@ -7,6 +7,10 @@ const interpreter = new Interpreter();
 describe("Test interpreter", () => {
 
     describe("Filter expression", () => {
+        it("should evaluate [[1,2],[3],[4]] -> [[1,2],[3],[4]]", () => {
+            let result = interpreter.evaluate("[[1,2],[3],[4]]");
+            expect(result).toEqual([[1,2],[3],[4]]);
+        });
         it("should evaluate [1,2,3,4][2] -> 2", () => {
             let result = interpreter.evaluate("[1,2,3,4][2]");
             expect(result).toEqual(2);
@@ -126,7 +130,18 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("mean(1,2,3,4)");
             expect(result).toEqual(2.5);
         });
-
+        it(`should evaluate median(8,2,5,3,4) -> 4`, () => {
+            let result = interpreter.evaluate(`median(8,2,5,3,4)`);
+            expect(result).toEqual(4);
+        });
+        it(`should evaluate median([6,1,2,3]) -> 2.5`, () => {
+            let result = interpreter.evaluate(`median([6,1,2,3])`);
+            expect(result).toEqual(2.5);
+        });
+        it(`should evaluate median([]) -> null`, () => {
+            let result = interpreter.evaluate(`median([])`);
+            expect(result).toEqual(null);
+        });
         it("should evaluate stddev([23,4,6,457,65,7,45,8]) -> 145.13565852332775", () => {
             let result = interpreter.evaluate("stddev([23, 4, 6, 457, 65, 7, 45, 8])");
             expect(result).toEqual(145.13565852332775);
@@ -139,7 +154,18 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("stddev(1,2,3,4,5)");
             expect(result).toEqual(1.4142135623730951);
         });
-
+        it("should evaluate mode([6, 1, 9, 6, 1]) -> [1,6]", () => {
+            let result = interpreter.evaluate("mode([6, 1, 9, 6, 1])");
+            expect(result).toEqual([1,6]);
+        });
+        it("should evaluate mode(6, 3, 9, 6, 6) -> [6]", () => {
+            let result = interpreter.evaluate("mode(6, 3, 9, 6, 6)");
+            expect(result).toEqual([6]);
+        });
+        it("should evaluate mode([]) -> []", () => {
+            let result = interpreter.evaluate("mode([])");
+            expect(result).toEqual([]);
+        });
         it("should evaluate all(false,true) -> false", () => {
             let result = interpreter.evaluate("all(false,true)");
             expect(result).toEqual(false);
@@ -172,6 +198,82 @@ describe("Test interpreter", () => {
         it("should evaluate any([]) -> false", () => {
             let result = interpreter.evaluate("any([])");
             expect(result).toEqual(false);
+        });
+        it("should evaluate sublist([1,2,3,4,5],2) -> [2,3,4,5]", () => {
+            let result = interpreter.evaluate("sublist([1,2,3,4,5],2)");
+            expect(result).toEqual([2,3,4,5]);
+        });
+        it("should evaluate sublist([1,2,3,4,5],2,2) -> [2,3]", () => {
+            let result = interpreter.evaluate("sublist([1,2,3,4,5],2,2)");
+            expect(result).toEqual([2,3]);
+        });
+        it(`should evaluate append(["a","b"],"c","d") -> ["a","b","c","d"]`, () => {
+            let result = interpreter.evaluate(`append(["a","b"],"c","d")`);
+            expect(result).toEqual(["a","b","c","d"]);
+        });
+        it("should evaluate concatenate([1,2],[3],[4]) -> [1,2,3,4]", () => {
+            let result = interpreter.evaluate("concatenate([1,2],[3],[4])");
+            expect(result).toEqual([1,2,3,4]);
+        });
+        it(`should evaluate insert before(["a","b"],2,"c","d") -> ["a","c","d","b"]`, () => {
+            let result = interpreter.evaluate(`insert before(["a","b"],2,"c","d")`);
+            expect(result).toEqual(["a","c","d","b"]);
+        });
+        it(`should evaluate remove(["a","b","c"],2) -> ["a","c"]`, () => {
+            let result = interpreter.evaluate(`remove(["a","b","c"],2)`);
+            expect(result).toEqual(["a","c"]);
+        });
+        it(`should evaluate reverse(["a","b","c"]) -> ["c","b","a"]`, () => {
+            let result = interpreter.evaluate(`reverse(["a","b","c"])`);
+            expect(result).toEqual(["c","b","a"]);
+        });
+        it(`should evaluate index of(["a","b","c","b"],"b") -> [2,4]`, () => {
+            let result = interpreter.evaluate(`index of(["a","b","c","b"],"b")`);
+            expect(result).toEqual([2,4]);
+        });
+        it("should evaluate union([1,2],[3,4],[5,6]) -> [1,2,3,4,5,6]", () => {
+            let result = interpreter.evaluate("union([1,2],[3,4],[5,6])");
+            expect(result).toEqual([1,2,3,4,5,6]);
+        });
+        it("should evaluate distinct values([1,2,3,2,1]) -> [1,2,3]", () => {
+            let result = interpreter.evaluate("distinct values([1,2,3,2,1])");
+            expect(result).toEqual([1,2,3]);
+        });
+        it("should evaluate flatten([[1,2],[[3]],4]) -> [1,2,3,4]", () => {
+            let result = interpreter.evaluate("flatten([[1,2],[[3]],4])");
+            expect(result).toEqual([1,2,3,4]);
+        });
+        it("should evaluate sort(list: [3,1,4,5,2], precedes: function(x,y) x < y)  -> [1,2,3,4,5]", () => {
+            let result = interpreter.evaluate("sort(list: [3,1,4,5,2], precedes: function(x,y) x < y)");
+            expect(result).toEqual([1,2,3,4,5]);
+        });
+        it("should evaluate sort([3,1,4,5,2], function(a,b) a < b)  -> [1,2,3,4,5]", () => {
+            let result = interpreter.evaluate("sort([3,1,4,5,2], function(x,y) x < y)");
+            expect(result).toEqual([1,2,3,4,5]);
+        });
+        it(`should evaluate string join(["a","b","c"]) -> "abc"`, () => {
+            let result = interpreter.evaluate(`string join(["a","b","c"])`);
+            expect(result).toEqual("abc");
+        });
+        it(`should evaluate string join(["a","b","c"],", ") -> "a, b, c"`, () => {
+            let result = interpreter.evaluate(`string join(["a","b","c"],", ")`);
+            expect(result).toEqual("a, b, c");
+        });
+        it(`should evaluate string join(["a"],"_") -> "a"`, () => {
+            let result = interpreter.evaluate(`string join(["a"],"_")`);
+            expect(result).toEqual("a");
+        });
+        it(`should evaluate string join(["a","b","c"],", ","[","]") -> "[a, b, c]"`, () => {
+            let result = interpreter.evaluate(`string join(["a","b","c"],", ","[","]")`);
+            expect(result).toEqual("[a, b, c]");
+        });
+        it(`should evaluate string join(["a",null,"c"]) -> "ac"`, () => {
+            let result = interpreter.evaluate(`string join(["a",null,"c"])`);
+            expect(result).toEqual("ac");
+        });
+        it(`should evaluate string join([]) -> ""`, () => {
+            let result = interpreter.evaluate(`string join([])`);
+            expect(result).toEqual("");
         });
 
     });

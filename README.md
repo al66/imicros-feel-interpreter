@@ -72,13 +72,103 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
                 hit policy: "Unique"
             ) ` with context `{"Applicant Age": 65, "Medical History": "bad"}` --> `{ "Applicant Risk Rating": "High" }`
 # Supported build-in functions
+## Temporal
+ - `today()`
+ - `now()` 
+ - `day of week(date)`
+ - `day of year(date)`
+ - `week of year(date)`
+ - `month of year(date)`
+ - `abs(duration)`
+
+
 ## Arithmetic
+ - `decimal(n,scale)`
+ - `floor(n)`
+ - `ceiling(n)`
+ - missing: round up
+ - missing: round down
+ - missing: round half up
+ - missing: round half down
+ - `abs(number)`
+ - `modulo(dividend,divisor)`
+ - `sqrt(number)`
+ - `log(number)`
+ - `exp(number)`
+ - `odd(number)`
+ - `even(number)`
+
+## Logical
+ - `is defined(value)`
+
+## Ranges
+ - missing: before
+ - missing: after
+ - missing: meets
+ - missing: met by
+ - missing: overlaps
+ - missing: overlaps before
+ - missing: overlaps after
+ - missing: finishes
+ - missing: finished by
+ - missing: includes
+ - missing: during
+ - missing: starts
+ - missing: started by
+ - missing: coinsides
 
 ## Lists
+ - `list contains(list,element)`
+ - `count(list) / count(...item)`
+ - `min(list) / min(...item)`
+ - `max(list) / max(...item)`
+ - `sum(list) / sum(...item)`
+ - `product(list) / product(...item)`
+ - `mean(list) / mean(...item)`
+ - `median(list) / median(...item)`
+ - `stddev(list) / stddev(...item)`
+ - `mode(list) / mode(...item)`
+ - `all(list) / all(...item)`
+ - `and(list)`
+ - `any(list) / any(...item)`
+ - `or(list)`
+ - `sublist(list, startposition, length?)`
+ - `append(list,...item)`
+ - `union(...list)`
+ - `concatenate(...list)`
+ - `insert before(list,position,newItem)`
+ - `remove(list,position)`
+ - `reverse(list)`
+ - `index of(list,match)`
+ - `distinct values(list)`
+ - `flatten(list)`
+ - `sort(list,precedes)`
+ - `string join(list,delimiter?,prefix?,suffix?)`
 
 ## Strings
+ - `substring(strung,start,length)`
+ - `string length(string)`
+ - `upper case(string)`
+ - `lower case(string)`
+ - `substring before(string,match)`
+ - `substring after(string,match)`
+ - `contains(string,match)`
+ - `starts with(string,match)`
+ - `ends with(string,match)`
+ - `matches(input,pattern)`
+ - `replace(input,pattern,replacement,flags)`
+ - `split(string,delimiter)`
+ - `extract(string,pattern)`
+
+## Context
+ - `get value(context,key)`
+ - `get entries(context)`
+ - `put(context,key,value)`
+ - `put all(entries)`
 
 ## Decisions
+ - `boxed expression(context,expression)`
+ - `decision table(output, input, rule list, hit policy)`
 
 
 

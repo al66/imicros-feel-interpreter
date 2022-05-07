@@ -13,10 +13,12 @@ try {
     // Create a Parser object from our grammar.
     var parser = create();
     // Parse something!
-    //parser.feed(`{ "x-y": 5, result: a+x-y+b}`);
+    // parser.feed(`1/2**-4-3`);
+
+    // parser.feed(`deep.a + deep.b.c`);
 
     // parser.feed(`date and time("2022-04-06T08:00:00")`);
-    parser.feed(`flight list[item.status = "cancelled"].flight number`);
+    // parser.feed(`flight list[item.status = "cancelled"].flight number`);
     // must exclude a as a name
     // parser.feed(`{"a+b": x-y, b: a+b(z), a: u, c: alpha, d:a+b, e: (a)+(b), f: a+c(z)}`);
 
@@ -24,6 +26,10 @@ try {
     // parser.feed(`{calc:function (a:number,b:number) a-b, y:calc(b:c,a:d)+3}`)
 
     // parser.feed(`{"profit and loss":5, result: profit and loss + 5, result2: profit + margin}`)
+    
+    parser.feed(`{"profit and loss":5, result: profit and loss + 5}`)
+    //parser.feed(`all([])`);
+    //parser.feed(`put all({a:3},{b:4},{c:5})`);
 
     // parser.feed(`{calc:function (a:number,b:number) a+b, y:calc(4,5)+3}`);
     // parser.results is an array of possible parsings.
