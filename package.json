@@ -1,6 +1,6 @@
 {
   "name": "imicros-feel-interpreter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Andreas Leinen <andreas.leinen@imicros.de> (www.imicros.de)",
   "license": "MIT",
   "description": "FEEL interpreter",
@@ -33,7 +33,7 @@
     "url": "git+https://github.com/al66/imicros-feel-interpreter.git"
   },
   "keywords": [
-    "FEEL"
+    "FEEL", "dmn", "interpreter"
   ],
   "devDependencies": {
     "jest": "^27.5.1"

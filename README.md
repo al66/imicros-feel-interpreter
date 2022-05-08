@@ -10,7 +10,7 @@ Developed for of the imicros backend but can be used also stand-alone.
 $ npm install imicros-feel-interpreter
 ```
 
-# Usage
+## Usage
 ```
 const { Interpreter } = require("imicros-feel-interpreter");
 
@@ -31,15 +31,15 @@ interpreter.ast = JSON.parse(serialized);
 let result = interpreter.evaluate({a:1,b:2,c:4,d:3});
 // 13
 ```
-# Features
- - Complete support of [DMN 1.4](https://www.omg.org/spec/DMN/1.4/Beta1/PDF) planned. Known restrictions see below.
+## Features
+ - Complete support of [DMN 1.4](https://www.omg.org/spec/DMN/1.4/Beta1/PDF). Known restrictions see below.
  - Provide build-in functions as listed below.
 
-# Restrictions
+## Restrictions
  - Additional name symbols (./-+* according rule 30. of the sepcification) as well as keywords (for,return,if,true,false,in,and,or,between,some,every,then,else,not,string,number,boolean,null,date,time,duration) in names are ***not*** supported. (The package uses nearley as parser and I didn't found a way to implement the ambiguity)
  - No external functions are supported.
 
-# Performance considerations
+## Performance considerations
 In case of intensive usage with large number of data sets consider the pre-parsing possibility.
 
 A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluation in one step evaluates 2.500 data sets per second and with a single parsing you can evaluate up to 200.000 data sets per second on an average hardware with single thread processing.
@@ -52,6 +52,7 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
  - `[1,2,3,4,5,6,7,8,9][a*(item+1)=6]` with context `{a:2}` --> `[2]`
  - `a+b > c+d` with context `{a:5,b:4,c:3,d:5}` --> `true`
  - `flight list[item.status = "cancelled"].flight number` with context `{"flight list": [{ "flight number": 123, status: "boarding"},{ "flight number": 234, status: "cancelled"}]}` --> `[234]`
+ - `{calc:function (a:number,b:number) a-b, y:calc(b:c,a:d)+3}.y` with context `{c:4,d:5}` --> 4
  - `deep.a.b + deep.c` with context `{deep:{a:{b:3},c:2}}` --> `5`
  - `{a:3}.a`w/o context --> `3`
  - `extract("references are 1234, 1256, 1378", "12[0-9]*")` w/o context --> `["1234","1256"]`
@@ -71,7 +72,37 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
                 ],
                 hit policy: "Unique"
             ) ` with context `{"Applicant Age": 65, "Medical History": "bad"}` --> `{ "Applicant Risk Rating": "High" }`
+
+# Supported expressions
+(list is not complete and will be continued)
+## Arithmetic
+Muliplication: *, Division: /, Addition: +, Subtraction: -, Exponentation: **  
+ - `(x - 2)**2 + 3/a - c*2`
+
+Negation: -
+ - `-5`
+## Boolean
+And: and, Or: or
+
+Equal to: =, not equal to: !=, less than: <, less than or equal to: <=, greater than: >, greater than or equal to: >=
+ - `5 = 5 and 6 != 5 and 3 <= 4 and date("2022-05-08") > date("2022-05-07")`  --> true
+
+Existence check: is defined(var)
+ - `is defined({x:null}.x)` --> true
+ - `is defined({}.x)` --> false
+## String
+Concatenate: + (only possible with both terms type string)
+ - `"foo" + "bar"` --> "foobar"
 # Supported build-in functions
+
+## Conversion
+ - missing: date(from - with named parameter|year,month,day)
+ - missing: time(from - with named parameter|hour,minute,second,offset?)
+ - missing: date and time(from - with named parameter|date,time)
+ - missing: years and months duration(from,to)
+ - missing: number(from)
+ - missing: string(from)
+ - missing: context(entries)
 ## Temporal
  - `today()`
  - `now()` 
@@ -80,7 +111,6 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
  - `week of year(date)`
  - `month of year(date)`
  - `abs(duration)`
-
 
 ## Arithmetic
  - `decimal(n,scale)`
@@ -100,12 +130,13 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
 
 ## Logical
  - `is defined(value)`
+ - `not(negand)`
 
 ## Ranges
- - missing: before
- - missing: after
- - missing: meets
- - missing: met by
+ - `before(a,b)` with a,b either point or interval
+ - `after(a,b)` with a,b either point or interval
+ - `meets(a,b)` with a,b intervals 
+ - `met by(a,b)` with a,b intervals
  - missing: overlaps
  - missing: overlaps before
  - missing: overlaps after
