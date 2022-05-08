@@ -36,8 +36,8 @@ let result = interpreter.evaluate({a:1,b:2,c:4,d:3});
  - Provide build-in functions as listed below.
 
 # Restrictions
- - Currently no additional name symbols (./-+* according rule 30.) as well as keywords (for,return,if,true,false,in,and,or,between,some,every,then,else,not,string,number,boolean,null,date,time,duration) in names are supported. (The package uses nearley as parser and I didn't found a way to implement the ambiguity)
- - No external functions supported.
+ - Additional name symbols (./-+* according rule 30. of the sepcification) as well as keywords (for,return,if,true,false,in,and,or,between,some,every,then,else,not,string,number,boolean,null,date,time,duration) in names are ***not*** supported. (The package uses nearley as parser and I didn't found a way to implement the ambiguity)
+ - No external functions are supported.
 
 # Performance considerations
 In case of intensive usage with large number of data sets consider the pre-parsing possibility.
@@ -86,10 +86,10 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
  - `decimal(n,scale)`
  - `floor(n)`
  - `ceiling(n)`
- - missing: round up
- - missing: round down
- - missing: round half up
- - missing: round half down
+ - `round up(n,scale?)`
+ - `round down(n,scale?)`
+ - `round half up(n,scale?)`
+ - `round half down(n,scale?)`
  - `abs(number)`
  - `modulo(dividend,divisor)`
  - `sqrt(number)`
@@ -168,7 +168,7 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
 
 ## Decisions
  - `boxed expression(context,expression)`
- - `decision table(output, input, rule list, hit policy)`
+ - `decision table(output, input, rule list, hit policy)` (currently just hitpolicy unique, but will be enhanced soon)
 
 
 

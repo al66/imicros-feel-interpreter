@@ -86,6 +86,73 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("ceiling(45.95)");
             expect(result).toEqual(46);
         });
+        it("should calculate round up(7.4) -> 8", () => {
+            let result = interpreter.evaluate("round up(7.4)");
+            expect(result).toEqual(8);
+        });
+        it("should calculate round up(-7.4) -> -8", () => {
+            let result = interpreter.evaluate("round up(-7.4)");
+            expect(result).toEqual(-8);
+        });
+        it("should calculate round up(1.131,2) -> 1.14", () => {
+            let result = interpreter.evaluate("round up(1.131,2)");
+            expect(result).toEqual(1.14);
+        });
+        it("should calculate round up(-1.131,2) -> -1.14", () => {
+            let result = interpreter.evaluate("round up(-1.131,2)");
+            expect(result).toEqual(-1.14);
+        });
+        it("should calculate round down(7.8) -> 7", () => {
+            let result = interpreter.evaluate("round down(7.8)");
+            expect(result).toEqual(7);
+        });
+        it("should calculate round down(-7.8) -> -7", () => {
+            let result = interpreter.evaluate("round down(-7.8)");
+            expect(result).toEqual(-7);
+        });
+        it("should calculate round down(1.131,2) -> 1.13", () => {
+            let result = interpreter.evaluate("round down(1.131,2)");
+            expect(result).toEqual(1.13);
+        });
+        it("should calculate round down(-1.137,2) -> -1.13", () => {
+            let result = interpreter.evaluate("round down(-1.137,2)");
+            expect(result).toEqual(-1.13);
+        });
+
+        it("should calculate round half up(7.5) -> 8", () => {
+            let result = interpreter.evaluate("round half up(7.5)");
+            expect(result).toEqual(8);
+        });
+        it("should calculate round half up(-7.5) -> -8", () => {
+            let result = interpreter.evaluate("round half up(-7.5)");
+            expect(result).toEqual(-8);
+        });
+        it("should calculate round half up(1.131,2) -> 1.13", () => {
+            let result = interpreter.evaluate("round half up(1.131,2)");
+            expect(result).toEqual(1.13);
+        });
+        it("should calculate round half up(-1.135,2) -> -1.14", () => {
+            let result = interpreter.evaluate("round half up(-1.135,2)");
+            expect(result).toEqual(-1.14);
+        });
+
+        it("should calculate round half down(7.5) -> 7", () => {
+            let result = interpreter.evaluate("round half down(7.5)");
+            expect(result).toEqual(7);
+        });
+        it("should calculate round half down(-7.5) -> -7", () => {
+            let result = interpreter.evaluate("round half down(-7.5)");
+            expect(result).toEqual(-7);
+        });
+        it("should calculate round half down(1.135,2) -> 1.13", () => {
+            let result = interpreter.evaluate("round half down(1.135,2)");
+            expect(result).toEqual(1.13);
+        });
+        it("should calculate round half down(-1.136,2) -> -1.14", () => {
+            let result = interpreter.evaluate("round half down(-1.136,2)");
+            expect(result).toEqual(-1.14);
+        });
+
         it("should calculate abs(-3.5) -> 3.5", () => {
             let result = interpreter.evaluate("abs(-3.5)");
             expect(result).toEqual(3.5);
