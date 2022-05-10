@@ -83,6 +83,21 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate(exp,{patient: { age: 65, history: "bad"}});
             expect(result).toEqual({ "Applicant Risk Rating": "High" });
         });
+        it("should evaluate a complex expression", () => {
+            let exp = `decimal({ "PMT": function (p:number,r:number,n:number) (p*r/12)/(1-(1+r/12)**-n),
+                                 "MonthlyPayment": PMT(Loan.amount, Loan.rate, Loan.term) + fee }.MonthlyPayment,10)`
+            // let exp = `{ "PMT": function (p:number,r:number,n:number) (p*r/12)/(1-(1+r/12)**-n),
+            //             "MonthlyPayment": PMT(Loan.amount, Loan.rate, Loan.term) + fee }.MonthlyPayment`
+            let result = interpreter.evaluate(exp,{Loan: { amount: 600000, rate: 0.0375, term:360 }, fee: 100});
+            expect(result).toEqual(2878.6935494327);
+        });
+        it("should evaluate the same as a boxed expression", () => {
+            let exp = `boxed expression({ "PMT": function (p:number,r:number,n:number) (p*r/12)/(1-(1+r/12)**-n),
+                                          "MonthlyPayment": PMT(Loan.amount, Loan.rate, Loan.term) + fee },
+                                        decimal(MonthlyPayment,10) )`
+            let result = interpreter.evaluate(exp,{Loan: { amount: 600000, rate: 0.0375, term:360 }, fee: 100});
+            expect(result).toEqual(2878.6935494327);
+        });
     });
 
     

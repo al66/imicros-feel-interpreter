@@ -27,7 +27,8 @@ try {
 
     // parser.feed(`{"profit and loss":5, result: profit and loss + 5, result2: profit + margin}`)
     
-    parser.feed(`{"profit and loss":5, result: profit and loss + 5}`)
+    let exp = `{ "new example": 5}.new  example`
+    parser.feed(exp);
     //parser.feed(`all([])`);
     //parser.feed(`put all({a:3},{b:4},{c:5})`);
 

@@ -38,6 +38,7 @@ let result = interpreter.evaluate({a:1,b:2,c:4,d:3});
 ## Restrictions
  - Additional name symbols (./-+* according rule 30. of the sepcification) as well as keywords (for,return,if,true,false,in,and,or,between,some,every,then,else,not,string,number,boolean,null,date,time,duration) in names are ***not*** supported. (The package uses nearley as parser and I didn't found a way to implement the ambiguity)
  - No external functions are supported.
+ - The precision of mathemathic calculations are not comparable to a scientific calculator. The expression `{ "PMT": function (p:number,r:number,n:number) (p*r/12)/(1-(1+r/12)**-n),  "MonthlyPayment": PMT(Loan.amount, Loan.rate, Loan.term) + fee }.MonthlyPayment` with the context `{Loan: { amount: 600000, rate: 0.0375, term:360 }, fee: 100}` calculates to `2878.693549432746`. With a scientific calculator it calculates to `2878.6935494327667680885203...` - there is a deviation at the 11th decimal place.
 
 ## Performance considerations
 In case of intensive usage with large number of data sets consider the pre-parsing possibility.

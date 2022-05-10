@@ -57,6 +57,14 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("_test var",{"_test var": 7});
             expect(result).toEqual(7);
         });
+        it("should normalize white spaces in names", () => {
+            let result = interpreter.evaluate(`{ "new example": 5}.new  example`);
+            expect(result).toEqual(5);
+        });
+        it("should normalize white spaces in names", () => {
+            let result = interpreter.evaluate(`{ "new  example": 5}.new example`);
+            expect(result).toEqual(5);
+        });
     });
 
 });

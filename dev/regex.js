@@ -1,11 +1,12 @@
 
-let key = "profit and loss";
-let data = "profit";
+let data = `profit 
+        /* test 
+           */`;
 
-//console.log(data,data.match(/[\+\.\-\/\*]/))
+console.log(data,data.match(/\/\*.+[\s\S]*?\*\/|\/\/.*/))
 
 //let result = key.match(new RegExp(data+"[\s\+-\.]+[.]+"))
-let result = key.match(new RegExp(data+"[\s \+\.\-\/\*]+[.]*"))
+// let result = key.match(new RegExp(data+"[\s \+\.\-\/\*]+[.]*"))
 
-console.log(new RegExp(data+"[\s\+\.\-\/\*]+[.]*"));
-console.log(result);
+// console.log(new RegExp(data+"[\s\+\.\-\/\*]+[.]*"));
+//console.log(result);

@@ -10,7 +10,8 @@
     const Node = require("./ast.js");
 
     const lexer = moo.compile({
-        // string      : /((['"])(?:(?!\2|\\).|\\(?:\r\n|[\s\S]))*(\2)?|`(?:[^`\\$]|\\[\s\S]|\$(?!\{)|\$\{(?:[^{}]|\{[^}]*\}?)*\}?)*(`)?)/
+        singlelinecomment   : { match: /\/\/.*/ },
+        multilinecomment   : { match: /\/\*[.\s\S]+?\*+\//, lineBreaks: true },
         string      : { match: /"(?:\\"|[^"])*?"/, value: s => s.slice(1, -1) },
         dayandtime  : /date[ ]+and[ ]+time/,
         fn          : /put[ ]+all|string[ ]+length|string[ ]+join|week[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+week/,            
@@ -106,7 +107,7 @@
 @lexer lexer
 
 main -> UnaryTests {% (data) => reduce([data[0]]) %}
-    | _ Expression {% (data) => reduce([data[1]]) %}
+    | _ Expression _ {% (data) => reduce([data[1]]) %}
 
 Expression -> BoxedExpression
     | TextualExpression {% (data) => reduce([data]) %}
@@ -252,7 +253,7 @@ BoxedExpression -> List
 List -> "[" _ ListEntries _ "]" {% (data) => { return new Node({ node: Node.LIST, entries: data[2] }); } %}
     | "[" _ "]" {% (data) => { return new Node({ node: Node.LIST, entries: [] }); } %}
 
-ListEntries -> ListEntry _ ("," _ ListEntry):* {% (data) => { return [].concat(data[0]).concat(extractObj(data[2],2)); } %}
+ListEntries -> ListEntry _ ("," _ ListEntry ):* {% (data) => { return [].concat(data[0]).concat(extractObj(data[2],2)); } %}
 
 ListEntry -> Expression {% (data) => reduce(data) %}
     | UnaryDash 
@@ -280,10 +281,12 @@ DateTimeLiteral -> AtLiteral
 DateTimeFunction -> %dayandtime _ Parameters {% (data) => { return new Node({ node: Node.DATE_AND_TIME, name: data[0].value, parameters: reduce(data[2]) });} %}
 
 WhiteSpace -> %whitespace
+    | %singlelinecomment
+    | %multilinecomment
 
-_  -> WhiteSpace:* {% null %}
+_  -> WhiteSpace:* {% () => { return " "; } %}
 
-__  -> WhiteSpace:+  {% null %}
+__  -> WhiteSpace:+  {% () => { return " "; } %}
 
 AtLiteral -> "@" StringLiteral {% (data) => {return new Node({ node: Node.AT_LITERAL, expression: reduce(data[1]) });} %}
 
