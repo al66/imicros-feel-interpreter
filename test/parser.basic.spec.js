@@ -14,13 +14,35 @@ describe("Test parser", () => {
         it("Expression:5+3:5", (exp = "5+3:5") => {
             let success = interpreter.parse(exp);
             let error = interpreter.error;
+            //console.log(util.inspect(error, { showHidden: false, depth: null, colors: true }));
+            expect(success).toEqual(false);
+            expect(error).toBeDefined();
+            expect(error.text).toEqual(":");
+            expect(error.position).toEqual("5+3");
+            expect(error.offset).toEqual(3);
+            expect(error.line).toEqual(1);
+            expect(error.col).toEqual(4);
+        });
+        it("Multiline expression", () => {
+            let exp = `decision table(  // test
+                outputs: ["Applicant Risk Rating"],
+                inputs: ["Applicant Age","Medical History"],
+                rule list: [ xxx
+                    [>60,"good","Medium"], // test
+                    [>60,"bad","High"],
+                    [[25..60],-,"Medium"],
+                    [<25,"good","Low"],
+                    [<25,"bad","Medium"]
+                ],
+                hit policy: "Unique"
+            ) // test`
+            let success = interpreter.parse(exp);
+            let error = interpreter.error;
             // console.log(util.inspect(error, { showHidden: false, depth: null, colors: true }));
             expect(success).toEqual(false);
             expect(error).toBeDefined();
-            expect(error.token).toBeDefined();
-            expect(error.token.line).toEqual(1);
-            expect(error.token.col).toEqual(4);
-            expect(error.token.text).toEqual(":");
+            expect(error.text).toEqual(",");
+            expect(error.position).toEqual("      [>60");
         });
     });
 

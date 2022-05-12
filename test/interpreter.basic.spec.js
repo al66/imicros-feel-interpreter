@@ -12,10 +12,11 @@ describe("Test interpreter", () => {
             let error = interpreter.error;
             // console.log(util.inspect(error, { showHidden: false, depth: null, colors: true }));
             expect(error).toBeDefined();
-            expect(error.token).toBeDefined();
-            expect(error.token.line).toEqual(1);
-            expect(error.token.col).toEqual(4);
-            expect(error.token.text).toEqual(":");
+            expect(error.text).toEqual(":");
+            expect(error.position).toEqual("5+3");
+            expect(error.offset).toEqual(3);
+            expect(error.line).toEqual(1);
+            expect(error.col).toEqual(4);
             expect(result).toEqual(null);
         });
     });

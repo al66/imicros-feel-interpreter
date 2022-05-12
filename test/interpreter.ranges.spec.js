@@ -106,6 +106,154 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate(`met by([@"2022-05-15"..@"2022-05-31"],[@"2022-05-01"..@"2022-05-15"])`);
             expect(result).toEqual(true);
         });
+
+        it("should evaluate overlaps([5..10],[1..6]) -> true", () => {
+            let result = interpreter.evaluate("overlaps([5..10),[1..6])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate overlaps((3..7],[1..4]) -> true", () => {
+            let result = interpreter.evaluate("overlaps((3..7],[1..4])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate overlaps([1..3],(3..6]) -> false", () => {
+            let result = interpreter.evaluate("overlaps([1..3],(3..6])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate overlaps((5..8],[1..5]) -> false", () => {
+            let result = interpreter.evaluate("overlaps((5..8],[1..5])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate overlaps([4..10],[1..5)) -> true", () => {
+            let result = interpreter.evaluate("overlaps([4..10],[1..5))");
+            expect(result).toEqual(true);
+        });
+
+        it("should evaluate overlaps before([1..5],[4..10]) -> true", () => {
+            let result = interpreter.evaluate("overlaps before([1..5],[4..10])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate overlaps before([3..4],[1..2]) -> false", () => {
+            let result = interpreter.evaluate("overlaps before([3..4],[1..2])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate overlaps before([1..3],(3..5]) -> false", () => {
+            let result = interpreter.evaluate("overlaps before([1..3],(3..5])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate overlaps before([1..5),(3..8]) -> true", () => {
+            let result = interpreter.evaluate("overlaps before([1..5),(3..8])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate overlaps before([1..5),[5..10]) -> false", () => {
+            let result = interpreter.evaluate("overlaps before([1..5),[5..10])");
+            expect(result).toEqual(false);
+        });
+
+        it("should evaluate overlaps after([4..10],[1..5]) -> true", () => {
+            let result = interpreter.evaluate("overlaps after([4..10],[1..5])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate overlaps after([1..2],[3..4]) -> false", () => {
+            let result = interpreter.evaluate("overlaps after([1..2],[3..4])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate overlaps after([3..5],[1..3)) -> false", () => {
+            let result = interpreter.evaluate("overlaps after([3..5],[1..3))");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate overlaps after((5..8],[1..5)) -> false", () => {
+            let result = interpreter.evaluate("overlaps after((5..8],[1..5))");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate overlaps after([4..10],[1..5)) -> true", () => {
+            let result = interpreter.evaluate("overlaps after([4..10],[1..5))");
+            expect(result).toEqual(true);
+        });    
+
+        it("should evaluate finishes(5,[1..5]) -> true", () => {
+            let result = interpreter.evaluate("finishes(5,[1..5])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate finishes(6,[3..4]) -> false", () => {
+            let result = interpreter.evaluate("finishes(6,[3..4])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate finishes([3..5],[1..5]) -> true", () => {
+            let result = interpreter.evaluate("finishes([3..5],[1..5])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate finishes([1..5],[1..5)) -> false", () => {
+            let result = interpreter.evaluate("finishes([1..5],[1..5))");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate finishes([4..10),[1..10)) -> true", () => {
+            let result = interpreter.evaluate("finishes([4..10),[1..10))");
+            expect(result).toEqual(true);
+        });
+        
+        it("should evaluate finished by([1..5],5) -> true", () => {
+            let result = interpreter.evaluate("finished by([1..5],5)");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate finished by([3..4],6) -> false", () => {
+            let result = interpreter.evaluate("finished by([3..4],6)");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate finished by([1..5],[3..5]) -> true", () => {
+            let result = interpreter.evaluate("finished by([1..5],[3..5])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate finished by([1..5),[1..5]) -> false", () => {
+            let result = interpreter.evaluate("finished by([1..5),[1..5])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate finished by([1..10),[4..10)) -> true", () => {
+            let result = interpreter.evaluate("finished by([1..10),[4..10))");
+            expect(result).toEqual(true);
+        });
+
+        it("should evaluate includes([1..5],5) -> true", () => {
+            let result = interpreter.evaluate("includes([1..5],5)");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate includes([3..4],6) -> false", () => {
+            let result = interpreter.evaluate("includes([3..4],6)");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate includes([1..10],[3..5]) -> true", () => {
+            let result = interpreter.evaluate("includes([1..10],[3..5])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate includes([1..5),[3..5]) -> false", () => {
+            let result = interpreter.evaluate("includes([1..5),[3..5])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate includes([1..10),[1..5)) -> true", () => {
+            let result = interpreter.evaluate("includes([1..10),[1..5))");
+            expect(result).toEqual(true);
+        });
+
+        it("should evaluate during(5,[1..10]) -> true", () => {
+            let result = interpreter.evaluate("during(5,[1..10])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate during(6,[3..4]) -> false", () => {
+            let result = interpreter.evaluate("during(6,[3..4])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate during(1,(1..5]) -> false", () => {
+            let result = interpreter.evaluate("during(1,(1..5])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate during([2..5],[1..6)) -> true", () => {
+            let result = interpreter.evaluate("during([2..5],[1..6))");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate during((4..5),(4..10)) -> true", () => {
+            let result = interpreter.evaluate("during((4..5),(4..10))");
+            expect(result).toEqual(true);
+        });
+
     });
 
 });
