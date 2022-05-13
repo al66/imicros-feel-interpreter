@@ -254,6 +254,69 @@ describe("Test interpreter", () => {
             expect(result).toEqual(true);
         });
 
+        it("should evaluate starts(1,[1..10]) -> true", () => {
+            let result = interpreter.evaluate("starts(1,[1..10])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate starts(3,(3..4]) -> false", () => {
+            let result = interpreter.evaluate("starts(3,(3..4])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate starts((1..5],[1..5]) -> false", () => {
+            let result = interpreter.evaluate("starts((1..5],[1..5])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate starts([1..5],[1..6)) -> true", () => {
+            let result = interpreter.evaluate("starts([1..5],[1..6))");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate starts((4..5),(4..10)) -> true", () => {
+            let result = interpreter.evaluate("starts((4..5),(4..10))");
+            expect(result).toEqual(true);
+        });
+
+        it("should evaluate started by([1..10],1) -> true", () => {
+            let result = interpreter.evaluate("started by([1..10],1)");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate started by((3..4],3) -> false", () => {
+            let result = interpreter.evaluate("started by((3..4],3)");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate started by((1..5],[1..5]) -> false", () => {
+            let result = interpreter.evaluate("started by((1..5],[1..5])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate started by([1..5],[1..6)) -> true", () => {
+            let result = interpreter.evaluate("started by([1..5],[1..6))");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate started by((4..5),(4..10)) -> true", () => {
+            let result = interpreter.evaluate("started by((4..5),(4..10))");
+            expect(result).toEqual(true);
+        });
+
+        it("should evaluate coinsides(1,1) -> true", () => {
+            let result = interpreter.evaluate("coinsides(1,1)");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate coinsides(2,3) -> false", () => {
+            let result = interpreter.evaluate("coinsides(2,3)");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate coinsides((1..5],[1..5]) -> false", () => {
+            let result = interpreter.evaluate("coinsides((1..5],[1..5])");
+            expect(result).toEqual(false);
+        });
+        it("should evaluate coinsides([1..5],[1..5]) -> true", () => {
+            let result = interpreter.evaluate("coinsides([1..5],[1..5])");
+            expect(result).toEqual(true);
+        });
+        it("should evaluate coinsides((4..5),(4..5)) -> true", () => {
+            let result = interpreter.evaluate("coinsides((4..5),(4..5))");
+            expect(result).toEqual(true);
+        });
+
     });
 
 });

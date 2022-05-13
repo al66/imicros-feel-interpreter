@@ -67,4 +67,37 @@ describe("Test interpreter", () => {
         });
     });
 
+    describe("Conversion built-in functions", () => {
+        it(`should evaluate date(2022,05,13) -> "2022-05-13"`, () => {
+            let result = interpreter.evaluate(`date(2022,05,13)`);
+            expect(result).toEqual("2022-05-13");
+        });
+        it(`should evaluate time(19,48,55) -> "19:48:55"`, () => {
+            let result = interpreter.evaluate(`time(19,48,55)`);
+            expect(result).toEqual("19:48:55");
+        });
+        /*
+        it(`should evaluate time(19,48,55,duration("PT1H")) -> "20:48:55"`, () => {
+            let result = interpreter.evaluate(`time(19,48,55,duration("PT1H"))`);
+            expect(result).toEqual("20:48:55");
+        });
+        */
+        it(`should evaluate number("1654.55") -> 1654.55`, () => {
+            let result = interpreter.evaluate(`number("1654.55")`);
+            expect(result).toEqual(1654.55);
+        });
+        it(`should evaluate string(1654.55) -> "1654.55"`, () => {
+            let result = interpreter.evaluate(`string(1654.55)`);
+            expect(result).toEqual("1654.55");
+        });
+        it(`should evaluate string(@"2022-05-13") -> "2022-05-13"`, () => {
+            let result = interpreter.evaluate(`string(@"2022-05-13")`);
+            expect(result).toEqual("2022-05-13");
+        });
+        it(`should evaluate context([{"key":"a", "value":1}, {"key":"b", "value":2}]) -> {a:1,b:2}`, () => {
+            let result = interpreter.evaluate(`context([{"key":"a", "value":1}, {"key":"b", "value":2}])`);
+            expect(result).toEqual({a:1,b:2});
+        });
+    });
+
 });

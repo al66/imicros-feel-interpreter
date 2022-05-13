@@ -197,6 +197,9 @@ FunctionInvocation -> FunctionName _ Parameters {% (data, location, reject) => {
 
 FunctionName -> %fn {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
     | PotentialName {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+    | "number" {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+    | "string" {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+    | "context" {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
 
 Parameters -> "(" _ (NamedParameterList|PositionalParameterList):?  _ ")" {% (data) => reduce(data[2]) %}
 

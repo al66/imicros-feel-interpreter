@@ -97,13 +97,13 @@ Concatenate: + (only possible with both terms type string)
 # Supported build-in functions
 
 ## Conversion
- - missing: date(from - with named parameter|year,month,day)
- - missing: time(from - with named parameter|hour,minute,second,offset?)
+ - `date(from|year,month,day)`
+ - `time(from|hour,minute,second,offset?)` - missing: optional offset
  - missing: date and time(from - with named parameter|date,time)
  - missing: years and months duration(from,to)
- - missing: number(from)
- - missing: string(from)
- - missing: context(entries)
+ - `number(from)` with from type string
+ - `string(from)`
+ - `context(entries)` with entries type object with attributes key and value (e.g. {key: "a",value: 1})
 ## Temporal
  - `today()`
  - `now()` 
@@ -145,9 +145,9 @@ Concatenate: + (only possible with both terms type string)
  - `finished by(a,b)` with a interval and b either point or interval
  - `includes(a,b)` with a interval and b either point or interval
  - `during(a,b)` with a eiter point or interval and b interval
- - missing: starts
- - missing: started by
- - missing: coinsides
+ - `starts(a,b)` with a eiter point or interval and b interval
+ - `started by(a,b)` with a interval and b either point or interval
+ - `coinsides(a,b)` with a,b either both points or both intervals
 
 ## Lists
  - `list contains(list,element)`
