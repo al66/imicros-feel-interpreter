@@ -38,7 +38,6 @@ let result = interpreter.evaluate({a:1,b:2,c:4,d:3});
 ## Restrictions
  - Additional name symbols (./-+* according rule 30. of the sepcification) as well as keywords (for,return,if,true,false,in,and,or,between,some,every,then,else,not,string,number,boolean,null,date,time,duration) in names are ***not*** supported. (The package uses nearley as parser and I didn't found a way to implement the ambiguity). White spaces are allowed and normalized (doubled spaces will be replaced by just one space). Therefore expresssions like ***{"new example": 5}.new &nbsp;&nbsp; example*** as well as ***{ "new &nbsp;&nbsp;&nbsp; example": 5}.new example*** will work. 
  - No external functions are supported.
- - The precision of mathemathic calculations are not comparable to a scientific calculator. The expression `{ "PMT": function (p:number,r:number,n:number) (p*r/12)/(1-(1+r/12)**-n),  "MonthlyPayment": PMT(Loan.amount, Loan.rate, Loan.term) + fee }.MonthlyPayment` with the context `{Loan: { amount: 600000, rate: 0.0375, term:360 }, fee: 100}` calculates to `2878.693549432746`. With a scientific calculator it calculates to `2878.6935494327667680885203...` - there is a deviation at the 11th decimal place.
 
 ## Performance considerations
 In case of intensive usage with large number of data sets consider the pre-parsing possibility.
@@ -53,7 +52,7 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
  - `[1,2,3,4,5,6,7,8,9][a*(item+1)=6]` with context `{a:2}` --> `[2]`
  - `a+b > c+d` with context `{a:5,b:4,c:3,d:5}` --> `true`
  - `flight list[item.status = "cancelled"].flight number` with context `{"flight list": [{ "flight number": 123, status: "boarding"},{ "flight number": 234, status: "cancelled"}]}` --> `[234]`
- - `{calc:function (a:number,b:number) a-b, y:calc(b:c,a:d)+3}.y` with context `{c:4,d:5}` --> 4
+ - `{calc:function (a:number,b:number) a-b, y:calc(b:c,a:d)+3}.y` with context `{c:4,d:5}` --> `4`
  - `deep.a.b + deep.c` with context `{deep:{a:{b:3},c:2}}` --> `5`
  - `{a:3}.a`w/o context --> `3`
  - `extract("references are 1234, 1256, 1378", "12[0-9]*")` w/o context --> `["1234","1256"]`
@@ -61,6 +60,7 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
  - `@"2022-04-10T13:15:20" + @"P1M"` w/o context --> `"2022-05-10T13:15:20"`
  - `day of year(@"2022-04-16")` w/o context --> `106`
  - `@"P7M2Y" + @"P5D"` w/o context --> `"P5D7M2Y"`
+ - `{ "PMT": function (p:number,r:number,n:number) (p*r/12)/(1-(1+r/12)**-n),  "MonthlyPayment": PMT(Loan.amount, Loan.rate, Loan.term) + fee }.MonthlyPayment` --> `2878.6935494327668`
  - `decision table(
                 outputs: ["Applicant Risk Rating"],
                 inputs: ["Applicant Age","Medical History"],
