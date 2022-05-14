@@ -53,6 +53,10 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("?test var",{"?test var": 7});
             expect(result).toEqual(7);
         });
+        it("should return a variable with ' like Mother's finest", () => {
+            let result = interpreter.evaluate(`{"Mother's finest":5, "result": 5 + Mother's finest}.result`);
+            expect(result).toEqual(10);
+        });
         it("should return a variable with leading _", () => {
             let result = interpreter.evaluate("_test var",{"_test var": 7});
             expect(result).toEqual(7);
@@ -76,12 +80,10 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate(`time(19,48,55)`);
             expect(result).toEqual("19:48:55");
         });
-        /*
         it(`should evaluate time(19,48,55,duration("PT1H")) -> "20:48:55"`, () => {
             let result = interpreter.evaluate(`time(19,48,55,duration("PT1H"))`);
             expect(result).toEqual("20:48:55");
         });
-        */
         it(`should evaluate number("1654.55") -> 1654.55`, () => {
             let result = interpreter.evaluate(`number("1654.55")`);
             expect(result).toEqual(1654.55);

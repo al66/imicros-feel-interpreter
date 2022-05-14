@@ -47,6 +47,7 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
 # Example expressions
  - `date and time("2022-04-05T23:59:59") < date("2022-04-06")` w/o context --> `true`
  - `if a>b then c+4 else d` with context `{a:3,b:2,c:5.1,d:4}` --> `9.1`
+ - `{"Mother's finest":5, "result": 5 + Mother's finest}.result` --> `10`
  - `"best of " + lower case("IMicros")` w/o context --> `"best of imicros"` 
  - `[{a:3,b:1},{a:4,b:2}][item.a > 3]` w/o context --> `[{a:4,b:2}]`
  - `[1,2,3,4,5,6,7,8,9][a*(item+1)=6]` with context `{a:2}` --> `[2]`
@@ -60,7 +61,7 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
  - `@"2022-04-10T13:15:20" + @"P1M"` w/o context --> `"2022-05-10T13:15:20"`
  - `day of year(@"2022-04-16")` w/o context --> `106`
  - `@"P7M2Y" + @"P5D"` w/o context --> `"P5D7M2Y"`
- - `{ "PMT": function (p:number,r:number,n:number) (p*r/12)/(1-(1+r/12)**-n),  "MonthlyPayment": PMT(Loan.amount, Loan.rate, Loan.term) + fee }.MonthlyPayment` --> `2878.6935494327668`
+ - `{ "PMT": function (p:number,r:number,n:number) (p*r/12)/(1-(1+r/12)**-n),  "MonthlyPayment": PMT(Loan.amount, Loan.rate, Loan.term) + fee }.MonthlyPayment` with context `{Loan: { amount: 600000, rate: 0.0375, term:360 }, fee: 100}` --> `2878.6935494327668`
  - `decision table(
                 outputs: ["Applicant Risk Rating"],
                 inputs: ["Applicant Age","Medical History"],
@@ -75,7 +76,7 @@ A simple expression `if even(i) then (i*a) else (i*b)` with parsing and evaluati
             ) ` with context `{"Applicant Age": 65, "Medical History": "bad"}` --> `{ "Applicant Risk Rating": "High" }`
 
 # Supported expressions
-(list is not complete and will be continued)
+(not the complete list - refer to the test cases for a complete list of tested expressions)
 ## Arithmetic
 Muliplication: *, Division: /, Addition: +, Subtraction: -, Exponentation: **  
  - `(x - 2)**2 + 3/a - c*2`
@@ -86,21 +87,86 @@ Negation: -
 And: and, Or: or
 
 Equal to: =, not equal to: !=, less than: <, less than or equal to: <=, greater than: >, greater than or equal to: >=
- - `5 = 5 and 6 != 5 and 3 <= 4 and date("2022-05-08") > date("2022-05-07")`  --> true
+ - `5 = 5 and 6 != 5 and 3 <= 4 and date("2022-05-08") > date("2022-05-07")`  --> `true`
 
 Existence check: is defined(var)
- - `is defined({x:null}.x)` --> true
- - `is defined({}.x)` --> false
+ - `is defined({x:null}.x)` --> `true`
+ - `is defined({}.x)` --> `false`
+
+Negation: not(***expression***)
+- `{a:5,b:3,result: not(a<b)}.result` --> `true`
+
+Type check: ***expression*** instance of ***type***
+- `a instance of b` with context `{a:3,b:5}` --> `true`
+- `a instance of string` with context `{a:"test"}` --> `true`
+- `a instance of number` with context `{a:3}` --> `true`
+- `a instance of boolean` with context `{a:true}` --> `true`
+
 ## String
 Concatenate: + (only possible with both terms type string)
- - `"foo" + "bar"` --> "foobar"
+ - `"foo" + "bar"` --> `"foobar"`
+
+## Context and path
+Context is a defintion in JSON notation with { ***key***: ***value*** }. The key must evaluate to a string, the value can be any expression (including function definitions and complete decision table calls)
+With the .***name*** notation an attribute of the context is accessed
+- `{a:3}.a` --> `3`
+- `deep.a.b + deep.c` with context `{deep:{a:{b:3},c:2}}` --> `5`
+- `{calc:function (a:number,b:number) a-b, y:calc(b:c,a:d)+3}.y` with context `{c:4,d:5}` --> `4`
+- `{calc:function (a:number,b:number) a+b, y:calc(4,5)+3}` --> `{y:12}`
+
+## Filter (Lists)
+Get element by index (index count is starting with 1)
+- `[1,2,3,4][2]` --> `2`
+
+Negativ indices are counted from the end
+- `[1,2,3,4][-1]` --> `3`
+- `[1,2,3,4][-0]` --> `4`
+
+Reduce liste based on logic expression - varible ***item*** is the current element
+- `[1,2,3,4][item > 2]` --> `[3,4]` 
+- `[1,2,3,4,5,6,7,8,9][a*(item+1)=6]` with context `{a:2}` --> `[2]`
+- `[1,2,3,4][even(item)]` --> `[2,4]`
+- `flight list[item.status = "cancelled"].flight number` with context `{"flight list": [{ "flight number": 123, status: "boarding"},{ "flight number": 234, status: "cancelled"}]}` --> `[234]`
+## If
+if ***condition*** then ***expression*** else ***expression***
+- `if 1 > 2 then 3 else 4`
+
+## For
+for ***name*** in ***iteration context*** return ***expression***
+- `for a in [1,2,3] return a*2` -->  `[2,4,6]`
+
+## Comments
+single line comments starting with `//` until the end of the line
+single line or multiline comments framed with `/*` and `*/`.
+
+```
+/*  start 
+    comment */ 
+decision table(
+    outputs: ["Applicant Risk Rating"],  
+    inputs: ["Applicant Age","Medical History"],
+    /* multi line
+        between */
+    rule list: [
+        [>60,"good","Medium"],
+        [>60,"bad","High"],
+        [[25..60],-,"Medium"],
+        /**** 
+         * important comment 
+         ****/
+        [<25,"good","Low"],
+        [<25,"bad","Medium"] // single line comment
+    ],
+    hit policy: "Unique"
+) /* end comment */
+```
 # Supported build-in functions
 
 ## Conversion
  - `date(from|year,month,day)`
- - `time(from|hour,minute,second,offset?)` - missing: optional offset
+ - `time(from|hour,minute,second,offset?)` with offset type duration (e.g. @"PT1H")
  - missing: date and time(from - with named parameter|date,time)
- - missing: years and months duration(from,to)
+ - `years and months duration(from,to)` with from,to type date
  - `number(from)` with from type string
  - `string(from)`
  - `context(entries)` with entries type object with attributes key and value (e.g. {key: "a",value: 1})
@@ -178,7 +244,7 @@ Concatenate: + (only possible with both terms type string)
  - `string join(list,delimiter?,prefix?,suffix?)`
 
 ## Strings
- - `substring(strung,start,length)`
+ - `substring(string,start,length)`
  - `string length(string)`
  - `upper case(string)`
  - `lower case(string)`

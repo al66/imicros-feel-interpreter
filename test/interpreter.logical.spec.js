@@ -51,6 +51,10 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate(`5 = 5 and 6 != 5 and 3 <= 4 and date("2022-05-08") > date("2022-05-07")`);
             expect(result).toEqual(true);
         });
+        it("should evaluate {a:5,b:3,result: not(a<b)}.result -> true", () => {
+            let result = interpreter.evaluate("{a:5,b:3,result: not(a<b)}.result");
+            expect(result).toEqual(true);
+        });
     });
 
     describe("instance of", () => {

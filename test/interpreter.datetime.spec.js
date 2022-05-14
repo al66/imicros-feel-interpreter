@@ -71,6 +71,10 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("@\"2022-04-10T13:15:20\" + @\"P1M\"");
             expect(result).toEqual("2022-05-10T13:15:20");
         });
+        it("should evaluate @\"2022-05-10T13:15:20\" - @\"P1M\" -> \"2022-04-10T13:15:20\"", () => {
+            let result = interpreter.evaluate("@\"2022-05-10T13:15:20\" - @\"P1M\"");
+            expect(result).toEqual("2022-04-10T13:15:20");
+        });
         it("should evaluate @\"2022-04-10\" + @\"P2D1M\" -> \"2022-05-12\"", () => {
             let result = interpreter.evaluate("@\"2022-04-10\" + @\"P2D1M\"");
             expect(result).toEqual("2022-05-12");
@@ -83,6 +87,14 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("@\"PT30M\" + @\"2022-04-10T13:15:20\"");
             expect(result).toEqual("2022-04-10T13:45:20");
         });
+        it("should evaluate @\"13:15:20\" + @\"PT30M\" -> \"13:45:20\"", () => {
+            let result = interpreter.evaluate("@\"13:15:20\" + @\"PT30M\"");
+            expect(result).toEqual("13:45:20");
+        });
+        it("should evaluate @\"13:45:20\" - @\"PT30M\" -> \"13:15:20\"", () => {
+            let result = interpreter.evaluate("@\"13:45:20\" - @\"PT30M\"");
+            expect(result).toEqual("13:15:20");
+        });
         it("should evaluate @\"P7M2Y\" + @\"P5D\" -> \"P5D7M2Y\"", () => {
             let result = interpreter.evaluate("@\"P7M2Y\" + @\"P5D\"");
             expect(result).toEqual("P5D7M2Y");
@@ -94,6 +106,14 @@ describe("Test interpreter", () => {
         it("should evaluate @\"P7M2Y\" - @\"P5D\" -> \"P7M2Y\"", () => {
             let result = interpreter.evaluate("@\"P7M2Y\" - @\"P5D\"");
             expect(result).toEqual("P7M2Y");
+        });
+        it(`should evaluate date("2022-05-14") - date("2020-09-10") -> "P4D8M1Y"`, () => {
+            let result = interpreter.evaluate(`date("2022-05-14") - date("2020-09-10")`);
+            expect(result).toEqual("P4D8M1Y");
+        });
+        it(`should evaluate date("2020-09-10")-date("2022-05-14") -> "-P4D8M1Y"`, () => {
+            let result = interpreter.evaluate(`date("2020-09-10")-date("2022-05-14")`);
+            expect(result).toEqual("-P4D8M1Y");
         });
     });
 
@@ -125,6 +145,14 @@ describe("Test interpreter", () => {
         it(`should evaluate abs(@"-P7M2Y") -> "P7M2Y"`, () => {
             let result = interpreter.evaluate(`abs(@"-P7M2Y")`);
             expect(result).toEqual("P7M2Y");
+        });
+        it(`should evaluate years and months duration(date("2022-05-14"), date("2020-09-10")) -> "P8M1Y"`, () => {
+            let result = interpreter.evaluate(`years and months duration(date("2022-05-14"), date("2020-09-10"))`);
+            expect(result).toEqual("-P8M1Y");
+        });
+        it(`should evaluate years and months duration(date("2020-09-10"),date("2022-05-14")) -> "P8M1Y"`, () => {
+            let result = interpreter.evaluate(`years and months duration(date("2020-09-10"),date("2022-05-14"))`);
+            expect(result).toEqual("P8M1Y");
         });
     });
 

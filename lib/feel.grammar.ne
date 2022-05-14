@@ -14,11 +14,11 @@
         multilinecomment   : { match: /\/\*[.\s\S]+?\*+\//, lineBreaks: true },
         string      : { match: /"(?:\\"|[^"])*?"/, value: s => s.slice(1, -1) },
         dayandtime  : /date[ ]+and[ ]+time/,
-        fn          : /put[ ]+all|string[ ]+length|string[ ]+join|week[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+week/,            
+        fn          : /put[ ]+all|string[ ]+length|string[ ]+join|week[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+week|years[ ]+and[ ]+months[ ]+duration/,            
         types       : /day-time-duration|year-month-duration/,
         instance    : /instance[ ]+of/,
         whitespace  : { match: /[ \t\n\r\u00A0\uFEFF\u000D\u000A]+/, lineBreaks: true },
-        word        : { match: /[\?_A-Za-z]+/, type: moo.keywords({
+        word        : { match: /[\?_'A-Za-z]+/, type: moo.keywords({
             keywords    : ['for','return','if','true','false','in','and','or','between','some','every','then','else'],
             not         : ['not'],
             types       : ['string','number','boolean'],
@@ -213,7 +213,7 @@ PathExpression -> NonArithmeticExpression "." Name {% (data) => { return new Nod
     | BoxedExpression "." Name {% (data) => { return new Node({ node: Node.PATH, object:reduce(data[0]), property:data[2]});} %}
     | Name
 
-ForExpression -> "for" __ Name __ "in" __ Expression __ "return" __ Expression {% (data) => { return new Node({ node: Node.FOR, var: data[2], context: data[6], return: data[10]}); } %}
+ForExpression -> "for" __ Name __ "in" __ Expression __ "return" __ Expression {% (data) => { return new Node({ node: Node.FOR, var: data[2], context: reduce(data[6]), return: reduce(data[10])}); } %}
 
 IfExpression -> "if" __ Expression __ "then" __ Expression __ "else" __ Expression _ {% (data) => { return new Node({ node: Node.IF, condition: data[2], then: data[6], else: data[10]}); } %}
 
