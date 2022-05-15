@@ -36,7 +36,7 @@ let result = interpreter.evaluate({a:1,b:2,c:4,d:3});
  - Provide build-in functions as listed below.
 
 ## Restrictions
- - Additional name symbols (./-+* according rule 30. of the sepcification) as well as keywords (for,return,if,true,false,in,and,or,between,some,every,then,else,not,string,number,boolean,null,date,time,duration) in names are ***not*** supported. (The package uses nearley as parser and I didn't found a way to implement the ambiguity). White spaces are allowed and normalized (doubled spaces will be replaced by just one space). Therefore expresssions like ***{"new example": 5}.new &nbsp;&nbsp; example*** as well as ***{ "new &nbsp;&nbsp;&nbsp; example": 5}.new example*** will work. 
+ - ***Additional name symbols ./-+\**** according rule 30. of the sepcification as well as keywords ***for,return,if,true,false,in,and,or,between,some,every,then,else,not,string,number,boolean,null,date,time,duration*** in names are ***not supported***. <br/>(The package uses nearley as parser and I didn't found a way to implement the ambiguity).<br/> ***White spaces are allowed*** and normalized (doubled spaces will be replaced by just one space). Therefore expresssions like ***{"new example": 5}.new &nbsp;&nbsp; example*** as well as ***{ "new &nbsp;&nbsp;&nbsp; example": 5}.new example*** will work. <br/>Beside white spaces the ***special characters _?'*** which are not used as operators ***are allowed***.
  - No external functions are supported.
 
 ## Performance considerations
@@ -107,8 +107,9 @@ Concatenate: + (only possible with both terms type string)
  - `"foo" + "bar"` --> `"foobar"`
 
 ## Context and path
-Context is a defintion in JSON notation with { ***key***: ***value*** }. The key must evaluate to a string, the value can be any expression (including function definitions and complete decision table calls)
-With the .***name*** notation an attribute of the context is accessed
+Context is a defintion in JSON notation with { ***key***: ***value*** }.  
+The key must evaluate to a string, the value can be any expression (including function definitions and complete decision table calls).  
+With the .***name*** notation an attribute of the context is accessed.
 - `{a:3}.a` --> `3`
 - `deep.a.b + deep.c` with context `{deep:{a:{b:3},c:2}}` --> `5`
 - `{calc:function (a:number,b:number) a-b, y:calc(b:c,a:d)+3}.y` with context `{c:4,d:5}` --> `4`
@@ -118,11 +119,11 @@ With the .***name*** notation an attribute of the context is accessed
 Get element by index (index count is starting with 1)
 - `[1,2,3,4][2]` --> `2`
 
-Negativ indices are counted from the end
+Negative indices are counted from the end
 - `[1,2,3,4][-1]` --> `3`
 - `[1,2,3,4][-0]` --> `4`
 
-Reduce liste based on logic expression - varible ***item*** is the current element
+Reduce list based on logic expression - variable ***item*** is the current element
 - `[1,2,3,4][item > 2]` --> `[3,4]` 
 - `[1,2,3,4,5,6,7,8,9][a*(item+1)=6]` with context `{a:2}` --> `[2]`
 - `[1,2,3,4][even(item)]` --> `[2,4]`
@@ -266,7 +267,7 @@ decision table(
 
 ## Decisions
  - `boxed expression(context,expression)`
- - `decision table(output, input, rule list, hit policy)` (currently just hitpolicy unique, but will be enhanced soon)
+ - `decision table(output, input, rule list, hit policy)` (supported hit policies: "U"|"Unique","A"|"Any","F"|"First","R"|"Rule order","C"|"Collect","C+"|"C<"|"C>"|"C#")
 
 
 

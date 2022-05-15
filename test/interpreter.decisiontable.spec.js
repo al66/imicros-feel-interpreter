@@ -21,6 +21,102 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate(exp,{"Applicant Age": 65, "Medical History": "bad"});
             expect(result).toEqual({ "Applicant Risk Rating": "High" });
         });
+        it("should evaluate hit policy C", () => {
+            let exp = `decision table(
+                outputs: ["result"],
+                inputs: ["any"],
+                rule list: [
+                    [-,1],
+                    [-,2],
+                    [-,3],
+                    [-,4],
+                    [-,5]
+                ],
+                hit policy: "C"
+            )`
+            let result = interpreter.evaluate(exp,{"any": 0});
+            expect(result).toEqual({ result: [1,2,3,4,5] });
+        });
+        it("should evaluate hit policy C", () => {
+            let exp = `decision table(
+                outputs: ["result"],
+                inputs: ["any"],
+                rule list: [
+                    [-,"this"],
+                    [-,"is"],
+                    [-,"the"],
+                    [-,"collected"],
+                    [-,"result"]
+                ],
+                hit policy: "C"
+            )`
+            let result = interpreter.evaluate(exp,{"any": 0});
+            expect(result).toEqual({ result: ["this","is","the","collected","result"] });
+        });
+        it("should evaluate hit policy C+", () => {
+            let exp = `decision table(
+                outputs: ["result"],
+                inputs: ["any"],
+                rule list: [
+                    [-,1],
+                    [-,2],
+                    [-,3],
+                    [-,4],
+                    [-,5]
+                ],
+                hit policy: "C+"
+            )`
+            let result = interpreter.evaluate(exp,{"any": 0});
+            expect(result).toEqual({ result: 15 });
+        });
+        it("should evaluate hit policy C<", () => {
+            let exp = `decision table(
+                outputs: ["result"],
+                inputs: ["any"],
+                rule list: [
+                    [-,2],
+                    [-,1],
+                    [-,3],
+                    [-,4],
+                    [-,5]
+                ],
+                hit policy: "C<"
+            )`
+            let result = interpreter.evaluate(exp,{"any": 0});
+            expect(result).toEqual({ result: 1 });
+        });
+        it("should evaluate hit policy C>", () => {
+            let exp = `decision table(
+                outputs: ["result"],
+                inputs: ["any"],
+                rule list: [
+                    [-,2],
+                    [-,1],
+                    [-,3],
+                    [-,5],
+                    [-,4]
+                ],
+                hit policy: "C>"
+            )`
+            let result = interpreter.evaluate(exp,{"any": 0});
+            expect(result).toEqual({ result: 5 });
+        });
+        it("should evaluate hit policy C#", () => {
+            let exp = `decision table(
+                outputs: ["result"],
+                inputs: ["any"],
+                rule list: [
+                    [-,2],
+                    [-,1],
+                    [5,3],
+                    [-,5],
+                    [-,4]
+                ],
+                hit policy: "C#"
+            )`
+            let result = interpreter.evaluate(exp,{"any": 0});
+            expect(result).toEqual({ result: 4 });
+        });
     });
 
     describe("boxed expression", () => {
