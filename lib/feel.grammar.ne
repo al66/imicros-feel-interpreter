@@ -261,7 +261,7 @@ ListEntries -> ListEntry _ ("," _ ListEntry ):* {% (data) => { return [].concat(
 ListEntry -> Expression {% (data) => reduce(data) %}
     | UnaryDash 
 
-FunctionDefintion -> "function" _ "(" _ FormalParameterList _ ")" _ Expression  {% (data) => { return new Node({ node: Node.FUNCTION_DEFINITION, parameters: reduce(data[4]), expression: reduce(data[8]) });} %}
+FunctionDefintion -> "function" _ "(" _ FormalParameterList:? _ ")" _ Expression  {% (data) => { return new Node({ node: Node.FUNCTION_DEFINITION, parameters: reduce(data[4]), expression: reduce(data[8]) });} %}
 
 FormalParameterList-> FormalParameter _ ("," _ FormalParameter):* {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(reduce(data[0])).concat(reduce(extractObj(data[2],2))) });} %}
 

@@ -21,6 +21,32 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate(exp,{"Applicant Age": 65, "Medical History": "bad"});
             expect(result).toEqual({ "Applicant Risk Rating": "High" });
         });
+        it("should evaluate table with multiple output", () => {
+            let exp = `decision table(
+                outputs: ["first","second","third"],
+                inputs: ["any"],
+                rule list: [
+                    [5,1,"other text",false],
+                    [-,2,"any text",true]
+                ],
+                hit policy: "First"
+            )`
+            let result = interpreter.evaluate(exp,{"any": 0});
+            expect(result).toEqual({ first: 2, second:"any text", third:true });
+        });
+        it("should evaluate table with hit policy Any", () => {
+            let exp = `decision table(
+                outputs: ["first","second","third"],
+                inputs: ["any"],
+                rule list: [
+                    [5,1,"other text",false],
+                    [-,2,"any text",true]
+                ],
+                hit policy: "A"
+            )`
+            let result = interpreter.evaluate(exp,{"any": 0});
+            expect(result).toEqual({ first: 2, second:"any text", third:true });
+        });
         it("should evaluate hit policy C", () => {
             let exp = `decision table(
                 outputs: ["result"],
