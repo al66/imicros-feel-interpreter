@@ -128,6 +128,43 @@ Reduce list based on logic expression - variable ***item*** is the current eleme
 - `[1,2,3,4,5,6,7,8,9][a*(item+1)=6]` with context `{a:2}` --> `[2]`
 - `[1,2,3,4][even(item)]` --> `[2,4]`
 - `flight list[item.status = "cancelled"].flight number` with context `{"flight list": [{ "flight number": 123, status: "boarding"},{ "flight number": 234, status: "cancelled"}]}` --> `[234]`
+
+## Temporal
+Date or date and time expressions as well as durations can be written with the @***String*** notation
+- `@"2022-05-10T13:15:20" - @"P1M"` --> `"2022-04-10T13:15:20"`
+- `@"13:45:20" - @"PT30M"` --> `"13:15:20"`
+- `date("2022-05-14") - date("2020-09-10")` --> `"P4D8M1Y"`
+- `date("2020-09-10")-date("2022-05-14")` --> `"-P4D8M1Y"`
+
+Comparison with <,<=,>,>=,=   
+Additon/Subtraction with ***date***|***date and time*** +/- ***duration***  
+- `date("2022-04-05") < date("2022-04-06")` --> `true`
+- `date and time("2022-04-15T08:00:00") = date and time("2022-04-15T00:00:00") + @"P8H"` --> `true`
+- `@"P5D" > @"P2D"` --> `true`
+- `@"P5D" > @"P4DT23H"` --> `true`
+
+Comparison with in ***interval***  
+- `date("2022-04-05") in [date("2022-04-04")..date("2022-04-06")]` --> `true`
+- `(date("2022-04-01")+duration("P3D")) in [date("2022-04-04")..date("2022-04-06")]` --> `true`
+
+Comparison with between ***date***|***date and time*** and ***date***|***date and time***
+- `date("2022-04-05") between date("2022-04-04") and date("2022-04-06")` --> `true`
+
+Access of attributes of the temporal type
+- `@"2022-04-10".month` --> `4`
+- `date("2022-04-10").day` --> `10`
+- `date and time("2022-04-10T13:15:20").year` --> `2022`
+- `date and time("2022-04-10T13:15:20").hour` --> `13`
+- `date and time("2022-04-10T13:15:20").minute` --> `15`
+- `date and time("2022-04-10T13:15:20").second` --> `20`
+- `@"P12D5M".months` --> `5`
+- `today().year` --> current year
+- `now().minute` --> current minute
+- `day of week(@"2022-04-16")` --> `"Saturday"`
+- `day of year(@"2022-04-16")` --> `106`
+- `week of year(@"2022-04-16")` --> `15`
+- `abs(@"-P7M2Y")` --> `"P7M2Y"`
+
 ## If
 if ***condition*** then ***expression*** else ***expression***
 - `if 1 > 2 then 3 else 4`
@@ -269,7 +306,75 @@ decision table(
  - `boxed expression(context,expression)`
  - `decision table(output, input, rule list, hit policy)` (supported hit policies: "U"|"Unique","A"|"Any","F"|"First","R"|"Rule order","C"|"Collect","C+"|"C<"|"C>"|"C#")
 
+# Complete (complex) decisions
+Also complex decisions like the example under assets/Sample.dmn can be written as a complex FEEL expression and evaluated - here for example as a context returning the last evaluated context entry.
 
+```
+const Interpreter = require("../lib/interpreter.js");
+
+const interpreter = new Interpreter();
+
+let exp = `
+{   "Lender Acceptable DTI": function () 0.36,
+    "Lender Acceptable PITI": function () 0.28,
+    "DTI": function (d,i) d/i,
+    "PITI": function (pmt,tax,insurance,income) (pmt+tax+insurance)/income,
+    "Credit Score.FICO": Credit Score.FICO,
+    "Credit Score Rating": decision table(
+            inputs: ["Credit Score.FICO"],
+            outputs: ["Credit Score Rating"],
+            rule list: [
+                [>=750,"Excellent"],
+                [[700..750),"Good"],
+                [[650..700),"Fair"],
+                [[600..650),"Poor"],
+                [< 600,"Bad"]
+            ],
+            hit policy: "U"
+        ).Credit Score Rating,
+    "Client DTI": DTI(d: Applicant Data.Monthly.Repayments + Applicant Data.Monthly.Expenses, i: Applicant Data.Monthly.Income),
+    "Client PITI": PITI(
+        pmt: (Requested Product.Amount*((Requested Product.Rate/100)/12))/(1-(1/(1+(Requested Product.Rate/100)/12)**-Requested Product.Term)),
+        tax: Applicant Data.Monthly.Tax,
+        insurance: Applicant Data.Monthly.Insurance,
+        income: Applicant Data.Monthly.Income
+    ),
+    "Back End Ratio": if Client DTI <= Lender Acceptable DTI()
+        then "Sufficient"
+        else "Insufficient",
+    "Front End Ratio": if Client PITI <= Lender Acceptable PITI()
+                    then "Sufficient"
+                    else "Insufficient",
+    __decision?: decision table(
+                    outputs: ["Qualification","Reason"],
+                    inputs: ["Credit Score Rating","Back End Ratio","Front End Ratio"],
+                    rule list: [
+                        [["Poor","Bad"],-,-,"Not Qualified","Credit Score too low."],
+                        [-,"Insufficient","Sufficient","Not Qualified","Debt to income ratio is too high."],
+                        [-,"Sufficient","Insufficient","Not Qualified","Mortgage payment to income ratio is too high."],
+                        [-,"Insufficient","Insufficient","Not Qualified","Debt to income ratio is too high AND mortgage payment to income ratio is too high."],
+                        [["Fair","Good","Excellent"],"Sufficient","Sufficient","Qualified","The borrower has been successfully prequalified for the requested loan."]
+                    ],
+                    hit policy: "F"
+                )
+}.__decision?
+`
+let success = interpreter.parse(exp);
+if (!success) console.log(interpreter.error);
+
+result = interpreter.evaluate(exp,{
+    "Credit Score": { FICO: 700 }, 
+    "Applicant Data": { Monthly: { Repayments: 1000, Tax: 1000, Insurance: 100, Expenses: 500, Income: 5000 } },
+    "Requested Product": { Amount: 600000, Rate: 0.0375, Term: 360 }
+});
+
+console.log(result);
+// {
+//   Qualification: 'Qualified',
+//   Reason: 'The borrower has been successfully prequalified for the requested loan.'
+// }
+
+```
 
 
 

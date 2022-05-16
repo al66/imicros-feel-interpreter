@@ -1,6 +1,7 @@
 "use strict";
 
 const Interpreter = require("../lib/interpreter.js");
+const util = require('util');
 
 const interpreter = new Interpreter();
 
