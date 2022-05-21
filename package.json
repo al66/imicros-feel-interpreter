@@ -1,6 +1,6 @@
 {
   "name": "imicros-feel-interpreter",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "author": "Andreas Leinen <andreas.leinen@imicros.de> (www.imicros.de)",
   "license": "MIT",
   "description": "FEEL interpreter",
@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "decimal.js": "^10.3.1",
+    "fast-xml-parser": "^4.0.7",
     "moo": "^0.5.1",
     "nearley": "^2.20.1"
   }

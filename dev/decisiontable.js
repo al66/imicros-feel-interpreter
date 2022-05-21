@@ -4,7 +4,8 @@ const Interpreter = require("../lib/interpreter.js");
 const interpreter = new Interpreter();
 
 let exp = `
-boxed expression(context: { "Lender Acceptable DTI": function () 0.36,
+boxed expression(context: { "Lender Acceptable DTI": 
+                                    function () 0.36,
                             "Lender Acceptable PITI": function () 0.28,
                             "DTI": function (d,i) d/i,
                             "PITI": function (pmt,tax,insurance,income) (pmt+tax+insurance)/income,
@@ -63,13 +64,15 @@ console.log(result);
 
 // Alternate with collected intermediate results
 exp = `
-{   "Lender Acceptable DTI": function () 0.36,
+{   
+    "Applicant Data": Applicant Data,
+    "Credit Score": Credit Score,
+    "Lender Acceptable DTI": function () 0.36,
     "Lender Acceptable PITI": function () 0.28,
     "DTI": function (d,i) d/i,
     "PITI": function (pmt,tax,insurance,income) (pmt+tax+insurance)/income,
-    "Credit Score.FICO": Credit Score.FICO,
     "Credit Score Rating": decision table(
-            inputs: ["Credit Score.FICO"],
+            inputs: [Credit Score.FICO],
             outputs: ["Credit Score Rating"],
             rule list: [
                 [>=750,"Excellent"],
@@ -93,9 +96,9 @@ exp = `
     "Front End Ratio": if Client PITI <= Lender Acceptable PITI()
                     then "Sufficient"
                     else "Insufficient",
-    __decision?: decision table(
+    "Loan PreQualification": decision table(
                     outputs: ["Qualification","Reason"],
-                    inputs: ["Credit Score Rating","Back End Ratio","Front End Ratio"],
+                    inputs: [Credit Score Rating,Back End Ratio,Front End Ratio],
                     rule list: [
                         [["Poor","Bad"],-,-,"Not Qualified","Credit Score too low."],
                         [-,"Insufficient","Sufficient","Not Qualified","Debt to income ratio is too high."],
@@ -105,7 +108,7 @@ exp = `
                     ],
                     hit policy: "F"
                 )
-}.__decision?
+}
 `
 success = interpreter.parse(exp);
 if (!success) console.log(interpreter.error);
@@ -117,3 +120,4 @@ result = interpreter.evaluate(exp,{
 });
 
 console.log(result);
+
