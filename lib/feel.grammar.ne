@@ -260,6 +260,7 @@ ListEntries -> ListEntry _ ("," _ ListEntry ):* {% (data) => { return [].concat(
 
 ListEntry -> Expression {% (data) => reduce(data) %}
     | UnaryDash 
+    | UnaryNot
 
 FunctionDefintion -> "function" _ "(" _ FormalParameterList:? _ ")" _ Expression  {% (data) => { return new Node({ node: Node.FUNCTION_DEFINITION, parameters: reduce(data[4]), expression: reduce(data[8]) });} %}
 

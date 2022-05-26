@@ -31,6 +31,15 @@ interpreter.ast = JSON.parse(serialized);
 let result = interpreter.evaluate({a:1,b:2,c:4,d:3});
 // 13
 ```
+### Usage Converter to convert a DMN file (XML) to a single FEEL expression
+```
+const { DMNParser, DMNConverter } = require("imicros-feel-interpreter");
+const fs = require("fs");
+
+const xmlData = fs.readFileSync(./assets/Sample.dmn).toString();
+const expression = new DMNConverter().convert({ xml: xmlData });
+```
+
 ## Features
  - Complete support of [DMN 1.4](https://www.omg.org/spec/DMN/1.4/Beta1/PDF). Known restrictions see below.
  - Provide build-in functions as listed below.
@@ -345,7 +354,7 @@ let exp = `
     "Front End Ratio": if Client PITI <= Lender Acceptable PITI()
                     then "Sufficient"
                     else "Insufficient",
-    __decision?: decision table(
+    "Loan PreQualification": decision table(
                     outputs: ["Qualification","Reason"],
                     inputs: ["Credit Score Rating","Back End Ratio","Front End Ratio"],
                     rule list: [
@@ -357,7 +366,7 @@ let exp = `
                     ],
                     hit policy: "F"
                 )
-}.__decision?
+}.Loan PreQualification
 `
 let success = interpreter.parse(exp);
 if (!success) console.log(interpreter.error);

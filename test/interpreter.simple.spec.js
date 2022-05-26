@@ -45,6 +45,15 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("a",{a: 7});
             expect(result).toEqual(7);
         });
+        it("should allow named parameters - both", () => {
+            let result = interpreter.evaluate({ expression: "a", context: {a: 7} });
+            expect(result).toEqual(7);
+        });
+        it("should allow named parameters - just context", () => {
+            interpreter.parse("a");
+            let result = interpreter.evaluate({ context: {a: 7} });
+            expect(result).toEqual(7);
+        });
         it("should return a variable with white space from context", () => {
             let result = interpreter.evaluate("with white space",{"with white space": 7});
             expect(result).toEqual(7);

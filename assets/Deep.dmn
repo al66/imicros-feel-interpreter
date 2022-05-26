@@ -42,7 +42,7 @@
       </dmn:contextEntry>
       <dmn:contextEntry>
         <dmn:literalExpression id="_ED365831-F491-4BA4-A368-ED16F1A33B1D">
-          <dmn:text>alpha + c
+          <dmn:text>(alpha + c) * Needed()
 </dmn:text>
         </dmn:literalExpression>
       </dmn:contextEntry>

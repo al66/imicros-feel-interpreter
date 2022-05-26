@@ -121,3 +121,49 @@ result = interpreter.evaluate(exp,{
 
 console.log(result);
 
+
+exp = `
+{
+    "Season": Season,
+    "Number of Guests": Number of Guests,
+    "Guests with children?": Guests with children?,
+    "Dish": decision table(
+       inputs: [Season,Number of Guests],
+       outputs: ["desiredDish"],
+       rule list: [
+          [not("Fall", "Winter", "Spring", "Summer"),>= 0,"Instant Soup"],
+          ["Fall",<= 8,"Spareribs"],
+          ["Winter",<= 8,"Roastbeef"],
+          ["Spring",<= 4,"Dry Aged Gourmet Steak"],
+          ["Spring",[5..8],"Steak"],
+          [["Fall","Winter","Spring"],> 8,"Stew"],
+          ["Summer",-,"Light Salad and a nice Steak"]
+       ],
+       hit policy: "Unique"
+    ).desiredDish,
+    "Beverages": decision table(
+       inputs: [Dish,Guests with children?],
+       outputs: ["beverages"],
+       rule list: [
+          ["Spareribs",true,"Aecht Schlenkerla Rauchbier"],
+          ["Stew",true,"Guiness"],
+          ["Roastbeef",true,"Bordeaux"],
+          [["Steak","Dry Aged Gourmet Steak","Light Salad and a nice Steak"],true,"Pinot Noir"],
+          [-,true,"Apple Juice"],
+          [-,false,"Water"]
+       ],
+       hit policy: "Collect"
+    ).beverages
+ }
+`
+success = interpreter.parse(exp);
+if (!success) console.log(interpreter.error);
+
+result = interpreter.evaluate(exp,{
+    "Season": "Winter", 
+    "Number of Guests": 3,
+    "Guests with children?": true
+});
+
+console.log(result);
+
