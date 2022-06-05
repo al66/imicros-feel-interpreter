@@ -2,6 +2,7 @@
 const Interpreter = require("../lib/interpreter.js");
 
 const interpreter = new Interpreter();
+const util = require("util");
 
 let exp = `
 boxed expression(context: { "Lender Acceptable DTI": 
@@ -164,6 +165,43 @@ result = interpreter.evaluate(exp,{
     "Number of Guests": 3,
     "Guests with children?": true
 });
+
+console.log(result);
+
+exp = `
+{
+    "Credit Score": Credit Score,
+    "Turnover": Turnover,
+    "Risk class": decision table(
+       inputs: [Credit Score],
+       outputs: ["Risk class","Multiplier"],
+       rule list: [
+          [[0..1),"F",0],
+          [[1..3),"E",0],
+          [[3..5),"D",1],
+          [[5..7),"C",1],
+          [[7..8),"B",1.5],
+          [[8..9],"A",2]
+       ],
+       hit policy: "Unique"
+    ),
+    "Credit limit": decision table(
+       inputs: [Risk class.Multiplier,Turnover],
+       outputs: ["Credit Limit"],
+       rule list: [
+          [-,-,Risk class.Multiplier * Turnover]
+       ],
+       hit policy: "First"
+    ).Credit Limit
+ }
+`
+success = interpreter.parse(exp);
+if (!success) console.log(interpreter.error);
+
+result = interpreter.evaluate({ expression: exp, context: {
+    "Credit Score": 5, 
+    "Turnover": 100000
+}});
 
 console.log(result);
 

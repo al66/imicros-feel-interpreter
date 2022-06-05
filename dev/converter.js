@@ -4,7 +4,9 @@ const fs = require("fs");
 const util = require("util");
 
 
-const filePath = "./assets/Sample.dmn";
+const filePath = "./assets/Credit limit v10.dmn";
+//const filePath = "./assets/Credit limit v3.dmn";
+//const filePath = "./assets/Sample.dmn";
 //const filePath = "./assets/simulation.dmn";
 //const filePath = "./assets/Deep.dmn";
 const xmlData = fs.readFileSync(filePath).toString();
@@ -49,6 +51,18 @@ if (filePath === "./assets/simulation.dmn") {
         "Season": "Spring", 
         "Number of Guests": 3,
         "Guests with children?": true
+    });
+}
+if (filePath === "./assets/Credit limit v10.dmn") {
+    result = interpreter.evaluate(expression,{
+        "Credit Score": 4.9, 
+        "Turnover": 100000
+    });
+}
+if (filePath === "./assets/Credit limit v3.dmn") {
+    result = interpreter.evaluate(expression,{
+        "Credit Score": 4, 
+        "Turnover": 100000
     });
 }
 

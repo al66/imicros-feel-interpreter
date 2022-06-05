@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="definitions_0z1f0bd" name="definitions" namespace="http://camunda.org/schema/1.0/dmn" exporter="dmn-js (https://demo.bpmn.io/dmn)" exporterVersion="12.0.1">
+  <decision id="decision_04ysjqh" name="Risk class">
+    <informationRequirement id="InformationRequirement_0kipncu">
+      <requiredInput href="#InputData_0r4b7f7" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_0l68iah">
+      <input id="InputClause_0df9pm7" label="Credit Score">
+        <inputExpression id="LiteralExpression_0frbrll" typeRef="number">
+          <text>Credit Score</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_08enzkj" name="Risk class" typeRef="string" />
+      <output id="OutputClause_0b9s7sj" label="Multiplier" name="Multiplier" typeRef="number" />
+      <rule id="DecisionRule_0movjhp">
+        <inputEntry id="UnaryTests_0lpo8nd">
+          <text>[0..1)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_059eim6">
+          <text>"F"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1pxway4">
+          <text>0.0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_045t1mr">
+        <inputEntry id="UnaryTests_0zy8174">
+          <text>[1..3)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06tya2d">
+          <text>"E"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0trruar">
+          <text>0.0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_18ai96t">
+        <inputEntry id="UnaryTests_1cdi6ms">
+          <text>[3..5)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_07pfco4">
+          <text>"D"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0j5wf6o">
+          <text>1.0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0hswbqj">
+        <inputEntry id="UnaryTests_0lqbshl">
+          <text>[5..7)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0v9ko6f">
+          <text>"C"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0clma2m">
+          <text>1.0</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1u0jox4">
+        <inputEntry id="UnaryTests_0ytq07y">
+          <text>[7..8)</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_12dfhsh">
+          <text>"B"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_01whr4s">
+          <text>1.5</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_03b89a6">
+        <inputEntry id="UnaryTests_0b18lod">
+          <text>[8..9]</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0bgdn8i">
+          <text>"A"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0f11p11">
+          <text>2.0</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0r4b7f7" name="Credit Score" />
+  <inputData id="InputData_0g7g43p" name="Turnover" />
+  <decision id="Decision_03kl7rv" name="Credit limit">
+    <informationRequirement id="InformationRequirement_0g1puu2">
+      <requiredDecision href="#decision_04ysjqh" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0j3iwu4">
+      <requiredInput href="#InputData_0g7g43p" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1mfob1p" hitPolicy="FIRST">
+      <input id="InputClause_11hnir7" label="Multiplier">
+        <inputExpression id="LiteralExpression_00j3737" typeRef="number">
+          <text>Risk class.Multiplier</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1k38pos" label="Turnover">
+        <inputExpression id="LiteralExpression_0lazd3v" typeRef="number">
+          <text>Turnover</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_026vvdo" label="Credit Limit" name="Credit Limit" typeRef="number" />
+      <rule id="DecisionRule_032qucu">
+        <inputEntry id="UnaryTests_0l1ohe1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ifdznm">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1swby2f">
+          <text>Risk class.Multiplier * Turnover</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0dn5erk">
+      <dmndi:DMNShape id="DMNShape_0s7j9hs" dmnElementRef="decision_04ysjqh">
+        <dc:Bounds height="80" width="180" x="210" y="240" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0qvpr65" dmnElementRef="InputData_0r4b7f7">
+        <dc:Bounds height="45" width="125" x="147" y="357" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_04lcgla" dmnElementRef="InformationRequirement_0kipncu">
+        <di:waypoint x="210" y="357" />
+        <di:waypoint x="300" y="340" />
+        <di:waypoint x="300" y="320" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0ursyo4" dmnElementRef="InputData_0g7g43p">
+        <dc:Bounds height="45" width="125" x="537" y="357" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_03s75ru" dmnElementRef="InformationRequirement_0g1puu2">
+        <di:waypoint x="300" y="240" />
+        <di:waypoint x="490" y="180" />
+        <di:waypoint x="490" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1wem7bu" dmnElementRef="InformationRequirement_0j3iwu4">
+        <di:waypoint x="600" y="357" />
+        <di:waypoint x="550" y="180" />
+        <di:waypoint x="550" y="160" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0fv1uxz" dmnElementRef="Decision_03kl7rv">
+        <dc:Bounds height="80" width="180" x="430" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

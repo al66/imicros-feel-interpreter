@@ -9,6 +9,12 @@
     </dmn:knowledgeRequirement>
     <dmn:context id="_58CF054D-643D-496B-97BB-7663ACA5AEE7">
       <dmn:contextEntry>
+        <dmn:variable id="_E792774E-BBCC-4211-B6B1-7C7D344AAC21" name="Value Needed"/>
+        <dmn:literalExpression id="_FB0E2FE1-29A3-449F-98B8-83C75E88D73B">
+          <dmn:text>Needed()</dmn:text>
+        </dmn:literalExpression>
+      </dmn:contextEntry>
+      <dmn:contextEntry>
         <dmn:variable id="_27FA5BE8-DA3B-4667-8686-4CAFEED724A4" name="alpha"/>
         <dmn:context id="_66E1E326-955C-4EB9-ACC2-0FEDC3B6B2AD">
           <dmn:contextEntry>
@@ -65,6 +71,9 @@
           <kie:ComponentWidths dmnElementRef="_58CF054D-643D-496B-97BB-7663ACA5AEE7">
             <kie:width>50</kie:width>
             <kie:width>100</kie:width>
+            <kie:width>640</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_FB0E2FE1-29A3-449F-98B8-83C75E88D73B">
             <kie:width>640</kie:width>
           </kie:ComponentWidths>
           <kie:ComponentWidths dmnElementRef="_66E1E326-955C-4EB9-ACC2-0FEDC3B6B2AD">

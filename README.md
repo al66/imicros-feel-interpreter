@@ -3,7 +3,7 @@
 
 FEEL interpreter written in JavaScript.
 
-Developed for of the imicros backend but can be used also stand-alone.
+Developed for of the imicros backend, but can be used also stand-alone.
 
 ## Installation
 ```
