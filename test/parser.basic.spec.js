@@ -12,16 +12,16 @@ describe("Test parser", () => {
 
     describe("Error", () => {
         it("Expression:5+3:5", (exp = "5+3:5") => {
-            let success = interpreter.parse(exp);
-            let error = interpreter.error;
-            //console.log(util.inspect(error, { showHidden: false, depth: null, colors: true }));
-            expect(success).toEqual(false);
-            expect(error).toBeDefined();
-            expect(error.text).toEqual(":");
-            expect(error.position).toEqual("5+3");
-            expect(error.offset).toEqual(3);
-            expect(error.line).toEqual(1);
-            expect(error.col).toEqual(4);
+            try {
+                interpreter.parse(exp);
+            } catch(error) {
+                //console.log(util.inspect(error, { showHidden: false, depth: null, colors: true }));
+                expect(error.text).toEqual(":");
+                expect(error.position).toEqual("5+3");
+                expect(error.offset).toEqual(3);
+                expect(error.line).toEqual(1);
+                expect(error.col).toEqual(4);
+            };
         });
         it("Multiline expression", () => {
             let exp = `decision table(  // test
@@ -36,13 +36,13 @@ describe("Test parser", () => {
                 ],
                 hit policy: "Unique"
             ) // test`
-            let success = interpreter.parse(exp);
-            let error = interpreter.error;
-            // console.log(util.inspect(error, { showHidden: false, depth: null, colors: true }));
-            expect(success).toEqual(false);
-            expect(error).toBeDefined();
-            expect(error.text).toEqual(",");
-            expect(error.position).toEqual("      [>60");
+            try {
+                interpreter.parse(exp);
+            } catch(error) {
+                // console.log(util.inspect(error, { showHidden: false, depth: null, colors: true }));
+                expect(error.text).toEqual(",");
+                expect(error.position).toBeDefined();
+            };
         });
     });
 

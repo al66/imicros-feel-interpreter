@@ -113,24 +113,27 @@ let exp = `
     "CreditLimit": RiskClass.Multiplier * Turnover
  }
 `
-result = interpreter.evaluate({ expression: exp, context: {
-    "Turnover": 100000,
-    "open items": [
-        { companyCode: "1000", postingKey: "01", amountGroupCurrency: 100.00, postingDate: "2022-05-24", daysNet: 30, dueDate: "2022-06-24" },
-        { companyCode: "1000", postingKey: "01", amountGroupCurrency: 200.00, postingDate: "2022-06-06", daysNet: 20, dueDate: "2022-06-26" },
-        { companyCode: "1000", postingKey: "11", amountGroupCurrency: -110.00, postingDate: "2022-06-04", daysNet: 0, dueDate: "2022-06-04" },
-        { companyCode: "2000", postingKey: "01", amountGroupCurrency: 120.00, postingDate: "2022-05-25", daysNet: 30, dueDate: "2022-06-25" }
-    ],
-    "paid items": [
-        { companyCode: "1000", postingKey: "01", amountGroupCurrency: 100.00, postingDate: "2022-04-24", daysNet: 30, dueDate: "2022-05-24", clearingDate:"2022-05-20" },
-        { companyCode: "1000", postingKey: "01", amountGroupCurrency: 200.00, postingDate: "2022-05-06", daysNet: 20, dueDate: "2022-05-26", clearingDate:"2022-05-20" },
-        { companyCode: "1000", postingKey: "11", amountGroupCurrency: -110.00, postingDate: "2022-05-04", daysNet: 0, dueDate: "2022-05-04", clearingDate:"2022-05-10" },
-        { companyCode: "1000", postingKey: "01", amountGroupCurrency: 120.00, postingDate: "2022-04-25", daysNet: 30, dueDate: "2022-05-25", clearingDate:"2022-05-20" },
-        { companyCode: "1000", postingKey: "01", amountGroupCurrency: 100.00, postingDate: "2022-03-24", daysNet: 30, dueDate: "2022-04-24", clearingDate:"2022-04-23" },
-        { companyCode: "1000", postingKey: "01", amountGroupCurrency: 200.00, postingDate: "2022-04-06", daysNet: 20, dueDate: "2022-04-26", clearingDate:"2022-04-25" },
-        { companyCode: "1000", postingKey: "11", amountGroupCurrency: -110.00, postingDate: "2022-04-04", daysNet: 0, dueDate: "2022-04-04", clearingDate:"2022-04-10" },
-        { companyCode: "2000", postingKey: "01", amountGroupCurrency: 120.00, postingDate: "2022-03-25", daysNet: 30, dueDate: "2022-04-25", clearingDate:"2022-04-26" }
-    ]
-}});
-
-console.log(result);
+try {
+    result = interpreter.evaluate({ expression: exp, context: {
+        "Turnover": 100000,
+        "open items": [
+            { companyCode: "1000", postingKey: "01", amountGroupCurrency: 100.00, postingDate: "2022-05-24", daysNet: 30, dueDate: "2022-06-24" },
+            { companyCode: "1000", postingKey: "01", amountGroupCurrency: 200.00, postingDate: "2022-06-06", daysNet: 20, dueDate: "2022-06-26" },
+            { companyCode: "1000", postingKey: "11", amountGroupCurrency: -110.00, postingDate: "2022-06-04", daysNet: 0, dueDate: "2022-06-04" },
+            { companyCode: "2000", postingKey: "01", amountGroupCurrency: 120.00, postingDate: "2022-05-25", daysNet: 30, dueDate: "2022-06-25" }
+        ],
+        "paid items": [
+            { companyCode: "1000", postingKey: "01", amountGroupCurrency: 100.00, postingDate: "2022-04-24", daysNet: 30, dueDate: "2022-05-24", clearingDate:"2022-05-20" },
+            { companyCode: "1000", postingKey: "01", amountGroupCurrency: 200.00, postingDate: "2022-05-06", daysNet: 20, dueDate: "2022-05-26", clearingDate:"2022-05-20" },
+            { companyCode: "1000", postingKey: "11", amountGroupCurrency: -110.00, postingDate: "2022-05-04", daysNet: 0, dueDate: "2022-05-04", clearingDate:"2022-05-10" },
+            { companyCode: "1000", postingKey: "01", amountGroupCurrency: 120.00, postingDate: "2022-04-25", daysNet: 30, dueDate: "2022-05-25", clearingDate:"2022-05-20" },
+            { companyCode: "1000", postingKey: "01", amountGroupCurrency: 100.00, postingDate: "2022-03-24", daysNet: 30, dueDate: "2022-04-24", clearingDate:"2022-04-23" },
+            { companyCode: "1000", postingKey: "01", amountGroupCurrency: 200.00, postingDate: "2022-04-06", daysNet: 20, dueDate: "2022-04-26", clearingDate:"2022-04-25" },
+            { companyCode: "1000", postingKey: "11", amountGroupCurrency: -110.00, postingDate: "2022-04-04", daysNet: 0, dueDate: "2022-04-04", clearingDate:"2022-04-10" },
+            { companyCode: "2000", postingKey: "01", amountGroupCurrency: 120.00, postingDate: "2022-03-25", daysNet: 30, dueDate: "2022-04-25", clearingDate:"2022-04-26" }
+        ]
+    }});
+    console.log(result);
+} catch (e) {
+    console.log(e);
+}

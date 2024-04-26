@@ -21,7 +21,7 @@ describe("Test interpreter", () => {
             expect(result[0].overdue).toEqual(true);
             // console.log(util.inspect(result, { showHidden: false, depth: null, colors: true }));
         });
-        
+
         it("should evaluate for item in items return put all(item, { overdue: date(item.dueDate) < today() }) -> [{..., overdue:true},{..., overdue:true},{..., overdue:false}]", () => {
             let today = new Date();
             let todayString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
@@ -38,7 +38,7 @@ describe("Test interpreter", () => {
             expect(result).toContainEqual({ amount: 345.00, "dueDate":"2022-05-25", overdue: true });
             expect(result).toContainEqual({ amount: 445.00, "dueDate":"2022-05-24", overdue: true });
             expect(result).toContainEqual({ amount: 545.00, "dueDate":todayString, overdue: false });
-            console.log(util.inspect(result, { showHidden: false, depth: null, colors: true }));
+            // console.log(util.inspect(result, { showHidden: false, depth: null, colors: true }));
         });
     });
 

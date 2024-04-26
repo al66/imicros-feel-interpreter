@@ -254,5 +254,16 @@ describe("Unary test expressions", () => {
         expect(results[0].input.value).toEqual("a");
         expect(results[0].test.node).toEqual(Node.DASH);
     });
-
+    it("Expression:a in (-)", (exp = "a in (-)") => {
+        let success = interpreter.parse(exp);
+        let results = interpreter.ast;
+        // console.log(util.inspect(results, { showHidden: false, depth: null, colors: true }));
+        expect(success).toEqual(true);
+        expect(results).toBeDefined();
+        expect(results.length).toEqual(1);
+        expect(results[0].node).toEqual(Node.IN);
+        expect(results[0].input.node).toEqual(Node.NAME);
+        expect(results[0].input.value).toEqual("a");
+        expect(results[0].test.node).toEqual(Node.DASH);
+    });
 });

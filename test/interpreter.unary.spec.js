@@ -11,6 +11,10 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("5 in -");
             expect(result).toEqual(true);
         });
+        it("should evaluate 5 in (-) -> true", () => {
+            let result = interpreter.evaluate("5 in (-)");
+            expect(result).toEqual(true);
+        });
         it("should evaluate 5 in (<10) -> true", () => {
             let result = interpreter.evaluate("5 in (<10)");
             expect(result).toEqual(true);

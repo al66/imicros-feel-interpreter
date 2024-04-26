@@ -132,6 +132,7 @@ NonArithmeticExpression -> InstanceOf
 
 SimplePositiveUnaryTest -> ("<"|"<="|">"|">=") _ Endpoint {% (data) => { return new Node({ node: Node.UNARY, operator: reduce(data[0]).value, value: reduce(data[2]) }); } %}
     | Interval
+    | "(" _ "-" _ ")" {% (data) => { return new Node({ node: Node.DASH }); } %}
 
 Interval -> ("("|"]"|"[") _ Endpoint _ ".." _ Endpoint _ (")"|"["|"]") {% (data) => { return new Node({ node: Node.INTERVAL, open: reduce(data[0]).value, from: reduce(data[2]), to: reduce(data[6]), close: reduce(data[8]).value }) } %}
     | FunctionInvocation
