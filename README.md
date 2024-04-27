@@ -1,5 +1,5 @@
 # imicros-feel-interpreter
-![Build Status](https://img.shields.io/github/workflow/status/al66/imicros-feel-interpreter/actions/workflow/CI.yml/badge.svg)
+![Build Status](https://github.com/al66/imicros-feel-interpreter/actions/workflows/CI.yml/badge.svg)
 
 FEEL interpreter written in JavaScript.
 
