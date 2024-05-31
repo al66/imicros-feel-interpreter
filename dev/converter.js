@@ -11,7 +11,8 @@ const filePath = "./assets/Credit limit v3.dmn";
 //const filePath = "./assets/Deep.dmn";
 const xmlData = fs.readFileSync(filePath).toString();
 
-const Interpreter = require("../lib/interpreter.js");
+const { Interpreter } = require("../index.js");
+//const Interpreter = require("../lib/interpreter.js");
 
 const interpreter = new Interpreter();
 
