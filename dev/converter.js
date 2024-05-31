@@ -4,8 +4,8 @@ const fs = require("fs");
 const util = require("util");
 
 
-const filePath = "./assets/Credit limit v10.dmn";
-//const filePath = "./assets/Credit limit v3.dmn";
+//const filePath = "./assets/Credit limit v10.dmn";
+const filePath = "./assets/Credit limit v3.dmn";
 //const filePath = "./assets/Sample.dmn";
 //const filePath = "./assets/simulation.dmn";
 //const filePath = "./assets/Deep.dmn";
@@ -23,8 +23,10 @@ const ast = new DMNParser().parse(xmlData);
 console.log(util.inspect(ast, { showHidden: false, depth: null, colors: true }));
 
 //const expression = new DMNConverter().convert({ node: ast });
-const expression = new DMNConverter().convert({ xml: xmlData });
-
+//const expression = new DMNConverter().convert({ xml: xmlData });
+const decision = new DMNConverter().convertToObject({ xml: xmlData });
+const expression = decision.expression;
+console.log(decision);
 console.log(expression);
 // console.log(util.inspect(expression, { showHidden: false, depth: null, colors: true }));
 
