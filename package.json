@@ -10,7 +10,9 @@
     "test-parser": "jest test/parser.*.spec.js --no-cache",
     "test-interpreter": "jest test/interpreter.*.spec.js --no-cache",
     "test-decision": "jest test/interpreter.decisiontable.spec.js --no-cache",
-    "test-for": "jest test/interpreter.for.spec.js --no-cache"
+    "test-for": "jest test/interpreter.for.spec.js --no-cache",
+    "test-converter": "jest test/converter.spec.js --no-cache",
+    "test-dmn": "jest test/dmn.spec.js --no-cache"
   },
   "jest": {
     "collectCoverageFrom": [

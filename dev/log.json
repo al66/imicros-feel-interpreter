@@ -1,0 +1,49 @@
+[
+    {
+        "index": 1,
+        "type": "Context",
+        "result": {
+            "fields": [{
+                "name": "Season",
+                "expression": "Season",
+                "type": "Name",
+                "value": "Spring"
+            },
+            {
+                "name": "Dish",
+                "expression": "decision table(...#2).desiredDish",
+                "type": "Path",
+                "value": "Dry Aged Gourmet Steak"
+            }
+            ]
+        }
+    },
+    {
+        "index": 2,
+        "type": "Function call",
+        "result": {
+            "expression": "decision table(...#3)",
+            "parameters": {
+                
+            },
+            "value": {
+                "desiredDish": "Dry Aged Gourmet Steak"
+            }
+        }
+    },
+    {
+        "index": 3,
+        "type": "Decision table",
+        "result": {
+            "rules": [
+                {
+                    "index": 1
+                },
+                {
+                    "index": 2
+                }
+            ]
+        }
+    }
+
+]

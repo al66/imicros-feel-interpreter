@@ -21,7 +21,8 @@ describe("Test DMN converter", () => {
                 "b": 6,
                 "c": 7
             });
-            // console.log(util.inspect(expression, { showHidden: false, depth: null, colors: true }));
+            //console.log(util.inspect(expression, { showHidden: false, depth: null, colors: true }));
+            //console.log(util.inspect(interpreter.ast, { showHidden: false, depth: null, colors: true }));
             expect(success).toEqual(true);
             expect(result).toEqual({ First: 4});
         });
@@ -68,7 +69,10 @@ describe("Test DMN converter", () => {
                 "Number of Guests": 3,
                 "Guests with children?": true
             });
-            // console.log(util.inspect(expression, { showHidden: false, depth: null, colors: true }));
+            //console.log(xmlData);
+            //console.log(util.inspect(expression, { showHidden: false, depth: null, colors: true }));
+            //console.log(util.inspect(interpreter.ast, { showHidden: false, depth: null, colors: true }));
+            //console.log(util.inspect(interpreter.log, { showHidden: false, depth: null, colors: true }));
             expect(success).toEqual(true);
             expect(result).toEqual({
                 Season: 'Spring',

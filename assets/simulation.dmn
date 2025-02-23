@@ -109,7 +109,7 @@
           <text>Number of Guests</text>
         </inputExpression>
       </input>
-      <output id="OutputClause_0lfar1z" label="Dish" name="desiredDish" typeRef="string" />
+      <output id="OutputClause_0lfar1z" label="Dish" name="Dish" typeRef="string" />
       <rule id="row-884555325-1">
         <description>Default value</description>
         <inputEntry id="UnaryTests_0cy7usy">
