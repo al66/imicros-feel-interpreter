@@ -1,18 +1,21 @@
 {
   "name": "imicros-feel-interpreter",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "author": "Andreas Leinen <andreas.leinen@imicros.de> (www.imicros.de)",
   "license": "MIT",
-  "description": "FEEL interpreter",
+  "description": "DMN decisions and FEEL language interpreter",
   "main": "index.js",
   "scripts": {
     "test": "jest --coverage --no-cache",
     "test-parser": "jest test/parser.*.spec.js --no-cache",
     "test-interpreter": "jest test/interpreter.*.spec.js --no-cache",
     "test-decision": "jest test/interpreter.decisiontable.spec.js --no-cache",
+    "test-simple": "jest test/interpreter.simple.spec.js --no-cache",
     "test-for": "jest test/interpreter.for.spec.js --no-cache",
     "test-converter": "jest test/converter.spec.js --no-cache",
-    "test-dmn": "jest test/dmn.spec.js --no-cache"
+    "test-dmn": "jest test/dmn.spec.js --no-cache",
+    "test-feel": "jest test/feel.spec.js --no-cache",
+    "compile": "nearleyc lib/feel.grammar.ne -o lib/feel.grammar.js"
   },
   "jest": {
     "collectCoverageFrom": [

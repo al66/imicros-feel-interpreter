@@ -18,7 +18,7 @@
         types       : /day-time-duration|year-month-duration/,
         instance    : /instance[ ]+of/,
         whitespace  : { match: /[ \t\n\r\u00A0\uFEFF\u000D\u000A]+/, lineBreaks: true },
-        word        : { match: /[\?_'A-Za-z]+/, type: moo.keywords({
+        word        : { match: /[\?_'A-Za-z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+/, type: moo.keywords({
             keywords    : ['for','return','if','true','false','in','and','or','between','some','every','then','else'],
             not         : ['not'],
             types       : ['string','number','boolean'],
@@ -130,7 +130,7 @@ NonArithmeticExpression -> InstanceOf
     | SimplePositiveUnaryTest
     | "(" _ Expression _ ")" {% (data) => { return new Node({ node: Node.EVAL, expression: data[2] }); } %}
 
-SimplePositiveUnaryTest -> ("<"|"<="|">"|">=") _ Endpoint {% (data) => { return new Node({ node: Node.UNARY, operator: reduce(data[0]).value, value: reduce(data[2]) }); } %}
+SimplePositiveUnaryTest -> ("!="|"<"|"<="|">"|">=") _ Endpoint {% (data) => { return new Node({ node: Node.UNARY, operator: reduce(data[0]).value, value: reduce(data[2]) }); } %}
     | Interval
     | "(" _ "-" _ ")" {% (data) => { return new Node({ node: Node.DASH }); } %}
 

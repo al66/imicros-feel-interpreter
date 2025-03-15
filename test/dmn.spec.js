@@ -7,33 +7,52 @@ const { Decision } = require("../index.js");
 
 const decision = new Decision();
 
+// get all test files in assets and subfolders
+let testFiles = [];
+let findTests = function(dir, filelist) {    
+    let files = fs.readdirSync(dir);
+    filelist = filelist || [];
+    files.forEach(function(file) {
+        if (fs.statSync(dir + "/" +
+            file).isDirectory()) {
+            filelist = findTests(dir + "/" + file, filelist);
+        } else {
+            if (file.endsWith(".dmn.test.js")) {
+                filelist.push({
+                    test: dir + "/" + file,
+                    dmn: dir + "/" + file.replace(".test.js","")
+                });
+            }
+        }
+    });
+    return filelist;
+};
+
+
 describe("Test DMN converter", () => {
 
-    describe("Convert & evaluate", () => {
-        it("it should evaluate assets/simulation.dmn", () => {
-            let filePath = "./assets/simulation.dmn";
-            let xmlData = fs.readFileSync(filePath).toString();
-            let success = decision.parse({ xml: xmlData });
-            let result = decision.evaluate({
-                "Season": "Spring", 
-                "Number of Guests": 3,
-                "Guests with children?": true
+    let testFiles = findTests("./assets");
+
+    for (let i=0; i<testFiles.length; i++) {
+        let testFile = testFiles[i];
+        let xmlData = fs.readFileSync(testFile.dmn).toString();
+        let { tests } = require("../" + testFile.test);
+        for (let j=0; j<tests.length; j++) {
+            let test = tests[j];
+            it("it should evaluate " + testFile.dmn + " - " + test.case, () => {
+                let success = decision.parse({ xml: xmlData });
+                expect(success).toEqual(true);
+                decision.setAst(JSON.parse(JSON.stringify(decision.getAst()))); // clone
+                if (test.analyse) {
+                    let result = decision.analyse(test.data);
+                    console.log(util.inspect(result, { showHidden: false, depth: null, colors: true }));
+                    expect(result.result).toEqual(test.result);
+                } else {
+                    let result = decision.evaluate(test.data);
+                    expect(result).toEqual(test.result);
+                }
             });
-            //console.log(xmlData);
-            //console.log(util.inspect(expression, { showHidden: false, depth: null, colors: true }));
-            //console.log(util.inspect(interpreter.ast, { showHidden: false, depth: null, colors: true }));
-            //console.log(util.inspect(interpreter.log, { showHidden: false, depth: null, colors: true }));
-            expect(success).toEqual(true);
-            /*
-            expect(result).toEqual({
-                Season: 'Spring',
-                'Number of Guests': 3,
-                'Guests with children?': true,
-                Dish: 'Dry Aged Gourmet Steak',
-                Beverages: [ 'Pinot Noir', 'Apple Juice' ]
-              });
-            */
-        });
-    });
-    
+        };
+    }
+
 });

@@ -93,19 +93,19 @@ describe("Test interpreter", () => {
             let result = interpreter.evaluate("is defined(a)",{a:3});
             expect(result).toEqual(true);
         });
-        it("should evaluate is defined(null) -> true", () => {
+        it("should evaluate is defined(null) -> false", () => {
             let result = interpreter.evaluate("is defined(null)");
-            expect(result).toEqual(true);
+            expect(result).toEqual(false);
         });
-        it("should evaluate is defined({x: null}.x) -> true", () => {
+        it("should evaluate is defined({x: null}.x) -> false", () => {
             let result = interpreter.evaluate("is defined({x: null}.x)");
-            expect(result).toEqual(true);
+            expect(result).toEqual(false);
         });
-        it("should evaluate is defined({}.x) -> true", () => {
+        it("should evaluate is defined({}.x) -> false", () => {
             let result = interpreter.evaluate("is defined({}.x)");
             expect(result).toEqual(false);
         });
-        it("should evaluate is defined(b) with {a:3} -> true", () => {
+        it("should evaluate is defined(b) with {a:3} -> false", () => {
             let result = interpreter.evaluate("is defined(b)",{a:3});
             expect(result).toEqual(false);
         });

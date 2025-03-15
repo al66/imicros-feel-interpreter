@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:modeler="http://camunda.org/schema/modeler/1.0" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" id="Definitions_0rdohi0" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="5.31.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.6.0">
+  <decision id="Decision_0owv6ce" name="Tax">
+    <informationRequirement id="InformationRequirement_09nma5p">
+      <requiredInput href="#InputData_121jwfy" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0bijedj">
+      <requiredInput href="#InputData_0qbybvv" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_1nhm9fc">
+      <requiredDecision href="#Decision_0l2v46b" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_12020my">
+      <requiredDecision href="#Decision_0yxam5d" />
+    </informationRequirement>
+    <informationRequirement id="InformationRequirement_0acgpwv">
+      <requiredInput href="#InputData_0y9kn52" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1nld4ed">
+      <input id="Input_1" label="Country of Departure">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>Country of Departure</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1g1hsxn" label="Country of Receiver">
+        <inputExpression id="LiteralExpression_0k3ll0q" typeRef="string">
+          <text>Ship to party.Address.Country</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1w9iqtk" label="EU Country">
+        <inputExpression id="LiteralExpression_16rhklx" typeRef="boolean">
+          <text>EU Country</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_1sh0tqc" label="Triangle Business">
+        <inputExpression id="LiteralExpression_1salpfl" typeRef="boolean">
+          <text></text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0wqo07g" label="Tax classification of material">
+        <inputExpression id="LiteralExpression_0pwxwos" typeRef="string">
+          <text>material.taxClassification</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1kattm7">
+          <text>"no tax","full tax","half tax"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_129trf3" label="Service">
+        <inputExpression id="LiteralExpression_1vcryzg" typeRef="boolean">
+          <text>Material.service</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0zckrvj" label="Tax classification customer">
+        <inputExpression id="LiteralExpression_15op88o" typeRef="string">
+          <text>customer.taxClassification</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_0yjtmsq">
+          <text>"not taxable","taxable"</text>
+        </inputValues>
+      </input>
+      <input id="InputClause_0fyd7lc" label="Incoterms">
+        <inputExpression id="LiteralExpression_1rgo8v4" typeRef="string">
+          <text>Incoterms</text>
+        </inputExpression>
+        <inputValues id="UnaryTests_1xi5fim">
+          <text>"EXW","FCA","DAP","DDP"</text>
+        </inputValues>
+      </input>
+      <output id="Output_1" label="Percentage" name="percentage" typeRef="string" />
+      <output id="OutputClause_1j3kqtw" label="Tax code" name="taxCode" typeRef="string" />
+      <rule id="DecisionRule_19y5noq">
+        <description>Domestic - not taxable</description>
+        <inputEntry id="UnaryTests_1p2kzdf">
+          <text>"DE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1yecgim">
+          <text>Country of Departure</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0q2ij9o">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0f88xih">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15qlgur">
+          <text>"no tax"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0b6lb6f">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0bbi6c9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00702j2">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0modrym">
+          <text>0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_13z0ili">
+          <text>"DE0"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1d24k2c">
+        <description>Domestic - reduced tax</description>
+        <inputEntry id="UnaryTests_1x9krhl">
+          <text>"DE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_00q9usf">
+          <text>Country of Departure</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0qofquo">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_07g4b9n">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02d7fsu">
+          <text>"half tax"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17nfq7a">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1l0rwq5">
+          <text>"taxable"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_15rgpuk">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0nnpqab">
+          <text>7</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_032691l">
+          <text>"DE1"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0vnqfi0">
+        <description>Domextic - full tax</description>
+        <inputEntry id="UnaryTests_0sq2ino">
+          <text>"DE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0a6oxeo">
+          <text>Country of Departure</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0dcg9u9">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1j02ggf">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cpkcnn">
+          <text>"half tax"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ys4z1c">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1phid1x">
+          <text>"taxable"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1sej9ng">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1aa0ve5">
+          <text>19</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1oo3a9p">
+          <text>"DE2"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qy34t5">
+        <description>EU Intra-Community supply</description>
+        <inputEntry id="UnaryTests_092tfsj">
+          <text>"DE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_09u30os">
+          <text>!= "DE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1d8n5k7">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1wfenx8">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_17hf10n">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gs0lmo">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1xb8ctz">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0knbtvo">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01q8nkt">
+          <text>0.0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_096aofa">
+          <text>"DE3"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0e23jy5">
+        <description>Reverse charge EU</description>
+        <inputEntry id="UnaryTests_03oy1ln">
+          <text>"DE"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_14s0j15">
+          <text>!= Country of Departure</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_02j5kye">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12t1qkg">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1l6knul">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ww2haf">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0vkp7ko">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ewra2m">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0m6jy8z">
+          <text>0.0</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_1qw771q">
+          <text>"DE4"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0x10cdq" name="Plant" />
+  <inputData id="InputData_121jwfy" name="Material" />
+  <inputData id="InputData_0qbybvv" name="Customer" />
+  <decision id="Decision_0l2v46b" name="Country of Departure">
+    <variable id="InformationItem_1wwe4hj" name="Country of Departure" typeRef="string" />
+    <informationRequirement id="InformationRequirement_14vadwc">
+      <requiredInput href="#InputData_0x10cdq" />
+    </informationRequirement>
+    <literalExpression id="LiteralExpression_0k3tvvf">
+      <text>Plant.Address.Country</text>
+    </literalExpression>
+  </decision>
+  <decision id="Decision_0yxam5d" name="EU Country">
+    <informationRequirement id="InformationRequirement_0dom85a">
+      <requiredInput href="#InputData_0y9kn52" />
+    </informationRequirement>
+    <decisionTable id="DecisionTable_1f1t605" hitPolicy="FIRST">
+      <input id="InputClause_1gwlsvg" label="Country of Receiver">
+        <inputExpression id="LiteralExpression_0me88tp" typeRef="string">
+          <text>Ship to party.Address.Country</text>
+        </inputExpression>
+      </input>
+      <output id="OutputClause_0aqg7ny" name="EU Country" typeRef="boolean" />
+      <rule id="DecisionRule_07096q5">
+        <inputEntry id="UnaryTests_193e18p">
+          <text>"BE","BG","DK","DE","EE","FI","FR","GR","IE","IT","HR","LV","LT","LU","MT","NL", "AT","PL","PT","RO","SE","SK","SI","ES","CZ","CY"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0vg9il6">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1o1o5z0">
+        <inputEntry id="UnaryTests_1d3hs4f">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1lfjpg3">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_0y9kn52" name="Ship to party" />
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="Decision_0owv6ce">
+        <dc:Bounds height="80" width="180" x="440" y="150" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_1po92xx" dmnElementRef="InputData_0x10cdq">
+        <dc:Bounds height="45" width="125" x="87" y="547" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0ixwt0c" dmnElementRef="InputData_121jwfy">
+        <dc:Bounds height="45" width="125" x="797" y="547" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0ju5c9k" dmnElementRef="InputData_0qbybvv">
+        <dc:Bounds height="45" width="125" x="457" y="317" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1hwtzvn" dmnElementRef="InformationRequirement_14vadwc">
+        <di:waypoint x="150" y="547" />
+        <di:waypoint x="220" y="490" />
+        <di:waypoint x="220" y="470" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0qgl437" dmnElementRef="InformationRequirement_09nma5p">
+        <di:waypoint x="860" y="547" />
+        <di:waypoint x="590" y="250" />
+        <di:waypoint x="590" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_14446zn" dmnElementRef="InformationRequirement_0bijedj">
+        <di:waypoint x="520" y="317" />
+        <di:waypoint x="530" y="250" />
+        <di:waypoint x="530" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0w729rs" dmnElementRef="Decision_0l2v46b">
+        <dc:Bounds height="80" width="180" x="130" y="390" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1srbvrm" dmnElementRef="InformationRequirement_1nhm9fc">
+        <di:waypoint x="220" y="390" />
+        <di:waypoint x="470" y="250" />
+        <di:waypoint x="470" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_0scg2dr" dmnElementRef="InformationRequirement_12020my">
+        <di:waypoint x="620" y="420" />
+        <di:waypoint x="560" y="250" />
+        <di:waypoint x="560" y="230" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNShape id="DMNShape_0xs3nwf" dmnElementRef="Decision_0yxam5d">
+        <dc:Bounds height="80" width="180" x="530" y="420" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="DMNShape_0bdsoq0" dmnElementRef="InputData_0y9kn52">
+        <dc:Bounds height="45" width="125" x="287" y="547" />
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="DMNEdge_1txmxmp" dmnElementRef="InformationRequirement_0dom85a">
+        <di:waypoint x="350" y="547" />
+        <di:waypoint x="620" y="520" />
+        <di:waypoint x="620" y="500" />
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="DMNEdge_1nsdopu" dmnElementRef="InformationRequirement_0acgpwv">
+        <di:waypoint x="350" y="547" />
+        <di:waypoint x="500" y="250" />
+        <di:waypoint x="500" y="230" />
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
