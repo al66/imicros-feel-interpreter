@@ -118,6 +118,11 @@ const tests = [
         result: [{ key: "a", value: 3 }]
     },
     {
+        expression: 'get entries({key: "value"})[key="key"].value = "value"',
+        data: {},
+        result: true
+    },
+    {
         expression: 'put({a:3},"b",4).b',
         data: {},
         result: 4

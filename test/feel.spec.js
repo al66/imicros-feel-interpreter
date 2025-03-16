@@ -38,7 +38,9 @@ describe("Test FEEL interpreter", () => {
             let description = util.inspect(objDescription , { showHidden: false, depth: null, colors: true, breakLength: Infinity });
             if (description.length > 300) description = util.inspect(objDescription , { showHidden: false, depth: null, colors: true, breakLength: 80 });
             it(description, () => {
+                    if (test.analyse) interpreter.logger.activate();
                     let result = interpreter.evaluate(test.expression,test.data);
+                    interpreter.logger.deactivate();
                     expect(result).toEqual(test.result);
                 });
             };

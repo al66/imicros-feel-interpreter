@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<definitions id="definitions_0_id" name="definitions_0_name" namespace="https://www.omg.org/spec/DMN/20191111/DMN13"
+    xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+    xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+    xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/">
+    <decision id="decision_df868b66-2d39-729c-238b-27166a7f2a44" name="Dish">
+        <variable id="variable_861104f4-8d88-5282-a762-8712554cfbb5" name="Dish"></variable>
+        <informationRequirement id="information_requirement_8b82c98f-2a23-62f0-0ff2-9c3b41bc33b3">
+            <requiredInput href="#inputData_2d36c6c1-1b32-cf37-9957-a738c7a4d760"/>
+        </informationRequirement>
+        <informationRequirement id="information_requirement_34c40efa-0579-e5bb-6717-a2ee903451fc">
+            <requiredInput href="#inputData_536ca485-0bb6-f068-935f-0ed8de55bd5e"/>
+        </informationRequirement>
+        <decisionTable id="table_6ebfb102-d41b-4229-debd-c9fc3df707fb" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row" outputLabel="Dish">
+            <input id="inputClause_a07e4b33-70f5-9782-d823-cb5fef909dae">
+                <inputExpression id="inputExpression_f21308e1-4957-20b1-07aa-8a0a586ae040" typeRef="string">
+                    <text>
+                        <![CDATA[Season]]>
+                    </text>
+                </inputExpression>
+                <inputValues id="inputValues_ed33e84b-b957-bb18-05a5-3fc670928baf"></inputValues>
+            </input>
+            <input id="inputClause_cf5d55b0-db68-3282-1e92-968bbfdbe816">
+                <inputExpression id="inputExpression_2886982f-73f4-9929-4d4f-166f4f27be84" typeRef="string">
+                    <text>
+                        <![CDATA[Number of Guests]]>
+                    </text>
+                </inputExpression>
+            </input>
+            <output id="outputClause_6c6419e0-4ef7-17c3-b4bc-a2a879c5218a" typeRef="string">
+                <outputValues id="outputValues_dbd9b0be-8a58-4a33-3cf3-4a65d6b31c5d"></outputValues>
+            </output>
+            <rule id="decisionRule_1f3ec347-da9f-e073-3b70-440046550190">
+                <inputEntry id="inputEntry_4b436487-ccfc-9407-885a-e1bd9b706e74">
+                    <text>
+                        <![CDATA[not ("Fall","Winter","Spring","Summer")]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_727e5fe9-f230-623e-033b-15457769844c">
+                    <text>
+                        <![CDATA[>= 0]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_a6d8768b-0328-8e52-f2fc-00b8bf108701">
+                    <text>
+                        <![CDATA["Instant Soup"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_76db0017-9df0-7544-64dd-be9ef7f3fabb">
+                <inputEntry id="inputEntry_95ec95a3-a5f3-01ad-b848-817cf8c214de">
+                    <text>
+                        <![CDATA["Fall"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_29bb2076-bf38-3442-e767-cfaabf714fef">
+                    <text>
+                        <![CDATA[<= 8]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_d46bcaec-7e13-dc15-b148-383ba04885c4">
+                    <text>
+                        <![CDATA["Spareribs"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_72606c26-2b36-fa17-6070-2795f049c8ea">
+                <inputEntry id="inputEntry_5466bb81-9eac-aa8b-698a-e47fddd58727">
+                    <text>
+                        <![CDATA["Winter"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_cadd272f-0946-2c18-de78-210ed77f472d">
+                    <text>
+                        <![CDATA[<= 8]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_27bc683d-ed5b-db43-d181-590fd7d4420b">
+                    <text>
+                        <![CDATA["Roastbeef"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_c2367bf8-939b-a382-5671-0ae1655fe97f">
+                <inputEntry id="inputEntry_bbc2ee20-25f1-9120-0341-253039e211be">
+                    <text>
+                        <![CDATA["Spring"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_09e37552-ec2f-21bd-af15-b475631730c8">
+                    <text>
+                        <![CDATA[<= 4]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_00ec356f-8e01-24f6-ae74-b899e2da47d3">
+                    <text>
+                        <![CDATA["Dry Aged Gourmet Steak"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_89a00722-17ea-022c-04f5-a1dc35642cb1">
+                <inputEntry id="inputEntry_bcb9160f-819f-c938-2c00-ef32e65ad8a6">
+                    <text>
+                        <![CDATA["Spring"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_62d56f5f-3bbf-ba03-d9fa-4d797f91b209">
+                    <text>
+                        <![CDATA[[5..8]]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_49115e6f-4028-ee4a-a47a-a0c84cf4fa53">
+                    <text>
+                        <![CDATA["Steak"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_331257fa-17b6-2e3e-e4b7-7160c193b5b1">
+                <inputEntry id="inputEntry_7b23e8f8-8be3-1763-8f4d-e2025f9f4955">
+                    <text>
+                        <![CDATA["Fall","Winter","Spring"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_78669dd5-533f-1293-1f0f-aee2d4b1bbc4">
+                    <text>
+                        <![CDATA[> 8]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_513bf4fc-6130-e8ba-9b53-a106ad6c4b34">
+                    <text>
+                        <![CDATA["Stew"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_df51ac50-5b2a-b34b-8a74-23ed2a47627f">
+                <inputEntry id="inputEntry_fe029f74-7174-b9d8-acac-383e30dc077d">
+                    <text>
+                        <![CDATA["Summer"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_91dba349-6103-3d6d-04a0-06ed5ebf54df">
+                    <text>
+                        <![CDATA[-]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_80824096-dd9b-a9f1-aa54-b483c9905152">
+                    <text>
+                        <![CDATA["Light Salad and a nice Steak"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+    <decision id="decision_672589fc-49a4-e7f8-c8e7-36ec1752a5fb" label="Beverages" name="Beverages">
+        <variable id="variable_88c7680d-1480-de0d-a2cb-899e47381d34" name="Beverages"></variable>
+        <informationRequirement id="information_requirement_0e444de6-9527-d1ae-de0e-52384808cd03">
+            <requiredDecision href="#decision_df868b66-2d39-729c-238b-27166a7f2a44"/>
+        </informationRequirement>
+        <informationRequirement id="information_requirement_5cffd0d5-1295-2dad-e4e3-8329cd7fed15">
+            <requiredInput href="#inputData_d2ee150f-92d0-c6ba-e75c-0a0e5afedcae"/>
+        </informationRequirement>
+        <decisionTable id="table_51afba6e-9619-7bbc-47d1-57856cddae1e" hitPolicy="COLLECT" preferredOrientation="Rule-as-Row" outputLabel="Beverages">
+            <input id="inputClause_06ed520c-45e3-9ddb-bc2e-f534403c5482">
+                <inputExpression id="inputExpression_0be53440-41cb-0aee-53b9-5f574e17d294" typeRef="string">
+                    <text>
+                        <![CDATA[Dish]]>
+                    </text>
+                </inputExpression>
+                <inputValues id="inputValues_3ebf8371-4793-7b9d-4e87-1210154b115e"></inputValues>
+            </input>
+            <input id="inputClause_8fef225b-da97-6aee-c93e-0f5a16026e60">
+                <description>
+                    <![CDATA[Guests with children]]>
+                </description>
+                <inputExpression id="inputExpression_5827a967-cfc9-6f0f-60f7-825b732df90d" label="Guests with children" typeRef="number">
+                    <text>
+                        <![CDATA[Guests with children?]]>
+                    </text>
+                </inputExpression>
+                <inputValues id="inputValues_6e2a3b04-04e3-0693-c6c5-a37252ea94dd"></inputValues>
+            </input>
+            <output id="outputClause_7083be0e-f31e-9077-59dd-b2db8b45e082" typeRef="string">
+                <outputValues id="outputValues_ef3d7674-9702-6db6-5e70-1937254fe3da"></outputValues>
+            </output>
+            <rule id="decisionRule_071bdfc0-7256-73d4-3bf4-b3784743311e">
+                <inputEntry id="inputEntry_7cee9f2d-9f3b-91ef-6679-e4c00977bc06">
+                    <text>
+                        <![CDATA["Spareribs"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_11f04df0-2f9e-b3a7-9cb9-6b2804bcdc7e">
+                    <text>
+                        <![CDATA[true]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_666b3e9e-bb61-0444-d074-661b5c3932e6">
+                    <text>
+                        <![CDATA["Aecht Schlenkerla Rauchbier"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_65e15d69-e9a2-73ad-b004-c700f38342f7">
+                <inputEntry id="inputEntry_beb19394-901f-1104-55ad-2123972237ac">
+                    <text>
+                        <![CDATA["Stew"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_97e07cb7-a086-1eca-d6ca-2ee686b5107e">
+                    <text>
+                        <![CDATA[true]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_a3756238-00a9-6ae9-a388-04a8279efdaf">
+                    <text>
+                        <![CDATA["Guiness"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_ba970156-55d8-66c3-f397-3bd3a8a568b5">
+                <inputEntry id="inputEntry_cbd00fac-2e9d-231b-34d9-1ef02272b9e8">
+                    <text>
+                        <![CDATA["Roastbeef"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_c5460cb6-a9e9-bfcb-b716-ed696150b5c7">
+                    <text>
+                        <![CDATA[true]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_28aae407-074a-5e27-b729-71a529734470">
+                    <text>
+                        <![CDATA["Bordeaux"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_b977c0f5-7d5d-8636-110d-607b16d4d059">
+                <inputEntry id="inputEntry_8d01ea02-3ace-cafe-f861-09696eff432e">
+                    <text>
+                        <![CDATA["Steak","Dry Aged Gourmet Steak","Light Salad and a nice Steak"]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_f1e433c4-dee9-82ae-e375-e16f2dcfe892">
+                    <text>
+                        <![CDATA[true]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_41904542-d5af-8781-c654-2c5824eb2393">
+                    <text>
+                        <![CDATA["Pinot Noir"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_cc0269f5-48ce-ddd2-18c5-27fcc47e19ab">
+                <inputEntry id="inputEntry_52c0ed6e-88b2-b502-007b-0015665a953f">
+                    <text>
+                        <![CDATA[-]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_a0ce4d89-4161-3e27-4edc-b0226890cd0e">
+                    <text>
+                        <![CDATA[true]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_284f7bf7-51ec-687d-f9dc-f1d37b7aaf72">
+                    <text>
+                        <![CDATA["Apple Juice"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+            <rule id="decisionRule_af5b9646-217c-c7fc-c00d-e8800cf20ecf">
+                <inputEntry id="inputEntry_5697c681-eabf-0987-4f49-85c9a8c49e71">
+                    <text>
+                        <![CDATA[-]]>
+                    </text>
+                </inputEntry>
+                <inputEntry id="inputEntry_6f705866-c444-5626-eb6d-38e857ff6a33">
+                    <text>
+                        <![CDATA[false]]>
+                    </text>
+                </inputEntry>
+                <outputEntry id="outputEntry_58780f2d-b583-8a2c-8574-49c39ec00188">
+                    <text>
+                        <![CDATA["Water"]]>
+                    </text>
+                </outputEntry>
+            </rule>
+        </decisionTable>
+    </decision>
+    <inputData id="inputData_2d36c6c1-1b32-cf37-9957-a738c7a4d760" name="Season"></inputData>
+    <inputData id="inputData_536ca485-0bb6-f068-935f-0ed8de55bd5e" name="Number of Guests"></inputData>
+    <inputData id="inputData_d2ee150f-92d0-c6ba-e75c-0a0e5afedcae" name="Guests with children?"></inputData>
+    <knowledgeSource id="knowledgeSource_6e4b08a3-617d-ef8a-dfec-114c387e575c" name="Men&apos;s Cookbook ">
+        <authorityRequirement id="authority_requirement_b9a7d887-d5d1-e116-08e9-93122d6f39fd">
+            <requiredDecision href="#decision_df868b66-2d39-729c-238b-27166a7f2a44"/>
+        </authorityRequirement>
+    </knowledgeSource>
+    <dmndi:DMNDI id="dmdi_0_id">
+        <dmndi:DMNDiagram id="diagram_0_id" name="Diner">
+            <dmndi:DMNShape dmnElementRef="decision_df868b66-2d39-729c-238b-27166a7f2a44" id="shape_3f5587cc-c37a-c356-17c1-cf014411ea9f">
+                <dc:Bounds x="363" y="370" width="160" height="60"/>
+                <dmndi:DMNLabel id="label_0be7a57f-b885-eb52-8562-445a454201c4">
+                    <dc:Bounds x="363" y="392.8" width="160" height="14.399999999999999"/>
+                </dmndi:DMNLabel>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape dmnElementRef="inputData_2d36c6c1-1b32-cf37-9957-a738c7a4d760" id="shape_cb9269a9-fa8f-6591-d690-45deeaa795d7">
+                <dc:Bounds x="226" y="500" width="160" height="60"/>
+                <dmndi:DMNLabel id="label_7ae59b32-dafa-fe66-ed15-f1d79c3f5f00">
+                    <dc:Bounds x="226" y="522.8" width="160" height="14.399999999999999"/>
+                </dmndi:DMNLabel>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape dmnElementRef="inputData_536ca485-0bb6-f068-935f-0ed8de55bd5e" id="shape_0fd939bf-85c2-3de0-0c9d-ce074a819782">
+                <dc:Bounds x="498" y="500" width="160" height="60"/>
+                <dmndi:DMNLabel id="label_4c875ad0-db34-25cd-1476-60f2e9b8023a">
+                    <dc:Bounds x="498" y="522.8" width="160" height="14.399999999999999"/>
+                </dmndi:DMNLabel>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape dmnElementRef="knowledgeSource_6e4b08a3-617d-ef8a-dfec-114c387e575c" id="shape_bf9af9fa-6734-e23b-7c57-e3e931c347a0">
+                <dc:Bounds x="88" y="360" width="160" height="90"/>
+                <dmndi:DMNLabel id="label_601b3d10-b2b3-7995-966c-f7dc1789b6df">
+                    <dc:Bounds x="88" y="387.8" width="160" height="14.399999999999999"/>
+                </dmndi:DMNLabel>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape dmnElementRef="decision_672589fc-49a4-e7f8-c8e7-36ec1752a5fb" id="shape_c30c1f3b-831a-3bc2-8315-3e089c43dce8">
+                <dc:Bounds x="475" y="204" width="160" height="60"/>
+                <dmndi:DMNLabel id="label_d81e760b-7187-cbdd-f650-52d6bdb14571">
+                    <dc:Bounds x="475" y="226.8" width="160" height="14.399999999999999"/>
+                </dmndi:DMNLabel>
+            </dmndi:DMNShape>
+            <dmndi:DMNShape dmnElementRef="inputData_d2ee150f-92d0-c6ba-e75c-0a0e5afedcae" id="shape_1461585d-fb32-20f1-4224-d8c3adaa6ebc">
+                <dc:Bounds x="638" y="370" width="160" height="60"/>
+                <dmndi:DMNLabel id="label_4e884707-8d43-af9d-21a8-b2f4b672c972">
+                    <dc:Bounds x="638" y="392.8" width="160" height="14.399999999999999"/>
+                </dmndi:DMNLabel>
+            </dmndi:DMNShape>
+            <dmndi:DMNEdge dmnElementRef="information_requirement_8b82c98f-2a23-62f0-0ff2-9c3b41bc33b3" id="edge_a4b20bc0-dbea-d839-13f8-6cd57b799b06">
+                <di:waypoint x="338" y="500"></di:waypoint>
+                <di:waypoint x="411" y="430"></di:waypoint>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge dmnElementRef="information_requirement_34c40efa-0579-e5bb-6717-a2ee903451fc" id="edge_7a26a4ae-d3ea-75a7-f0c6-cf4d77e7d32e">
+                <di:waypoint x="547" y="500"></di:waypoint>
+                <di:waypoint x="474" y="430"></di:waypoint>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge dmnElementRef="authority_requirement_b9a7d887-d5d1-e116-08e9-93122d6f39fd" id="edge_1f3238b4-fe63-fa7a-6602-a5cb588719c9">
+                <di:waypoint x="363" y="401"></di:waypoint>
+                <di:waypoint x="248" y="404"></di:waypoint>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge dmnElementRef="information_requirement_0e444de6-9527-d1ae-de0e-52384808cd03" id="edge_0060cdb3-e9fc-ae69-f9fe-9c89beb9ebba">
+                <di:waypoint x="463" y="370"></di:waypoint>
+                <di:waypoint x="535" y="264"></di:waypoint>
+            </dmndi:DMNEdge>
+            <dmndi:DMNEdge dmnElementRef="information_requirement_5cffd0d5-1295-2dad-e4e3-8329cd7fed15" id="edge_7cc21ea8-6ac5-c0a4-01ef-60085d389426">
+                <di:waypoint x="689" y="370"></di:waypoint>
+                <di:waypoint x="584" y="264"></di:waypoint>
+            </dmndi:DMNEdge>
+        </dmndi:DMNDiagram>
+    </dmndi:DMNDI>
+</definitions>
