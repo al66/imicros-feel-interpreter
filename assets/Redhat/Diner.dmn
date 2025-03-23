@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns="https://kiegroup.org/dmn/_3D6C3067-B09F-4E70-A0FB-A60E9732C2D2" xmlns:feel="http://www.omg.org/spec/DMN/20180521/FEEL/" xmlns:kie="http://www.drools.org/kie/dmn/1.2" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="_6DB1DF84-A875-4F7D-A9EC-19A9992CB2F0" name="Diner" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" namespace="https://kiegroup.org/dmn/_3D6C3067-B09F-4E70-A0FB-A60E9732C2D2">
+  <dmn:extensionElements/>
+  <dmn:decision id="_BEF3A05D-BD98-41A3-A579-58448F247048" name="Dish">
+    <dmn:extensionElements/>
+    <dmn:variable id="_00C89C9C-D81A-4405-B4F1-E70FAB8015D0" name="Dish" typeRef="string"/>
+    <dmn:informationRequirement id="_638C7F48-272A-4D96-BBBE-B69BC84EC2E1">
+      <dmn:requiredInput href="#_A0F9DFDC-CD81-4DD6-BEF0-F5AAE0A4ADDC"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_C179CA44-24D9-45F4-A9AE-1815EE5A2403">
+      <dmn:requiredInput href="#_BCF11BA2-754B-4818-8F2A-CFF1129B0765"/>
+    </dmn:informationRequirement>
+    <dmn:authorityRequirement id="_970FCBB2-38A2-4DD2-9789-AABC589E5A01">
+      <dmn:requiredAuthority href="#_AC57629E-0886-4620-91B6-2E06C64EC26E"/>
+    </dmn:authorityRequirement>
+    <dmn:decisionTable id="_6412D770-A25A-4C48-9DE2-800EE1B0B6BD" hitPolicy="UNIQUE" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_60477923-C627-475D-99B4-8ABF0270341B">
+        <dmn:inputExpression id="_327C4484-330C-47DC-A662-E2ADCCD8BAE7" typeRef="number">
+          <dmn:text>Number of Guests</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_48E3544E-C56B-49EA-900D-B8DCCC687D93">
+        <dmn:inputExpression id="_D864C138-B02D-4F5D-90C7-C7F182CEED11" typeRef="string">
+          <dmn:text>Season</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_CB81FA00-CC20-43DD-B1ED-1822EC57014F"/>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_A07B3E69-B23C-454B-87BC-7A6894C451B6">
+        <dmn:inputEntry id="_AF1CF39D-8B99-42B0-A784-56BB5065C67F">
+          <dmn:text>&gt;= 0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_D3F64DA1-597B-47EB-8C6D-6D78BB4A6C2A">
+          <dmn:text>not("Fall", "Winter", "Spring", "Summer")</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_617146F2-45F4-47C7-AA22-C5F48D3C5FD0">
+          <dmn:text>"Instant Soup"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Default value</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_47F87C7C-87FC-40EB-9BD9-8265E90EFC03">
+        <dmn:inputEntry id="_DE4CDA9F-7674-46B7-B756-2A7C236E6D65">
+          <dmn:text>&lt;= 8</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_606AF3BC-9700-44A0-A80B-73687F2D3C94">
+          <dmn:text>"Fall"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_B56FBB0B-D014-47A0-9CB1-6E10CC363D65">
+          <dmn:text>"Spareribs"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_AE1471D2-1D82-4BAE-AD44-85D78920578A">
+        <dmn:inputEntry id="_9548EE31-DC56-439A-8A7A-0C2F323882EB">
+          <dmn:text>&lt;= 8</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_A63B3FA7-4B0C-407C-A0F8-FCEF2DF655C4">
+          <dmn:text>"Winter"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_9DC42B27-C3DB-4535-A7C7-EFA5FA9FD2D9">
+          <dmn:text>"Roastbeef"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_F562DCF4-425A-48EC-9DA9-685A79EB4E63">
+        <dmn:inputEntry id="_07740EC7-8437-4EF9-8B8A-E7ED8EE13E11">
+          <dmn:text>&lt;= 4</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_3970CB21-6831-472C-A5B8-B5EB76F1820D">
+          <dmn:text>"Spring"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_A0755103-74CF-41AC-9CC2-8286E9222444">
+          <dmn:text>"Dry Aged Gourmet Steak"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_391948A5-626D-4504-AA59-220DE81CA426">
+        <dmn:inputEntry id="_D1FE9712-BA45-4BF3-A9BE-2101257A7CEB">
+          <dmn:text>[5..8]</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_2B87CF8C-2536-440F-A4E7-5E710B465FEB">
+          <dmn:text>"Spring"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_A483408E-3909-4BA5-BDD7-B716627B96E6">
+          <dmn:text>"Steak"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Save money</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_9F1AD85C-088E-4254-BD4D-88588D986719">
+        <dmn:inputEntry id="_FBE3730F-11E1-4A01-A93D-3350C34F57D5">
+          <dmn:text>&gt; 8</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_22A0E135-0A76-4606-AB47-98B48A6A762E">
+          <dmn:text>"Fall","Winter","Spring"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_CAD0FDAC-1509-4294-A500-A7472EF19C3A">
+          <dmn:text>"Stew"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Less effort</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_7B2D31D9-49E3-4BBA-A1BE-30472E9DA51B">
+        <dmn:inputEntry id="_AC76DF43-7D45-4C94-89A3-1A45D9CB8CAF">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_CA3F1BFF-DBE7-4168-8433-5372377D6BAB">
+          <dmn:text>"Summer"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_E7288714-5295-4CA6-ACEA-3B4D729F6292">
+          <dmn:text>"Light Salad and a nice Steak"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Hey, why not?</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:knowledgeSource id="_AC57629E-0886-4620-91B6-2E06C64EC26E" name="Men's Cookbook" locationURI="">
+    <dmn:extensionElements/>
+    <dmn:type/>
+  </dmn:knowledgeSource>
+  <dmn:inputData id="_A0F9DFDC-CD81-4DD6-BEF0-F5AAE0A4ADDC" name="Season">
+    <dmn:extensionElements/>
+    <dmn:variable id="_CD635903-2242-4D92-8E65-A07D57AA02C8" name="Season" typeRef="string"/>
+  </dmn:inputData>
+  <dmn:inputData id="_BCF11BA2-754B-4818-8F2A-CFF1129B0765" name="Number of Guests">
+    <dmn:extensionElements/>
+    <dmn:variable id="_84D7F496-83E1-446C-8D97-19A43D703046" name="Number of Guests" typeRef="number"/>
+  </dmn:inputData>
+  <dmn:decision id="_8CBBE922-7D09-4A05-9403-EAEEFBBB8713" name="beverages">
+    <dmn:description>Beverages</dmn:description>
+    <dmn:extensionElements/>
+    <dmn:variable id="_37810270-0C8C-4510-938E-19A21AB3CE4C" name="beverages" typeRef="string"/>
+    <dmn:informationRequirement id="_4EEC4185-778C-4898-9211-9091669E890B">
+      <dmn:requiredDecision href="#_BEF3A05D-BD98-41A3-A579-58448F247048"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_64E7642B-928B-483F-9D19-FC79E950D1CB">
+      <dmn:requiredInput href="#_B7E92AB6-09D6-4C3A-BFC5-CDB3810B5236"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="_1B3B35C9-FD72-4E6C-A97B-D7E38A67EB88" hitPolicy="COLLECT" preferredOrientation="Rule-as-Row">
+      <dmn:input id="_784865BE-868E-49BE-878B-B3A8A3A7555D">
+        <dmn:inputExpression id="_F7CEB9A5-1EE3-47AB-B30B-1659DEF9687C" typeRef="string">
+          <dmn:text>Dish</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="_B3E0D1D3-3EB7-4615-82B7-E0E79BE2BA5B">
+        <dmn:inputExpression id="_C6A25090-997D-4360-8890-0A8E4F07B2A4" typeRef="boolean">
+          <dmn:text>Guests with children?</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="_616092CA-C84C-4DC9-A0ED-231AA552CD5A"/>
+      <dmn:annotation name="annotation-1"/>
+      <dmn:rule id="_E4B41979-4A5E-4E6D-8BB8-5D9C0D3E1409">
+        <dmn:inputEntry id="_A30C2930-3B35-4394-8617-C83C9B618A27">
+          <dmn:text>"Spareribs"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_1E848EAC-AEA8-4904-AEB4-609672F5A761">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_A22EA721-D43B-4152-8646-9B49F81DB125">
+          <dmn:text>"Aecht Schlenkerla Rauchbier"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text>Tough Stuff</dmn:text>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_C29029CA-DC94-45C9-8988-04784C4DEDBC">
+        <dmn:inputEntry id="_BB8E5D2F-4E31-4E06-8C4C-C90EBB0F0EBC">
+          <dmn:text>"Stew"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_FE4F4F08-4575-4E0D-AA9B-F8D5B18BCA76">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_A348180B-64AB-4069-AF87-3981FDB27971">
+          <dmn:text>"Guiness"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_74F39D0B-CB7D-4C06-B04C-454DE52B3D8C">
+        <dmn:inputEntry id="_CAD371AD-CBB4-4A54-8DF9-0BC9D1443B28">
+          <dmn:text>"Roastbeef"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_C9FECCD5-1F08-4E6D-A179-35838D38F44E">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_FC51829F-800F-4BB4-A6AF-5A4B49A368E3">
+          <dmn:text>"Bordeaux"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_84DCC355-00F6-4494-95CC-326C3C41AE6A">
+        <dmn:inputEntry id="_1B25451C-B5EE-418F-9DDB-CE0325F6D8D1">
+          <dmn:text>"Steak","Dry Aged Gourmet Steak","Light Salad and a nice Steak"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_8A59E109-2A04-4EBD-9717-3DDBCFBFAAE1">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_2C462CD2-29CB-4D0E-8705-633D1FA33382">
+          <dmn:text>"Pinot Noir"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_A502FB6B-F9DA-46ED-A376-45D38FAE6385">
+        <dmn:inputEntry id="_255619BE-753B-484A-AC05-5E5420085978">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_B4FB6A4A-8206-44D5-B288-1CA44D5CC070">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_1CE0A8A1-AA0D-4C10-9AC0-DBF7CA6C4E70">
+          <dmn:text>"Apple Juice"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+      <dmn:rule id="_CB48CD66-C5A5-4C30-B63C-D9DC44A1973A">
+        <dmn:inputEntry id="_A6F1D061-CEDE-4DCC-B70E-6C2278AD691B">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="_431C9700-7C70-4A61-AB6B-7482721B92EC">
+          <dmn:text>false</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="_0AAFC1BF-2E92-4F8A-A60B-F616C492620B">
+          <dmn:text>"Water"</dmn:text>
+        </dmn:outputEntry>
+        <dmn:annotationEntry>
+          <dmn:text/>
+        </dmn:annotationEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:inputData id="_B7E92AB6-09D6-4C3A-BFC5-CDB3810B5236" name="Guests with children?">
+    <dmn:extensionElements/>
+    <dmn:variable id="_C5AF356F-375D-470D-9498-70F3CA02B9A7" name="Guests with children?" typeRef="boolean"/>
+  </dmn:inputData>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="_D0AB1999-10EB-4AB2-9BF2-8E4DB3B5AC25" name="DRG">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="_6412D770-A25A-4C48-9DE2-800EE1B0B6BD">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+          <kie:ComponentWidths dmnElementRef="_1B3B35C9-FD72-4E6C-A97B-D7E38A67EB88">
+            <kie:width>50</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+            <kie:width>100</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="dmnshape-drg-_BEF3A05D-BD98-41A3-A579-58448F247048" dmnElementRef="_BEF3A05D-BD98-41A3-A579-58448F247048" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="591" y="241.5" width="136" height="81"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_AC57629E-0886-4620-91B6-2E06C64EC26E" dmnElementRef="_AC57629E-0886-4620-91B6-2E06C64EC26E" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="403" y="283" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_A0F9DFDC-CD81-4DD6-BEF0-F5AAE0A4ADDC" dmnElementRef="_A0F9DFDC-CD81-4DD6-BEF0-F5AAE0A4ADDC" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="509.29906542056074" y="403" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_BCF11BA2-754B-4818-8F2A-CFF1129B0765" dmnElementRef="_BCF11BA2-754B-4818-8F2A-CFF1129B0765" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="706" y="403" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_8CBBE922-7D09-4A05-9403-EAEEFBBB8713" dmnElementRef="_8CBBE922-7D09-4A05-9403-EAEEFBBB8713" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="776.5" y="76" width="127" height="84"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="dmnshape-drg-_B7E92AB6-09D6-4C3A-BFC5-CDB3810B5236" dmnElementRef="_B7E92AB6-09D6-4C3A-BFC5-CDB3810B5236" isCollapsed="false">
+        <dmndi:DMNStyle>
+          <dmndi:FillColor red="255" green="255" blue="255"/>
+          <dmndi:StrokeColor red="0" green="0" blue="0"/>
+          <dmndi:FontColor red="0" green="0" blue="0"/>
+        </dmndi:DMNStyle>
+        <dc:Bounds x="952" y="264" width="100" height="50"/>
+        <dmndi:DMNLabel/>
+      </dmndi:DMNShape>
+      <dmndi:DMNEdge id="dmnedge-drg-_970FCBB2-38A2-4DD2-9789-AABC589E5A01" dmnElementRef="_970FCBB2-38A2-4DD2-9789-AABC589E5A01">
+        <di:waypoint x="453" y="308"/>
+        <di:waypoint x="591" y="282"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_638C7F48-272A-4D96-BBBE-B69BC84EC2E1-AUTO-TARGET" dmnElementRef="_638C7F48-272A-4D96-BBBE-B69BC84EC2E1">
+        <di:waypoint x="559.2990654205607" y="428"/>
+        <di:waypoint x="659" y="322.5"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_C179CA44-24D9-45F4-A9AE-1815EE5A2403-AUTO-TARGET" dmnElementRef="_C179CA44-24D9-45F4-A9AE-1815EE5A2403">
+        <di:waypoint x="756" y="428"/>
+        <di:waypoint x="659" y="322.5"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_4EEC4185-778C-4898-9211-9091669E890B-AUTO-TARGET" dmnElementRef="_4EEC4185-778C-4898-9211-9091669E890B">
+        <di:waypoint x="659" y="282"/>
+        <di:waypoint x="840" y="160"/>
+      </dmndi:DMNEdge>
+      <dmndi:DMNEdge id="dmnedge-drg-_64E7642B-928B-483F-9D19-FC79E950D1CB" dmnElementRef="_64E7642B-928B-483F-9D19-FC79E950D1CB">
+        <di:waypoint x="1002" y="289"/>
+        <di:waypoint x="840" y="160"/>
+      </dmndi:DMNEdge>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

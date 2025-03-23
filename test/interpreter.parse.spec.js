@@ -34,6 +34,15 @@ describe("Test interpreter", () => {
             result = interpreter.evaluate({a:5,b:2});
             expect(result).toEqual(3);
         });
+        it("should evaluate a context with a pre-parsed stored expression", () => {
+            interpreter.parse("a+b");
+            let ast = interpreter.getAst();
+            interpreter.setAst(JSON.parse(JSON.stringify(ast)));
+            let result = interpreter.evaluate({a:5,b:2});
+            expect(result).toEqual(7);
+            result = interpreter.evaluate({a:3,b:0.2});
+            expect(result).toEqual(3.2);
+        });
     });
 
 });

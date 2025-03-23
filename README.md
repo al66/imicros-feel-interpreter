@@ -124,8 +124,8 @@ let result = interpreter.evaluate("a/b**-c-d",{a:1,b:2,c:4,d:3});
 let success = interpreter.parse("a/b**-c-d");
 // true
 
-let serialized = JSON.stringify(interpreter.ast);
-interpreter.ast = JSON.parse(serialized);
+let serialized = JSON.stringify(interpreter.getAst());
+interpreter.setAst(JSON.parse(serialized));
 // serialized ast can be stored somewhere and restored for multiple usage with different data sets
 
 let result = interpreter.evaluate({a:1,b:2,c:4,d:3});
@@ -158,6 +158,7 @@ Camunda open source desktop editor https://camunda.com/de/download/modeler/
 
 BPMN.iO open source embedded web-based modelling  https://bpmn.io/
 
+### Basically tested:
 Redhat Visual Studio Code Extension https://marketplace.visualstudio.com/items?itemName=redhat.vscode-extension-dmn-editor
 
 ## Example FEEL expressions
