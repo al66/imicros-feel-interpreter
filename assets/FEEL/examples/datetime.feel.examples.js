@@ -86,9 +86,34 @@ const tests = [
         result: "2022-04-10T13:15:20"
     },
     {
+        expression: "date(\"2025-03-30\") + duration(\"P7D\")",
+        data: {},
+        result: "2025-04-06"
+    },
+    {
+        expression: "date(\"2025-03-30\") + duration(\"P10M\")",
+        data: {},
+        result: "2026-01-30"
+    },
+    {
         expression: "@\"2022-04-10\" + @\"P2D1M\"",
         data: {},
         result: "2022-05-12"
+    },
+    {
+        expression: 'date("2025-03-30") + duration("P20M7D")',
+        data: {},
+        result: "2026-12-07"
+    },
+    {
+        expression: 'date("2017-08-30") + duration("P18M")',
+        data: {},
+        result: "2019-02-28"
+    },
+    {
+        expression: 'date("2026-12-07") - duration("P20M7D")',
+        data: {},
+        result: "2025-03-31"
     },
     {
         expression: "@\"2022-04-10T13:15:20\" + @\"PT30M\"",
