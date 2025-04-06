@@ -49,6 +49,8 @@ let findTests = function (dir, filelist) {
 };
 
 
+
+
 function getTestCaseFilePaths(repoUrl, folderName) {
     const repoName = "tck"; // Extracted repository name
     const clonePath = path.join("./", repoName);
@@ -62,7 +64,9 @@ function getTestCaseFilePaths(repoUrl, folderName) {
     //const packageTestCasesPath = path.join(clonePath, "TestCases");
     //fs.cpSync(packageTestCasesPath, "./compliance/tck", {recursive: true});
 
-   const testCasesPath = path.join(clonePath, folderName);
+   const tckFolder = findSubfolderStartingWithTck("./");
+   //const testCasesPath = path.join(clonePath, folderName);
+   const testCasesPath = path.join(tckFolder, folderName);
    // const testCasesPath = packageTestCasesPath;
 
     // Check if the TestCases folder exists
@@ -89,6 +93,18 @@ function getTestFiles() {
     } catch (error) {
         console.error("Error:", error.message);
     }
+}
+
+function findSubfolderStartingWithTck(directory) {
+    const subfolders = fs.readdirSync(directory, { withFileTypes: true })
+        .filter(dirent => dirent.isDirectory() && dirent.name.startsWith("tck"))
+        .map(dirent => dirent.name);
+
+    if (subfolders.length === 0) {
+        throw new Error(`No subfolder starting with "tck" found in directory: ${directory}`);
+    }
+
+    return subfolders[0]; // Return the first matching subfolder
 }
 
 function toArray( value ) {
