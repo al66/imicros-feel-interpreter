@@ -59,10 +59,11 @@ function getTestCaseFilePaths(repoUrl, folderName) {
         execSync(`git submodule add  --force ${repoUrl} ${clonePath}`, { stdio: "inherit" });
     }
 
-    const packageTestCasesPath = path.join(clonePath, "TestCases");
-    fs.cpSync(packageTestCasesPath, "./compliance/tck", {recursive: true});
+    //const packageTestCasesPath = path.join(clonePath, "TestCases");
+    //fs.cpSync(packageTestCasesPath, "./compliance/tck", {recursive: true});
 
-    const testCasesPath = path.join("./compliance/tck", folderName);
+   const testCasesPath = path.join(clonePath, folderName);
+   // const testCasesPath = packageTestCasesPath;
 
     // Check if the TestCases folder exists
     if (!fs.existsSync(testCasesPath)) {
@@ -81,7 +82,7 @@ function getTestFiles() {
     try {
         const repoUrl = "https://github.com/dmn-tck/tck.git";
         //const folderName = "TestCases/compliance-level-2";
-        const folderName = "compliance-level-2/0005-simpletable-A";
+        const folderName = "TestCases/compliance-level-2/0005-simpletable-A";
         //const folderName = "TestCases/compliance-level-2/0006-simpletable-P1";
         const filePaths = getTestCaseFilePaths(repoUrl, folderName);
         return filePaths;
