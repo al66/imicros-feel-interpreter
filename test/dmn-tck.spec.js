@@ -54,9 +54,16 @@ let findTests = function (dir, filelist) {
 function getTestCaseFilePaths(repoUrl, folderName) {
     const repoName = "tck"; // Extracted repository name
     const clonePath = path.join("./", repoName);
+    let tckFolder;
+
+    try {
+        // Check if the repository is already cloned
+        tckFolder = findSubfolderStartingWithTck("./");
+    } catch (error) {
+    }
 
     // Clone the repository if it doesn't already exist
-    if (!fs.existsSync(clonePath)) {
+    if (!fs.existsSync(clonePath) && !tckFolder) {
         console.log("Cloning repository... " + `git submodule add ${repoUrl} ${clonePath}`);
         execSync(`git submodule add  --force ${repoUrl} ${clonePath}`, { stdio: "inherit" });
     }
@@ -64,7 +71,7 @@ function getTestCaseFilePaths(repoUrl, folderName) {
     //const packageTestCasesPath = path.join(clonePath, "TestCases");
     //fs.cpSync(packageTestCasesPath, "./compliance/tck", {recursive: true});
 
-   const tckFolder = findSubfolderStartingWithTck("./");
+   tckFolder = findSubfolderStartingWithTck("./");
    //const testCasesPath = path.join(clonePath, folderName);
    const testCasesPath = path.join(tckFolder, folderName);
    // const testCasesPath = packageTestCasesPath;
@@ -103,7 +110,7 @@ function findSubfolderStartingWithTck(directory) {
     if (subfolders.length === 0) {
         throw new Error(`No subfolder starting with "tck" found in directory: ${directory}`);
     }
-
+    console.log("Subfolder tck found: " + subfolders[0]);
     return subfolders[0]; // Return the first matching subfolder
 }
 
