@@ -66,6 +66,8 @@ function getTestCaseFilePaths(repoUrl, folderName) {
     if (!fs.existsSync(clonePath) && !tckFolder) {
         console.log("Cloning repository... " + `git submodule add ${repoUrl} ${clonePath}`);
         execSync(`git submodule add  --force ${repoUrl} ${clonePath}`, { stdio: "inherit" });
+    } else {
+        execSync(`git submodule update --init --recursive`, { stdio: "inherit" });
     }
 
     //const packageTestCasesPath = path.join(clonePath, "TestCases");
