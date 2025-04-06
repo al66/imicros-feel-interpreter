@@ -1,0 +1,3 @@
+[submodule "tck"]
+	path = tck
+	url = https://github.com/dmn-tck/tck.git
