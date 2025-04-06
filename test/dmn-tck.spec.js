@@ -51,12 +51,12 @@ let findTests = function (dir, filelist) {
 
 function getTestCaseFilePaths(repoUrl, folderName) {
     const repoName = "tck"; // Extracted repository name
-    const clonePath = path.join("/", repoName);
+    const clonePath = path.join("./", repoName);
 
     // Clone the repository if it doesn't already exist
     if (!fs.existsSync(clonePath)) {
         console.log("Cloning repository... " + `git submodule add ${repoUrl} ${clonePath}`);
-        execSync(`git clone ${repoUrl} ${clonePath}`, { stdio: "inherit" });
+        execSync(`git submodule add  --force ${repoUrl} ${clonePath}`, { stdio: "inherit" });
     }
 
     const testCasesPath = path.join(clonePath, folderName);
