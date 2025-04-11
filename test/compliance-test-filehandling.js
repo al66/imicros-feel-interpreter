@@ -99,18 +99,21 @@ function buildInput( node ) {
 }
 
 function buildExpected( node ) {
+    const resultNodeName = node._name;
     const results = toArray(node);
     let result = {};
-    results.forEach((node) => {
+    results.forEach(() => {
         let expected = toArray(node.expected);
         expected.forEach((single) => {
-            let name = node._name;
+            let name = node._name || resultNodeName;
             let value = single.value;
             if (value._nil) {
                 result[name] = null;
-            }
-            if (value["#text"]) {
+            } else if (value.hasOwnProperty("#text")) {
                 result[name] = value["#text"];
+            } else {
+                console.log("Expected value not found: ", value);
+                //result[name] = value;
             }
         });
     });

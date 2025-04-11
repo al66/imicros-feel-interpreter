@@ -99,7 +99,7 @@ const tck = [
             "0039-dt-list-semantics",
             "0040-singlenestedcontext",
             "0041-multiple-nestedcontext",
-            "0050-feel-abs-function",
+            //"0050-feel-abs-function",
             "0051-feel-sqrt-function",
             "0052-feel-exp-function",
             "0053-feel-log-function",

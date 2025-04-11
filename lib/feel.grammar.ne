@@ -171,6 +171,8 @@ QualifiedName -> Name _ "." _ Name {% (data) => { return new Node({ node: Node.P
 
 #Name -> PotentialName {% (data, location, reject) => {  return new Node({ node: Node.NAME, location, value: concat([data]) }); } %}
 Name -> PotentialName {% (data, location, reject) => {  return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+ParameterName -> PotentialParameterName {% (data, location, reject) => {  return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+PotentialParameterName -> NamePart (__ NamePart):* {% (data) => { return concat([data]); } %}
 
 PotentialName -> NameStart (__ NamePart):* {% (data) => { return concat([data]); } %}
 NameStart -> %word %number:? {% (data) => { return concat(data)} %}
@@ -206,7 +208,7 @@ Parameters -> "(" _ (NamedParameterList|PositionalParameterList):?  _ ")" {% (da
 
 NamedParameterList -> NamedParameter _ ("," _ NamedParameter):* {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(data[0]).concat(extractObj(data[2],2)) });} %}
 
-NamedParameter -> Name _ ":" _ Expression {% (data) => { return new Node({ node: Node.NAMED_PARAMETER, name: concat(data[0]), expression: reduce(data[4]) });} %}
+NamedParameter -> ParameterName _ ":" _ Expression {% (data) => { return new Node({ node: Node.NAMED_PARAMETER, name: concat(data[0]), expression: reduce(data[4]) });} %}
 
 PositionalParameterList -> Expression _ ("," _ Expression):*  {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(reduce(data[0])).concat(reduce(extractObj(data[2],2))) });} %}
 

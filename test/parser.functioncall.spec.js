@@ -126,5 +126,13 @@ describe("Function invocaton", () => {
         expect(results[0].right.node).toEqual(Node.NAME);
         expect(results[0].right.value).toEqual("a");
     });
+    it("Expression:abs(number:-1)", (exp = "abs(number:-1)") => {
+        let success = interpreter.parse(exp);
+        let results = interpreter.ast;
+        // console.log(util.inspect(results, { showHidden: false, depth: null, colors: true }));
+        expect(success).toEqual(true);
+        expect(results).toBeDefined();
+        //console.log("results: ", util.inspect(results, { showHidden: false, depth: null, colors: true }));
+    });
 
 });
