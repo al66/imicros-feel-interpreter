@@ -5,8 +5,6 @@ const util = require('util');
 
 const { Interpreter } = require("../index.js");
 
-const interpreter = new Interpreter();
-
 // get all test files in assets and subfolders
 let testFiles = [];
 let findTests = function(dir, filelist) {    
@@ -38,8 +36,11 @@ describe("Test FEEL interpreter", () => {
             let description = util.inspect(objDescription , { showHidden: false, depth: null, colors: true, breakLength: Infinity });
             if (description.length > 300) description = util.inspect(objDescription , { showHidden: false, depth: null, colors: true, breakLength: 80 });
             it(description, () => {
+                    const interpreter = new Interpreter();
                     if (test.analyse) interpreter.logger.activate();
                     let result = interpreter.evaluate(test.expression,test.data);
+                    if (test.analyse) console.log(util.inspect(interpreter.getAst(), { showHidden: false, depth: null, colors: true, breakLength: 80 }));
+                    if (test.analyse) console.log(util.inspect(interpreter.logger.getLog(), { showHidden: false, depth: null, colors: true, breakLength: 80 }));
                     interpreter.logger.deactivate();
                     expect(result).toEqual(test.result);
                 });

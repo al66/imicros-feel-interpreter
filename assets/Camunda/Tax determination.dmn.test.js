@@ -1,6 +1,7 @@
 const tests = [
     {
         case: "From DE to FR, customer taxable, material full tax",
+        decision: "Tax",
         analyse: false,
         data: {
             Plant: {
@@ -31,6 +32,7 @@ const tests = [
     },
     {
         case: "From DE for FR, service",
+        decision: "Tax",
         analyse: false,
         data: {
             Plant: {

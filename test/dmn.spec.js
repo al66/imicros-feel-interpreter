@@ -44,11 +44,12 @@ describe("Test DMN converter", () => {
                 expect(success).toEqual(true);
                 decision.setAst(JSON.parse(JSON.stringify(decision.getAst()))); // clone
                 if (test.analyse) {
-                    let result = decision.analyse(test.data);
+                    console.log(util.inspect(decision.getAst(), { showHidden: false, depth: null, colors: true }));
+                    let result = decision.analyse({ data: test.data, decision: test.decision });
                     console.log(util.inspect(result, { showHidden: false, depth: null, colors: true }));
                     expect(result.result).toEqual(test.result);
                 } else {
-                    let result = decision.evaluate(test.data);
+                    let result = decision.evaluate({ data: test.data, decision: test.decision });
                     expect(result).toEqual(test.result);
                 }
             });

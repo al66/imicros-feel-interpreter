@@ -204,6 +204,62 @@ const tests = [
         expression: `years and months duration(date("2020-09-10"),date("2022-05-14"))`,
         data: {},
         result: "P8M1Y"
+    },
+    {
+        expression: `date(from:date and time("2017-08-30T10:25:00"))`,
+        data: {},
+        result: "2017-08-30"
+    },
+    {
+        expression: `time(19,48,55,duration("PT1H"))`,
+        data: {},
+        result: "20:48:55"
+    },
+    {
+        expression: `string(date("999999999-12-31"))`,
+        data: {},
+        result: "999999999-12-31"
+    },
+    {
+        expression: `string(date("-999999999-12-31"))`,
+        data: {},
+        result: "-999999999-12-31"
+    },
+    {
+        expression: `string(date(999999999,12,31))`,
+        data: {},
+        result: "999999999-12-31"
+    },
+    {
+        expression: `string(date(-999999999,12,31))`,
+        data: {},
+        result: "-999999999-12-31"
+    },
+    {
+        case: "wrong format for date",
+        expression: `date("2012-12-25T")`,
+        data: {},
+        result: null
+    },
+    {
+        expression: `date(date and time(date and time("2017-08-14T14:25:00"),time("10:50:00")))`,
+        data: {},
+        result: "2017-08-14"
+    },
+    {
+        expression: `date(1000999999,12,32)`,
+        data: {},
+        result: null
+    },
+    {
+        expression: `date(-1000999999,12,32)`,
+        data: {},
+        result: null
+    },
+    {
+        expression: `date(-1000999999,12,01)`,
+        data: {},
+        result: null
     }
 ];
 

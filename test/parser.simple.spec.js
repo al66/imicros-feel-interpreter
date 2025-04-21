@@ -139,6 +139,42 @@ describe("Test parser", () => {
             expect(results[0].node).toEqual(Node.STRING);
             expect(results[0].value).toEqual("(d{3})(\d{3})");
         });
+        it("Expression:string1", (exp = 'string1') => {
+            let success = interpreter.parse(exp);
+            let results = interpreter.ast;
+            expect(success).toEqual(true);
+            expect(results).toBeDefined();
+            expect(results.length).toEqual(1);
+            expect(results[0].node).toEqual(Node.NAME);
+            expect(results[0].value).toEqual("string1");
+        });
+        it("Expression:string12", (exp = 'string12') => {
+            let success = interpreter.parse(exp);
+            let results = interpreter.ast;
+            expect(success).toEqual(true);
+            expect(results).toBeDefined();
+            expect(results.length).toEqual(1);
+            expect(results[0].node).toEqual(Node.NAME);
+            expect(results[0].value).toEqual("string12");
+        });
+        it("Expression:string12number", (exp = 'string12number') => {
+            let success = interpreter.parse(exp);
+            let results = interpreter.ast;
+            expect(success).toEqual(true);
+            expect(results).toBeDefined();
+            expect(results.length).toEqual(1);
+            expect(results[0].node).toEqual(Node.NAME);
+            expect(results[0].value).toEqual("string12number");
+        });
+        it("Expression:list1", (exp = 'list1') => {
+            let success = interpreter.parse(exp);
+            let results = interpreter.ast;
+            expect(success).toEqual(true);
+            expect(results).toBeDefined();
+            expect(results.length).toEqual(1);
+            expect(results[0].node).toEqual(Node.NAME);
+            expect(results[0].value).toEqual("list1");
+        });
     });
 
     describe("Boolean Literal", () => {

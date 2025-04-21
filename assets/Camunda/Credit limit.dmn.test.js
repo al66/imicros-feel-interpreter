@@ -10,7 +10,9 @@ const tests = [
                 }
             },
         result: {
-            'Credit Limit': 240000
+            'Credit Limit': 240000,
+            "Risk class": "C",
+            "Multiplier": 1.2
         }
     }
 ];

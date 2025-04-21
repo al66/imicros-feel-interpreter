@@ -2,6 +2,7 @@
 const tests = [
     {
         case: "Spring, 3 guests, with children",
+        decision: "Beverages",
         //analyse: true,
         data: {
                 "Season": "Spring", 
@@ -14,6 +15,7 @@ const tests = [
     },
     {
         case: "Fall, 3 guests, with children",
+        decision: "Beverages",
         data: {
                 "Season": "Fall", 
                 "Number of Guests": 3,

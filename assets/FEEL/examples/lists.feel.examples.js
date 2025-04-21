@@ -340,6 +340,14 @@ const tests = [
         expression: `string join([])`,
         data: {},
         result: ""
+    },
+    {
+        expression: `concatenate(list1,list2)`,
+        data: {
+            list1: ["a","b","c"],
+            list2: ["x","y","z"]
+        },
+        result: ["a","b","c","x","y","z"]
     }    
 ];
 

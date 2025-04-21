@@ -16,13 +16,15 @@ describe("Test DMN converter", () => {
             let xmlData = fs.readFileSync(filePath).toString();
             let expression = new DMNConverter().convert({ xml: xmlData });
             let success = interpreter.parse(expression);
+            interpreter.logger.activate();
+            interpreter.logger.clear();
             let result = interpreter.evaluate({
                 "a": 5, 
                 "b": 6,
                 "c": 7
             });
             //console.log(util.inspect(expression, { showHidden: false, depth: null, colors: true }));
-            //console.log(util.inspect(interpreter.ast, { showHidden: false, depth: null, colors: true }));
+            //console.log(util.inspect(interpreter.logger.getLog(), { showHidden: false, depth: null, colors: true }));
             expect(success).toEqual(true);
             expect(result).toEqual({ First: 4});
         });

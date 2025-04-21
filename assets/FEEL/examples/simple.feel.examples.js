@@ -96,11 +96,6 @@ const tests = [
         result: "19:48:55"
     },
     {
-        expression: `time(19,48,55,duration("PT1H"))`,
-        data: {},
-        result: "20:48:55"
-    },
-    {
         expression: `number("1654.55")`,
         data: {},
         result: 1654.55

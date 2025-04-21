@@ -131,7 +131,12 @@ const tests = [
         expression: 'put all({a:3},{b:4},{c:5})',
         data: {},
         result: {a:3, b:4, c:5}
-    }
+    }/*,
+    {
+        expression: '{foo+bar: "foo"}',
+        data: { foo: "foo", bar: "bar" },
+        result: { foobar: "foo" }
+    }*/
 ];
 
 module.exports = {
