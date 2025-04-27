@@ -1,6 +1,6 @@
 {
   "name": "imicros-feel-interpreter",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "author": "Andreas Leinen <andreas.leinen@imicros.de> (www.imicros.de)",
   "license": "MIT",
   "description": "DMN decisions and FEEL language interpreter",

@@ -298,13 +298,50 @@ const tests = [
         expression: `duration("-PT2H")`,
         data: {},
         result: "-PT2H"
-    }/*,
+    },
+    {
+        expression: `date("2025-03-30" ) + duration("P7D")`,
+        data: {},
+        result: "2025-04-06"
+    },
     {
         expression: `time(hour:11, minute:59, second:0, offset: duration("-PT2H"))`,
-        analyse: true,
         data: {},
         result: "11:59:00-02:00"
-    }*/
+    },
+    {
+        expression: `string(@"2018-12-08T10:30:11+11:00")`,
+        //analyse: true,
+        data: {},
+        result: "2018-12-08T10:30:11+11:00"
+    },
+    {
+        expression: `time(11, 59, 45, duration("-PT0H"))`,
+        data: {},
+        result: "11:59:45Z"
+    },
+    {
+        expression: `time(date("2017-08-10"))`,
+        data: {},
+        result: "00:00:00Z"
+    },
+    {
+        expression: `time(date and time(date and time("2017-09-05T10:20:00"),time("09:15:30Z")))`,
+        data: {},
+        result: "09:15:30Z"
+    },
+    {
+        expression: `time(date and time("2017-08-10T10:20:00-00:00"))`,
+        data: {},
+        result: "10:20:00Z"
+    },
+    {
+        expression: `time("11:22:00.123456789")`,
+        //analyse: true,
+        data: {},
+        result: "11:22:00.123456789"
+    }
+    // 	
 ];
 
 module.exports = {

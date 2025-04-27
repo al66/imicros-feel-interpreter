@@ -15,7 +15,7 @@
  - `(a+b)>(8.9) and (c+d)>(8.1)` with context `{a:5,b:4,c:4,d:5}`--> `true`
  - `@"2022-04-10T13:15:20" + @"P1M"` w/o context --> `"2022-05-10T13:15:20"`
  - `day of year(@"2022-04-16")` w/o context --> `106`
- - `@"P7M2Y" + @"P5D"` w/o context --> `"P5D7M2Y"`
+ - `@"P2Y7M" + @"P3M"` w/o context --> `"P2Y10M"`
  - `{ "PMT": function (p:number,r:number,n:number) (p*r/12)/(1-(1+r/12)**-n),  "MonthlyPayment": PMT(Loan.amount, Loan.rate, Loan.term) + fee }.MonthlyPayment` with context `{Loan: { amount: 600000, rate: 0.0375, term:360 }, fee: 100}` --> `2878.6935494327668`
  - `decision table(
                 outputs: ["Applicant Risk Rating"],
@@ -88,8 +88,8 @@ Reduce list based on logic expression - variable ***item*** is the current eleme
 Date or date and time expressions as well as durations can be written with the @***String*** notation
 - `@"2022-05-10T13:15:20" - @"P1M"` --> `"2022-04-10T13:15:20"`
 - `@"13:45:20" - @"PT30M"` --> `"13:15:20"`
-- `date("2022-05-14") - date("2020-09-10")` --> `"P4D8M1Y"`
-- `date("2020-09-10")-date("2022-05-14")` --> `"-P4D8M1Y"`
+- `date("2022-05-14") - date("2020-09-10")` --> `"P611D"`
+- `date("2020-09-10") - date("2022-05-14")` --> `"-P611D"`
 
 Comparison with <,<=,>,>=,=   
 Additon/Subtraction with ***date***|***date and time*** +/- ***duration***  
@@ -118,7 +118,7 @@ Access of attributes of the temporal type
 - `day of week(@"2022-04-16")` --> `"Saturday"`
 - `day of year(@"2022-04-16")` --> `106`
 - `week of year(@"2022-04-16")` --> `15`
-- `abs(@"-P7M2Y")` --> `"P7M2Y"`
+- `abs(@"-P2Y7M")` --> `"P2Y7M"`
 
 ## If
 if ***condition*** then ***expression*** else ***expression***
