@@ -1,6 +1,6 @@
 {
   "name": "imicros-feel-interpreter",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": "Andreas Leinen <andreas.leinen@imicros.de> (www.imicros.de)",
   "license": "MIT",
   "description": "DMN decisions and FEEL language interpreter",
@@ -57,6 +57,8 @@
     "decimal.js": "^10.4.3",
     "fast-xml-parser": "^4.3.6",
     "mathjs": "^14.4.0",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.48",
     "moo": "^0.5.2",
     "nearley": "^2.20.1"
   }

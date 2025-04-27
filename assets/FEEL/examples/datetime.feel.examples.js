@@ -66,12 +66,12 @@ const tests = [
         result: 20
     },
     {
-        expression: "@\"P12D5M\".months",
+        expression: "@\"P2Y5M\".months",
         data: {},
         result: 5
     },
     {
-        expression: "@\"P12D5MT5H30M15S\".minutes",
+        expression: "@\"P12DT5H30M15S\".minutes",
         data: {},
         result: 30
     },
@@ -96,12 +96,12 @@ const tests = [
         result: "2026-01-30"
     },
     {
-        expression: "@\"2022-04-10\" + @\"P2D1M\"",
+        expression: "@\"2022-04-10\" + @\"P2Y1M\"",
         data: {},
-        result: "2022-05-12"
+        result: "2024-05-10"
     },
     {
-        expression: 'date("2025-03-30") + duration("P20M7D")',
+        expression: 'date("2025-03-30") + duration("P20M") + duration("P7D")',
         data: {},
         result: "2026-12-07"
     },
@@ -111,7 +111,7 @@ const tests = [
         result: "2019-02-28"
     },
     {
-        expression: 'date("2026-12-07") - duration("P20M7D")',
+        expression: 'date("2026-12-07") - duration("P20M") - duration("P7D")',
         data: {},
         result: "2025-03-31"
     },
@@ -136,29 +136,35 @@ const tests = [
         result: "13:15:20"
     },
     {
-        expression: "@\"P7M2Y\" + @\"P5D\"",
+        expression: "@\"P2Y7M\" + @\"P1M\"",
         data: {},
-        result: "P5D7M2Y"
+        result: "P2Y8M"
     },
     {
-        expression: "@\"P7M2Y\" - @\"P5M\"",
+        expression: "@\"P2Y7M\" - @\"P5M\"",
         data: {},
-        result: "P2M2Y"
+        result: "P2Y2M"
     },
     {
-        expression: "@\"P7M2Y\" - @\"P5D\"",
+        expression: "@\"P2Y7M\" - @\"P5D\"",
+        description: "subtraction of a days and time duration from a years and  month duration is not allowed",
         data: {},
-        result: "P7M2Y"
+        result: null
+    },
+    {
+        expression: '@"P20DT5H30M" - @"P25D"',
+        data: {},
+        result: "-P4DT18H30M"
     },
     {
         expression: "date(\"2022-05-14\") - date(\"2020-09-10\")",
         data: {},
-        result: "P4D8M1Y"
+        result: "P611D"
     },
     {
         expression: "date(\"2020-09-10\")-date(\"2022-05-14\")",
         data: {},
-        result: "-P4D8M1Y"
+        result: "-P611D"
     },
     {
         expression: "today().year",
@@ -191,19 +197,19 @@ const tests = [
         result: 15
     },
     {
-        expression: `abs(@"-P7M2Y")`,
+        expression: `abs(@"-P2Y7M")`,
         data: {},
-        result: "P7M2Y"
+        result: "P2Y7M"
     },
     {
         expression: `years and months duration(date("2022-05-14"), date("2020-09-10"))`,
         data: {},
-        result: "-P8M1Y"
+        result: "-P1Y8M"
     },
     {
         expression: `years and months duration(date("2020-09-10"),date("2022-05-14"))`,
         data: {},
-        result: "P8M1Y"
+        result: "P1Y8M"
     },
     {
         expression: `date(from:date and time("2017-08-30T10:25:00"))`,
@@ -213,7 +219,7 @@ const tests = [
     {
         expression: `time(19,48,55,duration("PT1H"))`,
         data: {},
-        result: "20:48:55"
+        result: "19:48:55+01:00"
     },
     {
         expression: `string(date("999999999-12-31"))`,
@@ -248,6 +254,7 @@ const tests = [
     },
     {
         expression: `date(1000999999,12,32)`,
+        //analyse: true,
         data: {},
         result: null
     },
@@ -260,7 +267,44 @@ const tests = [
         expression: `date(-1000999999,12,01)`,
         data: {},
         result: null
-    }
+    },
+    {
+        expression: `@"P10D" instance of days and time duration`,
+        data: {},
+        result: true
+    },
+    {
+        expression: `string(@"2018-12-08T10:30:11@Australia/Melbourne")`,
+        data: {},
+        result: "2018-12-08T10:30:11@Australia/Melbourne"
+    },
+    {
+        expression: `string(@"2025-04-25T20:30:11@Australia/Melbourne")`,
+        data: {},
+        result: "2025-04-25T20:30:11@Australia/Melbourne"
+    },
+    {
+        expression: `string(@"2018-12-08T10:30:11+11:00")`,
+        data: {},
+        result: "2018-12-08T10:30:11+11:00"
+    },
+    {
+        expression: `string(@"10:30:11+11:00")`,
+        //analyse: true,
+        data: {},
+        result: "10:30:11+11:00"
+    },
+    {
+        expression: `duration("-PT2H")`,
+        data: {},
+        result: "-PT2H"
+    }/*,
+    {
+        expression: `time(hour:11, minute:59, second:0, offset: duration("-PT2H"))`,
+        analyse: true,
+        data: {},
+        result: "11:59:00-02:00"
+    }*/
 ];
 
 module.exports = {

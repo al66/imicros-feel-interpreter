@@ -14,8 +14,11 @@
         multilinecomment   : { match: /\/\*[.\s\S]+?\*+\//, lineBreaks: true },
         string      : { match: /"(?:\\"|[^"])*?"/, value: s => s.slice(1, -1) },
         dayandtime  : /date[ ]+and[ ]+time/,
-        fn          : /put[ ]+all|string[ ]+length|string[ ]+join|week[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+week|years[ ]+and[ ]+months[ ]+duration/,            
-        types       : /day-time-duration|year-month-duration/,
+        daysandtimeduration: /days[ ]+and[ ]+time[ ]+duration/,
+        daysandtime: /days[ ]+and[ ]+time/,
+        yearsandmonthduration: /years[ ]+and[ ]+months[ ]+duration/,
+        fn          : /put[ ]+all|string[ ]+length|string[ ]+join|week[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+year|month[ ]+of[ ]+year|day[ ]+of[ ]+week/,            
+        types       : /day-time-duration|year-month-duration|days[ ]+and[ ]+time/,
         instance    : /instance[ ]+of/,
         whitespace  : { match: /[ \t\n\r\u00A0\uFEFF\u000D\u000A]+/, lineBreaks: true },
         word        : { match: /[\?_'A-Za-z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]+\d?[\?_'A-Za-z\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df]?/, type: moo.keywords({
@@ -200,6 +203,7 @@ FunctionInvocation -> FunctionName _ Parameters {% (data, location, reject) => {
     | %not _ "(" _ Expression _ ")" {% (data, location, reject) => { return new Node({ node: Node.NOT, parameters: reduce(data[4]) });} %}
 
 FunctionName -> %fn {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
+    | %yearsandmonthduration {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
     | PotentialName {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
     | "number" {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
     | "string" {% (data) => { return new Node({ node: Node.NAME, value: concat([data]) }); } %}
@@ -251,6 +255,9 @@ ContextElement -> Name _ ":" _ Type {% (data) => { return new Node({ node: Node.
 
 BasicType -> ("boolean"|"number"|"string"|"date"|"time"|"date and time"|"day-time-duration"|"year-month-duration") {% (data) => reduce(data).value %}
     | "date" __ "time" {% (data) => concat(data) %}
+    | %daysandtimeduration {% (data) => { return concat(data)} %}
+    | %daysandtime {% (data) => { return concat(data)} %}
+    | %yearsandmonthduration {% (data) => { return concat(data)} %}
 
 BoxedExpression -> List
     | FunctionDefintion {% (data) => { return reduce(data);} %}

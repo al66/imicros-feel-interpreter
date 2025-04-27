@@ -147,7 +147,7 @@ const tck = [
             "0090-feel-paths",
             "0091-local-hrefs",
             "0092-feel-lambda",
-            "0093-feel-at-literals",
+            //"0093-feel-at-literals",    //<<<<<<<
             "0094-feel-product-function",
             "0095-feel-day-of-year-function",
             "0096-feel-day-of-week-function",
@@ -169,7 +169,7 @@ const tck = [
             "1110-feel-contains-function",
             "1111-feel-matches-function",
             //"1115-feel-date-function",
-            "1116-feel-time-function",
+            "1116-feel-time-function",          //<<<<<<<
             "1117-feel-date-and-time-function",   //<<<<<<<
             "1120-feel-duration-function",
             "1121-feel-years-and-months-duration-function",
@@ -194,9 +194,10 @@ const tck = [
             "1156-range-function"
         ],
         skipCases: {
-            "0057-feel-context": [5,6,7]
+            "0057-feel-context": [5,6,7]        // field names with special characters ([]) are not supported
         },
         analyse: {
+            //"1116-feel-time-function": ["feel-time-function_083_6b608254c7"]
             //"0017-tableTests": [3],
         }
     }

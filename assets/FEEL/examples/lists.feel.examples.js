@@ -62,7 +62,6 @@ const tests = [
     },
     {
         expression: "[ {x:1, y:2}, {x:2, y:3} ][x=1]",
-        analyse: true,
         data: {},
         result: [{x:1, y:2}]
     },
