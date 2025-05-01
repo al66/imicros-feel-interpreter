@@ -1,6 +1,6 @@
 {
   "name": "imicros-feel-interpreter",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "author": "Andreas Leinen <andreas.leinen@imicros.de> (www.imicros.de)",
   "license": "MIT",
   "description": "DMN decisions and FEEL language interpreter",
@@ -15,8 +15,8 @@
     "test-converter": "jest test/converter.spec.js --no-cache",
     "test-dmn": "jest test/dmn.spec.js --no-cache",
     "test-dmn-error": "jest test/dmn.error.spec.js --no-cache",
-    "test-feel": "jest test/feel.spec.js --no-cache",
-    "test-compliance": "jest test/dmn-tck.spec.js --no-cache --runInBand --bail[=1]",
+    "test-feel": "jest test/feel.spec.js --no-cache --bail[=1]",
+    "test-compliance": "jest test/dmn-tck.spec.js --no-cache --runInBand --silent",
     "compile": "nearleyc lib/feel.grammar.ne -o lib/feel.grammar.js"
   },
   "jest": {

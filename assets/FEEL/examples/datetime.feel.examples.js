@@ -340,8 +340,26 @@ const tests = [
         //analyse: true,
         data: {},
         result: "11:22:00.123456789"
+    },
+    {
+        expression: `day of week(date: @"2019-09-17")`,
+        //analyse: true,
+        data: {},
+        result: "Tuesday"
+    },
+    {
+        expression: `string(date and time(date and time("2017-09-05T10:20:00@Europe/Paris"),time("09:15:30.987654321@Europe/Paris")))`,
+        //analyse: true,
+        data: {},
+        result: "2017-09-05T09:15:30.987654321@Europe/Paris"
+    },
+    {
+        expression: `string(date and time("-999999999-12-31T23:59:59.999999999+02:00"))`,
+        //analyse: true,
+        data: {},
+        result: "-999999999-12-31T23:59:59.999999999+02:00"
     }
-    // 	
+    // 
 ];
 
 module.exports = {
