@@ -376,6 +376,12 @@ const tests = [
         //analyse: true,
         data: {},
         result: "-P4033Y2M"
+    },
+    {
+        expression: `day of year(date_input_001)`,
+        //analyse: true,
+        data: { date_input_001: "1970-01-01T10:10:10" },
+        result: 1
     }
     // 
 ];

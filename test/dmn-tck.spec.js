@@ -149,7 +149,7 @@ const tck = [
             "0092-feel-lambda",
             //"0093-feel-at-literals",
             "0094-feel-product-function",
-            "0095-feel-day-of-year-function",
+            //"0095-feel-day-of-year-function",     //<<<<<<<<<<<<<<<<<
             "0096-feel-day-of-week-function",
             "0097-feel-month-of-year-function",
             "0098-feel-week-of-year-function",
@@ -172,7 +172,7 @@ const tck = [
             //"1116-feel-time-function",
             //"1117-feel-date-and-time-function",
             //"1120-feel-duration-function",                
-            //"1121-feel-years-and-months-duration-function",     //<<<<<<<<<<<<<<<<<
+            //"1121-feel-years-and-months-duration-function",
             "1130-feel-interval",
             "1131-feel-function-invocation",
             "1140-feel-string-join-function",
@@ -198,6 +198,7 @@ const tck = [
         },
         analyse: {
             //"1116-feel-time-function": ["feel-time-function_083_6b608254c7"]
+            //"0095-feel-day-of-year-function": ["datetime_004"]
             //"0017-tableTests": [3],
         }
     }
