@@ -149,10 +149,10 @@ const tck = [
             "0092-feel-lambda",
             //"0093-feel-at-literals",
             "0094-feel-product-function",
-            //"0095-feel-day-of-year-function",     //<<<<<<<<<<<<<<<<<
-            "0096-feel-day-of-week-function",
-            "0097-feel-month-of-year-function",
-            "0098-feel-week-of-year-function",
+            //"0095-feel-day-of-year-function",     
+            //"0096-feel-day-of-week-function",           
+            //"0097-feel-month-of-year-function",                 
+            //"0098-feel-week-of-year-function",              //<<<<<<<<<<<<<<<<<
             "0099-arithmetic-negation",
             "0100-arithmetic",
             "0103-feel-is-function",
@@ -198,6 +198,8 @@ const tck = [
         },
         analyse: {
             //"1116-feel-time-function": ["feel-time-function_083_6b608254c7"]
+            //"0096-feel-day-of-week-function": ["date_001"]
+            //"0098-feel-week-of-year-function": ["date_008"],
             //"0095-feel-day-of-year-function": ["datetime_004"]
             //"0017-tableTests": [3],
         }

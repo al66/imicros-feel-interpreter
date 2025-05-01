@@ -382,6 +382,24 @@ const tests = [
         //analyse: true,
         data: { date_input_001: "1970-01-01T10:10:10" },
         result: 1
+    },
+    {
+        expression: `day of week(date_input_001+@"P1D")`,
+        //analyse: true,
+        data: { date_input_001: "2021-01-11" },
+        result: "Tuesday"
+    },
+    {
+        expression: `week of year(@"2004-01-01")`,
+        //analyse: true,
+        data: { },
+        result: 1
+    },
+    {
+        expression: `week of year(date(2005, 1, 1))`,
+        //analyse: true,
+        data: { },
+        result: 53
     }
     // 
 ];
