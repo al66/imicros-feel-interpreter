@@ -170,9 +170,9 @@ const tck = [
             "1111-feel-matches-function",
             //"1115-feel-date-function",
             //"1116-feel-time-function",
-            //"1117-feel-date-and-time-function",   //<<<<<<<
-            "1120-feel-duration-function",
-            "1121-feel-years-and-months-duration-function",
+            //"1117-feel-date-and-time-function",
+            //"1120-feel-duration-function",                
+            //"1121-feel-years-and-months-duration-function",     //<<<<<<<<<<<<<<<<<
             "1130-feel-interval",
             "1131-feel-function-invocation",
             "1140-feel-string-join-function",

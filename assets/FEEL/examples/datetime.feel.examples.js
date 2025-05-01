@@ -358,6 +358,24 @@ const tests = [
         //analyse: true,
         data: {},
         result: "-999999999-12-31T23:59:59.999999999+02:00"
+    },
+    {
+        expression: `years and months duration(from:date and time("2014-12-31T23:59:59"),to:date and time("2016-12-31T00:00:01"))`,
+        //analyse: true,
+        data: {},
+        result: "P2Y"
+    },
+    {
+        expression: `years and months duration(date("2016-01-01"),date("2016-01-01"))`,
+        //analyse: true,
+        data: {},
+        result: "P0M"
+    },
+    {
+        expression: `years and months duration(date and time("2014-12-31T23:59:59"), date and time("-2019-10-01T12:32:59"))`,
+        //analyse: true,
+        data: {},
+        result: "-P4033Y2M"
     }
     // 
 ];
