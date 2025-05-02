@@ -183,6 +183,7 @@ NameStart -> %word %number:? %types:? {% (data) => { return concat(data)} %}
 NamePart -> %word %number:?  {% (data) => { return concat(data)} %}
     | %types {% (data) => { return concat(data)} %}
     | %dayandtime {% (data) => { return concat(data)} %}
+    | %number {% (data) => { return concat(data)} %}
 
 Literal -> SimpleLiteral
     | %null {% (data) => { return new Node({ node: Node.NULL }); } %}

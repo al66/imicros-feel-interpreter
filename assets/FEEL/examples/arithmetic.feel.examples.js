@@ -289,6 +289,12 @@ const tests = [
         expression: "even(3)",
         data: {},
         result: false
+    },
+    {
+        expression: "0",
+        //analyse: true,
+        data: {},
+        result: 0
     }    
 ];
 

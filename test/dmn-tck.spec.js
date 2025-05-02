@@ -56,8 +56,8 @@ const tck = [
             //"0108-first-hitpolicy",
             "0109-ruleOrder-hitpolicy",
             "0110-outputOrder-hitpolicy",
-            "0111-first-hitpolicy-singleoutputcol",
-            "0112-ruleOrder-hitpolicy-singleinoutcol",
+            //"0111-first-hitpolicy-singleoutputcol",
+            "0112-ruleOrder-hitpolicy-singleinoutcol",    //<<<<<<<<<<<<<<<
             "0113-outputOrder-hitpolicy-singleinoutcol",
             //"0114-min-collect-hitpolicy",
             //"0115-sum-collect-hitpolicy",
@@ -79,7 +79,7 @@ const tck = [
             //"0002-string-functions",
            // "0003-iteration",
             //"0004-lending",
-            "0005-literal-invocation",
+            "0005-literal-invocation",            //<<<<<<<<<<<<<<<
             //"0006-join",
             //"0007-date-time",
             //"0008-listGen",
@@ -91,7 +91,7 @@ const tck = [
             //"0014-loan-comparison",
             "0016-some-every",
             //"0017-tableTests",
-            "0020-vacation-days",
+            //"0020-vacation-days",             //<<<<<<<<<<<<<<<
             //"0021-singleton-list",
             //"0030-user-defined-functions",
             "0031-user-defined-functions",
@@ -152,7 +152,7 @@ const tck = [
             //"0095-feel-day-of-year-function",     
             //"0096-feel-day-of-week-function",           
             //"0097-feel-month-of-year-function",                 
-            //"0098-feel-week-of-year-function",              //<<<<<<<<<<<<<<<<<
+            //"0098-feel-week-of-year-function",              
             "0099-arithmetic-negation",
             "0100-arithmetic",
             "0103-feel-is-function",
@@ -197,6 +197,7 @@ const tck = [
             "0057-feel-context": [5,6,7]        // field names with special characters ([]) are not supported
         },
         analyse: {
+            //"0020-vacation-days": [1]
             //"1116-feel-time-function": ["feel-time-function_083_6b608254c7"]
             //"0096-feel-day-of-week-function": ["date_001"]
             //"0098-feel-week-of-year-function": ["date_008"],

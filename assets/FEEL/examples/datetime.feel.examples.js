@@ -400,6 +400,16 @@ const tests = [
         //analyse: true,
         data: { },
         result: 53
+    },
+    {
+        expression: `Base Vacation Days + max( Extra days case 1, Extra days case 3 ) + Extra days case 2`,
+        //analyse: true,
+        data: { "Base Vacation Days": 25,
+                "Extra days case 1": 5,
+                "Extra days case 2": 1,
+                "Extra days case 3": 3,
+         },
+        result: 31
     }
     // 
 ];
