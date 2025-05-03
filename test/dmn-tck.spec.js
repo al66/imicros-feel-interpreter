@@ -54,22 +54,24 @@ const tck = [
             //"0106-feel-ternary-logic",
             //"0107-feel-ternary-logic-not",
             //"0108-first-hitpolicy",
-            "0109-ruleOrder-hitpolicy",
-            "0110-outputOrder-hitpolicy",
+            //"0109-ruleOrder-hitpolicy",
+            //"0110-outputOrder-hitpolicy",             
             //"0111-first-hitpolicy-singleoutputcol",
-            "0112-ruleOrder-hitpolicy-singleinoutcol",    //<<<<<<<<<<<<<<<
-            "0113-outputOrder-hitpolicy-singleinoutcol",
+            //"0112-ruleOrder-hitpolicy-singleinoutcol",    
+            //"0113-outputOrder-hitpolicy-singleinoutcol",    //<<<<<<<<<<<<<<<
             //"0114-min-collect-hitpolicy",
             //"0115-sum-collect-hitpolicy",
             //"0116-count-collect-hitpolicy",
             //"0117-multi-any-hitpolicy",
             //"0118-multi-priority-hitpolicy",
-            "0119-multi-collect-hitpolicy"
+            //"0119-multi-collect-hitpolicy"
         ],
         skipCases: {
             //"0057-feel-context": [5,6,7]
         },
-        analyse: {}
+        analyse: {
+            //"0113-outputOrder-hitpolicy-singleinoutcol": [2]
+        }
     },
     {
         folder: "TestCases/compliance-level-3",
@@ -91,7 +93,7 @@ const tck = [
             //"0014-loan-comparison",
             "0016-some-every",
             //"0017-tableTests",
-            //"0020-vacation-days",             //<<<<<<<<<<<<<<<
+            //"0020-vacation-days",             
             //"0021-singleton-list",
             //"0030-user-defined-functions",
             "0031-user-defined-functions",
@@ -197,6 +199,7 @@ const tck = [
             "0057-feel-context": [5,6,7]        // field names with special characters ([]) are not supported
         },
         analyse: {
+            "0005-literal-invocation": [3]
             //"0020-vacation-days": [1]
             //"1116-feel-time-function": ["feel-time-function_083_6b608254c7"]
             //"0096-feel-day-of-week-function": ["date_001"]

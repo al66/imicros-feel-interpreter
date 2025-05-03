@@ -47,6 +47,8 @@ describe("Test DMN converter", () => {
                     console.log(util.inspect(decision.getAst(), { showHidden: false, depth: null, colors: true }));
                     let result = decision.analyse({ data: test.data, decision: test.decision });
                     console.log(util.inspect(result, { showHidden: false, depth: null, colors: true }));
+                    console.log(util.inspect(result.result, { showHidden: false, depth: null, colors: true }));
+                    console.log(util.inspect(test.result, { showHidden: false, depth: null, colors: true }));
                     expect(result.result).toEqual(test.result);
                 } else {
                     let result = decision.evaluate({ data: test.data, decision: test.decision });
