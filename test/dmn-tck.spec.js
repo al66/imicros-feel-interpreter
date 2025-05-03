@@ -81,7 +81,7 @@ const tck = [
             //"0002-string-functions",
            // "0003-iteration",
             //"0004-lending",
-            //"0005-literal-invocation",            //<<<<<<<<<<<<<<<
+            "0005-literal-invocation",            //<<<<<<<<<<<<<<<
             //"0006-join",
             //"0007-date-time",
             //"0008-listGen",
