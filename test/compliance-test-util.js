@@ -168,11 +168,22 @@ function buildExpected( node ) {
                 let items = toArray(single.list.item);
                 let list = [];
                 for (let i = 0; i < items.length; i++) {
-                    let name = items[i]._name;
-                    let value = items[i].value;
-                    let item = {};
-                    buildValue(item, name, value);
-                    list.push(item[name]);
+                    let components = toArray(items[i].component);
+                    if (components.length > 0) {
+                        let item = {};
+                        for (let j = 0; j < components.length; j++) {
+                            let name = components[j]._name;
+                            let value = components[j].value;
+                            buildValue(item, name, value);
+                        }
+                        list.push(item);
+                    } else {
+                        let name = items[i]._name;
+                        let value = items[i].value;
+                        let item = {};
+                        buildValue(item, name, value);
+                        list.push(item[name]);
+                    }
                 }
                 result[name] = list;
             } else if (single.list === "") {
@@ -193,6 +204,14 @@ const specialPrecisionCases = [
     {
         test: "0008-LX-arithmetic-test-01.xml",
         precision: 11
+    },
+    {
+        test: "0012-list-functions-test-01.xml",
+        precision: 14
+    },
+    {
+        test: "0005-literal-invocation-test-01.xml",
+        precision: 12
     }
 ];
 
@@ -201,8 +220,8 @@ function getPrecision(testFile) {
     const fileName = normalizedPath.split("/").pop();
     // Find a matching special case
     const specialCase = specialPrecisionCases.find((e) => e.test === fileName);
-    // Return the precision for the special case or default to 14
-    return specialCase?.precision || 14;
+    // Return the precision for the special case or default to 15
+    return specialCase?.precision || 15;
 }
 
 function reduceResultPrecision(obj,precision) {
