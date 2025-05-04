@@ -203,7 +203,7 @@ const specialPrecisionCases = [
     },
     {
         test: "0008-LX-arithmetic-test-01.xml",
-        precision: 11
+        precision: 13
     },
     {
         test: "0012-list-functions-test-01.xml",
