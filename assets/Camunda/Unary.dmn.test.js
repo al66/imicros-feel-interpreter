@@ -2,6 +2,7 @@ const tests = [
     {
         case: "Age 27",
         decision: "Unary",
+        //analyse: true,
         data: {
             age: 27
         },

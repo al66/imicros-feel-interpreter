@@ -2,6 +2,7 @@ const tests = [
     {
         case: "Age 27, account creation year 1998",
         decision: "CreditLimit",
+        //analyse: true,
         data: {
             Age: 27,
             "Account Creation Year": 1998

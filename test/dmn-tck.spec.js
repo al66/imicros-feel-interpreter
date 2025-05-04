@@ -199,7 +199,8 @@ const tck = [
             "0057-feel-context": [5,6,7]        // field names with special characters ([]) are not supported
         },
         analyse: {
-            "0005-literal-invocation": [3]
+            //"0005-literal-invocation": [3]
+            //"0012-list-functions": [5],
             //"0020-vacation-days": [1]
             //"1116-feel-time-function": ["feel-time-function_083_6b608254c7"]
             //"0096-feel-day-of-week-function": ["date_001"]

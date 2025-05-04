@@ -11,6 +11,7 @@
     "test-interpreter": "jest test/interpreter.*.spec.js --no-cache",
     "test-decision": "jest test/interpreter.decisiontable.spec.js --no-cache",
     "test-simple": "jest test/parser.simple.spec.js --no-cache",
+    "test-single": "jest test/interpreter.single.spec.js --no-cache",
     "test-for": "jest test/interpreter.for.spec.js --no-cache",
     "test-converter": "jest test/converter.spec.js --no-cache",
     "test-dmn": "jest test/dmn.spec.js --no-cache",
@@ -54,7 +55,7 @@
     "jest": "^29.7.0"
   },
   "dependencies": {
-    "decimal.js": "^10.4.3",
+    "decimal.js": "^10.5.0",
     "fast-xml-parser": "^4.3.6",
     "mathjs": "^14.4.0",
     "moment": "^2.30.1",
