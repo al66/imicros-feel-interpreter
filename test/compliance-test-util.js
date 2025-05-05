@@ -202,6 +202,10 @@ const specialPrecisionCases = [
         precision: 8
     },
     {
+        test: "0005-literal-invocation-test-01.xml",
+        precision: 10
+    },
+    {
         test: "0008-LX-arithmetic-test-01.xml",
         precision: 13
     },

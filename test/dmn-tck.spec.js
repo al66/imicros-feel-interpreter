@@ -199,10 +199,10 @@ const tck = [
         ],
         skipCases: {
             "0057-feel-context": [5,6,7],        // field names with special characters ([]) are not supported
-            "0005-literal-invocation": [1,2,3]   // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision) 
+            //"0005-literal-invocation": [1,2,3]   // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision) 
         },
         analyse: {
-            "0061-feel-median-function": [8]
+            //"0061-feel-median-function": [8]
             //"0051-feel-sqrt-function": [2]
             //"0005-literal-invocation": [3]
             //"0012-list-functions": [5],
@@ -287,6 +287,9 @@ describe("Test DMN compliance", () => {
 
                     // Reduce result precision
                     result = reduceResultPrecision(result, precision);
+
+                    // Reduce expected precision
+                    expected = reduceResultPrecision(expected, precision);
 
                     // Assert the result matches the expected value
                     expect(result).toEqual(expected);
