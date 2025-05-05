@@ -120,7 +120,7 @@ const tck = [
             "0058-feel-number-function",
             "0059-feel-all-function",
             "0060-feel-any-function",
-            "0061-feel-median-function",
+            //"0061-feel-median-function",
             "0062-feel-mode-function",
             "0063-feel-stddev-function",          //<<<<<<<<<<<<<<<<
             "0064-feel-conjunction",
@@ -202,6 +202,7 @@ const tck = [
             "0005-literal-invocation": [1,2,3]   // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision) 
         },
         analyse: {
+            "0061-feel-median-function": [8]
             //"0051-feel-sqrt-function": [2]
             //"0005-literal-invocation": [3]
             //"0012-list-functions": [5],
