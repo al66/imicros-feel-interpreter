@@ -198,23 +198,28 @@ function buildExpected( node ) {
 
 const specialPrecisionCases = [
     {
+        test: "0008-LX-arithmetic-test-01.xml",
+        precision: 10
+    },{
+        test: "0009-invocation-arithmetic-test-01.xml",
+        precision: 10
+    },{
         test: "0052-feel-exp-function-test-01.xml",
         precision: 8
-    },
-    {
+    },{
         test: "0005-literal-invocation-test-01.xml",
         precision: 10
-    },
-    {
+    },{
         test: "0008-LX-arithmetic-test-01.xml",
         precision: 13
-    },
-    {
+    },{
         test: "0012-list-functions-test-01.xml",
         precision: 14
-    },
-    {
+    },{
         test: "0005-literal-invocation-test-01.xml",
+        precision: 12
+    },{
+        test: "0063-feel-stddev-function-test-01.xml",
         precision: 12
     }
 ];

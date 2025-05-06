@@ -6,11 +6,13 @@ console.log("=============== Expression =================");
 let exp = "if even(i) then (i*a) else (i*b)";
 console.log(exp);
 
+const n = 50000;
+
 console.log("=============== pure Javascript ==============")
 
 const tsRef = new Date(); 
 let resultsRef = [];
-for (let i = 0; i< 10000; i++ ) {
+for (let i = 0; i< n; i++ ) {
     let data = {i,a:3,b:5};
     resultsRef.push({ i, result: data.i % 2 == 0 ? data.i*data.a : data.i*data.b });
 }
@@ -35,7 +37,7 @@ let serialized = JSON.stringify(interpreter.ast);
 const ts_single = new Date(); 
 let resultsSingle = [];
 interpreter.ast = JSON.parse(serialized);
-for (let i = 0; i< 10000; i++ ) {
+for (let i = 0; i< n; i++ ) {
     let result = interpreter.evaluate({i,a:3,b:5});
     resultsSingle.push({ i, result});
 }
@@ -56,7 +58,7 @@ console.log("=============== parse + evaluate ==============")
 
 const ts = new Date(); 
 let results = [];
-for (let i = 0; i< 10000; i++ ) {
+for (let i = 0; i< n; i++ ) {
     let result = interpreter.evaluate(exp,{i,a:3,b:5});
     results.push({ i, result});
 }

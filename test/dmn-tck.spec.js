@@ -67,8 +67,8 @@ const tck = [
             //"0119-multi-collect-hitpolicy"
         ],
         skipCases: {
-            "0008-LX-arithmetic": [1,2,3],          // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision)
-            "0009-invocation-arithmetic": [1,2,3],  // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision)
+            //"0008-LX-arithmetic": [1,2,3],          // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision)
+            //"0009-invocation-arithmetic": [1,2,3],  // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision)
             //"0057-feel-context": [5,6,7]
         },
         analyse: {
@@ -122,7 +122,7 @@ const tck = [
             "0060-feel-any-function",
             //"0061-feel-median-function",
             "0062-feel-mode-function",
-            "0063-feel-stddev-function",          //<<<<<<<<<<<<<<<<
+            //"0063-feel-stddev-function",          
             "0064-feel-conjunction",
             "0065-feel-disjunction",
             //"0066-feel-negation",
@@ -160,8 +160,8 @@ const tck = [
             "0099-arithmetic-negation",
             "0100-arithmetic",
             "0103-feel-is-function",
-            "1100-feel-decimal-function",                 //<<<<<<<<<<<<<<<<<<<
-            "1101-feel-floor-function",
+            //"1100-feel-decimal-function",                 
+            "1101-feel-floor-function",             //<<<<<<<<<<<<<<<<<<<
             "1102-feel-ceiling-function",
             "1103-feel-substring-function",
             "1104-feel-string-length-function",
@@ -202,6 +202,7 @@ const tck = [
             //"0005-literal-invocation": [1,2,3]   // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision) 
         },
         analyse: {
+            //"0063-feel-stddev-function": [9],
             //"0061-feel-median-function": [8]
             //"0051-feel-sqrt-function": [2]
             //"0005-literal-invocation": [3]

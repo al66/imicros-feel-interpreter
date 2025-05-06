@@ -177,18 +177,21 @@ const tests = [
     },
     {
         expression: "stddev([23, 4, 6, 457, 65, 7, 45, 8])",
+        decription: "Sample standard deviaition",
         data: {},
-        result: 145.13565852332775
+        result: 155.15654537088847
     },
     {
         expression: "stddev([1,2,3,4,5])",
+        decription: "Sample standard deviaition",
         data: {},
-        result: 1.4142135623730951
+        result: 1.5811388300841898
     },
     {
         expression: "stddev(1,2,3,4,5)",
+        decription: "Sample standard deviaition",
         data: {},
-        result: 1.4142135623730951
+        result: 1.5811388300841898
     },
     {
         expression: "mode([6, 1, 9, 6, 1])",
