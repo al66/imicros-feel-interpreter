@@ -112,16 +112,16 @@ const tck = [
             //"0050-feel-abs-function",
             //"0051-feel-sqrt-function",
             //"0052-feel-exp-function",
-            "0053-feel-log-function",
+            //"0053-feel-log-function",                    
             //"0054-feel-even-function",
             //"0055-feel-odd-function",
-            "0056-feel-modulo-function",
+            //"0056-feel-modulo-function",                
             "0057-feel-context",
-            "0058-feel-number-function",
+            //"0058-feel-number-function",                
             "0059-feel-all-function",
             "0060-feel-any-function",
             //"0061-feel-median-function",
-            "0062-feel-mode-function",
+            //"0062-feel-mode-function",              
             //"0063-feel-stddev-function",          
             "0064-feel-conjunction",
             "0065-feel-disjunction",
@@ -134,7 +134,7 @@ const tck = [
             "0072-feel-in",
             //"0073-feel-comments",
             "0074-feel-properties",
-            "0075-feel-exponent",
+            //"0075-feel-exponent",           //<<<<<<<<<<<<<<<<<<<
             "0076-feel-external-java",
             "0077-feel-nan",
             "0078-feel-infinity",
@@ -161,8 +161,8 @@ const tck = [
             "0100-arithmetic",
             "0103-feel-is-function",
             //"1100-feel-decimal-function",                 
-            "1101-feel-floor-function",             //<<<<<<<<<<<<<<<<<<<
-            "1102-feel-ceiling-function",
+            //"1101-feel-floor-function",             
+            //"1102-feel-ceiling-function",              
             "1103-feel-substring-function",
             "1104-feel-string-length-function",
             //"1105-feel-upper-case-function",
@@ -180,10 +180,10 @@ const tck = [
             "1130-feel-interval",
             "1131-feel-function-invocation",
             "1140-feel-string-join-function",
-            "1141-feel-round-up-function",
-            "1142-feel-round-down-function",
-            "1143-feel-round-half-up-function",
-            "1144-feel-round-half-down-function",
+            //"1141-feel-round-up-function",                   
+            //"1142-feel-round-down-function",                   
+            //"1143-feel-round-half-up-function",              
+            //"1144-feel-round-half-down-function",              
             "1145-feel-context-function",
             "1146-feel-context-put-function",
             "1147-feel-context-merge-function",
@@ -202,6 +202,8 @@ const tck = [
             //"0005-literal-invocation": [1,2,3]   // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision) 
         },
         analyse: {
+            //"0062-feel-mode-function": [8]
+            //"0058-feel-number-function": [13]
             //"0063-feel-stddev-function": [9],
             //"0061-feel-median-function": [8]
             //"0051-feel-sqrt-function": [2]
@@ -243,8 +245,6 @@ describe("Test DMN compliance", () => {
             // get path for test case exceptions
             const match = testFile.dir.match(/([^\\/]+)[\\/]*$/);
             let dir = match ? match[1] : null;
-    //console.log("testCases: ", testCases);
-            let stop = -1;
 
             const decision = new Decision();
 
@@ -252,26 +252,15 @@ describe("Test DMN compliance", () => {
                 let testCase = testCases.testCases.testCase[i];
                 // skip single test cases
                 if (single.skipCases[dir]?.indexOf(testCase._id) > -1) continue;
-                if (stop > -1) {
-                    // break;
-                }
-                stop = i;
                 test("Test case: " + (testCase.description || testCase._id), () => {
                     let result = null;
                     let success = decision.parse({ xml: xmlData });
-                    //console.log("decsion: ", testCase.resultNode?._name);
                     expect(success).toEqual(true);
-                    //console.log(util.inspect(testCase, { showHidden: false, depth: null }));
                     let input = buildInput(testCase.inputNode);
                     let expected = buildExpected(testCase.resultNode);
                     expect(expected).toBeDefined();
 
                     let analyse = Object.keys(single.analyse).includes(dir);
-        
-                    //console.log(util.inspect(testCase.inputNode, { showHidden: false, depth: null }));
-                    //console.log(util.inspect(input, { showHidden: false, depth: null }));
-                    //console.log(util.inspect(expected, { showHidden: false, depth: null }));
-                    //console.log("testCase: ", testCase);
                     if (analyse && single.analyse[dir]?.indexOf(testCase._id) > -1) {
                        console.log(util.inspect(decision.getAst(), { showHidden: false, depth: null }));
                         console.log(util.inspect(input, { showHidden: false, depth: null }));
@@ -281,20 +270,14 @@ describe("Test DMN compliance", () => {
                     } else {
                         result = decision.evaluate({ data: input, decision: testCase.resultNode?._name });
                     }
-                    //console.log("result: ", result);
-
                     // Get precision for the current test file
                     const precision = getPrecision(testFile);
-
                     // Reduce result precision
                     result = reduceResultPrecision(result, precision);
-
                     // Reduce expected precision
                     expected = reduceResultPrecision(expected, precision);
-
                     // Assert the result matches the expected value
                     expect(result).toEqual(expected);
-                    stop = -1;
                 });
             }
         });

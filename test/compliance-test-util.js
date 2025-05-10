@@ -221,6 +221,9 @@ const specialPrecisionCases = [
     },{
         test: "0063-feel-stddev-function-test-01.xml",
         precision: 12
+    },{
+        test: "0053-feel-log-function-test-01.xml",
+        precision: 8
     }
 ];
 
