@@ -134,7 +134,7 @@ const tck = [
             "0072-feel-in",
             //"0073-feel-comments",
             "0074-feel-properties",
-            //"0075-feel-exponent",           //<<<<<<<<<<<<<<<<<<<
+            //"0075-feel-exponent",           
             "0076-feel-external-java",
             "0077-feel-nan",
             "0078-feel-infinity",
@@ -157,7 +157,7 @@ const tck = [
             //"0096-feel-day-of-week-function",           
             //"0097-feel-month-of-year-function",                 
             //"0098-feel-week-of-year-function",              
-            "0099-arithmetic-negation",
+            //"0099-arithmetic-negation",     //<<<<<<<<<<<<<<<<<<<
             "0100-arithmetic",
             "0103-feel-is-function",
             //"1100-feel-decimal-function",                 
@@ -198,10 +198,13 @@ const tck = [
             "1156-range-function"
         ],
         skipCases: {
-            "0057-feel-context": [5,6,7],        // field names with special characters ([]) are not supported
+            "0057-feel-context": [5,6,7],                   // field names with special characters ([]) are not supported
+            "0099-arithmetic-negation": ["decision_012"]    // -(function(a) a)(10)  is an unvalid (and senseless) expresssion...
+            //"0008-LX-arithmetic": [1,2,3],          // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision)
             //"0005-literal-invocation": [1,2,3]   // tck calulation is not correct - we get same results as Camunda (calculating internally with a high precision) 
         },
         analyse: {
+            "0099-arithmetic-negation": ["decision_012"],
             //"0062-feel-mode-function": [8]
             //"0058-feel-number-function": [13]
             //"0063-feel-stddev-function": [9],

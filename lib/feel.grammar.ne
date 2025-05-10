@@ -160,6 +160,7 @@ SimpleValue -> QualifiedName
     | SimpleLiteral
 
 ArithmeticNegation -> "-" _ NonArithmeticExpression {% (data) => { return new Node({ node: Node.NEGATION, expression: reduce(data[2]) });} %}
+    | "-" _ "-" _ NonArithmeticExpression {% (data) => { return new Node({ node: Node.EVAL, expression: reduce(data[4]) });} %}
     | NonArithmeticExpression
 
 Sum -> Sum _ ("+"|"-") _ Product {% (data) => { return new Node({ node: Node.SUM, left: reduce(data[0]), operator: reduce(data[2]).value, right: reduce(data[4]) }); } %}

@@ -295,7 +295,13 @@ const tests = [
         //analyse: true,
         data: {},
         result: 0
-    }    
+    },
+    {
+        expression: "--10",
+        //analyse: true,
+        data: {},
+        result: 10
+    }
 ];
 
 module.exports = {
