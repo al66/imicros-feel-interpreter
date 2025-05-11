@@ -169,8 +169,8 @@ const tck = [
             //"1106-feel-lower-case-function",
             //"1107-feel-substring-before-function",   
             //"1108-feel-substring-after-function",          
-            //"1109-feel-replace-function",       //<<<<<<<<<<<<<<
-            "1110-feel-contains-function",
+            //"1109-feel-replace-function",       
+            //"1110-feel-contains-function",            //<<<<<<<<<<<<<<
             "1111-feel-matches-function",
             //"1115-feel-date-function",
             //"1116-feel-time-function",
