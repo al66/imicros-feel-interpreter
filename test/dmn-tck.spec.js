@@ -129,7 +129,7 @@ const tck = [
             "0067-feel-split-function",
             "0068-feel-equality",
             "0069-feel-list",
-            "0070-feel-instance-of",
+            "0070-feel-instance-of",                    //<<<<<<<<<<<<<< 39 failed test
             "0071-feel-between",
             "0072-feel-in",
             //"0073-feel-comments",
@@ -152,7 +152,7 @@ const tck = [
             "0091-local-hrefs",
             "0092-feel-lambda",
             //"0093-feel-at-literals",
-            "0094-feel-product-function",
+            //"0094-feel-product-function",         
             //"0095-feel-day-of-year-function",     
             //"0096-feel-day-of-week-function",           
             //"0097-feel-month-of-year-function",                 
@@ -170,8 +170,8 @@ const tck = [
             //"1107-feel-substring-before-function",   
             //"1108-feel-substring-after-function",          
             //"1109-feel-replace-function",       
-            //"1110-feel-contains-function",            //<<<<<<<<<<<<<<
-            "1111-feel-matches-function",
+            //"1110-feel-contains-function",            
+            "1111-feel-matches-function",                   //<<<<<<<<<<<<<< 31 failed tests
             //"1115-feel-date-function",
             //"1116-feel-time-function",
             //"1117-feel-date-and-time-function",
@@ -179,7 +179,7 @@ const tck = [
             //"1121-feel-years-and-months-duration-function",
             "1130-feel-interval",
             "1131-feel-function-invocation",
-            "1140-feel-string-join-function",
+            "1140-feel-string-join-function",               //<<<<<<<<<<<<<< 12 failed tests
             //"1141-feel-round-up-function",                   
             //"1142-feel-round-down-function",                   
             //"1143-feel-round-half-up-function",              
