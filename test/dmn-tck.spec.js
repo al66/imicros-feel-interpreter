@@ -163,12 +163,12 @@ const tck = [
             //"1100-feel-decimal-function",                 
             //"1101-feel-floor-function",             
             //"1102-feel-ceiling-function",              
-            //"1103-feel-substring-function",       //<<<<<<<<<<<<<<
-            "1104-feel-string-length-function",
+            //"1103-feel-substring-function",       
+            //"1104-feel-string-length-function",         
             //"1105-feel-upper-case-function",
             //"1106-feel-lower-case-function",
-            "1107-feel-substring-before-function",
-            "1108-feel-substring-after-function",
+            //"1107-feel-substring-before-function",   
+            //"1108-feel-substring-after-function",          //<<<<<<<<<<<<<<
             "1109-feel-replace-function",
             "1110-feel-contains-function",
             "1111-feel-matches-function",

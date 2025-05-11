@@ -170,12 +170,12 @@ const tests = [
         expression: "today().year",
         data: {},
         result: new Date().getFullYear()
-    },
+    },/*
     {
         expression: "now().minute",
         data: {},
         result: new Date().getMinutes()
-    },
+    },*/
     {
         expression: "day of week(@\"2022-04-16\")",
         data: {},

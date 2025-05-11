@@ -11,9 +11,9 @@ describe("Test interpreter", () => {
 
     describe("Error", () => {
         //const exp = `@"2021-01-02" - @"2021-01-01T10:10:10+11:00"`;
-        const exp = `substring("foobar",-6,6)`;
+        const exp = `substring after("","")`;
         //const expected = "P1DT49M50S";
-        const expected = "foobar";      // wrong, should be 1 day 49 minutes 50 seconds
+        const expected = "";      // wrong, should be 1 day 49 minutes 50 seconds
 
         it(`it should evaluate expression: ${exp} with expected result ${expected}"`, () => {
             interpreter.logger.activate("D");
