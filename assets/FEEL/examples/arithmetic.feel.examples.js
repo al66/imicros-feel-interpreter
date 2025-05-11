@@ -112,8 +112,9 @@ const tests = [
     },
     {
         expression: "\"a\"+3",
+        description: "adding string + number not defined",
         data: {},
-        result: "a3"
+        result: null
     },
     {
         expression: "decimal(-3.6,0)",

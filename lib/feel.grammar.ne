@@ -264,7 +264,7 @@ BasicType -> ("boolean"|"number"|"string"|"date"|"time"|"date and time"|"day-tim
 
 BoxedExpression -> List
     | FunctionDefintion {% (data) => { return reduce(data);} %}
-    | Context __ Expression {% (data) => { return new Node({ node: Node.BOXED, context: reduce(data[0]), result: reduce(data[2]) }); } %}
+    | Context __ Expression {% (data,location,reject) => { return new Node({ node: Node.BOXED, context: reduce(data[0]), result: reduce(data[2]) }); } %}
     | Context {% (data) => { return reduce(data);} %}
 
 List -> "[" _ ListEntries _ "]" {% (data) => { return new Node({ node: Node.LIST, entries: data[2] }); } %}

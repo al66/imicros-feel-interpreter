@@ -224,6 +224,9 @@ const specialPrecisionCases = [
     },{
         test: "0053-feel-log-function-test-01.xml",
         precision: 8
+    },{
+        test: "0100-arithmetic-test-01.xml",
+        precision: 10
     }
 ];
 
