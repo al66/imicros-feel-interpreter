@@ -5,15 +5,15 @@ const util = require('util');
 
 const interpreter = new Interpreter();
 
-const silent = false; // Set to true to suppress console output
+const silent = true; // Set to true to suppress console output
 
 describe("Test interpreter", () => {
 
     describe("Error", () => {
         //const exp = `@"2021-01-02" - @"2021-01-01T10:10:10+11:00"`;
-        const exp = `replace("abc","[A-Z]","#","i")`;
+        const exp = `"5" = 5`
         //const expected = "P1DT49M50S";
-        const expected = "###";      // wrong, should be 1 day 49 minutes 50 seconds
+        const expected = null; 
 
         it(`it should evaluate expression: ${exp} with expected result ${expected}"`, () => {
             interpreter.logger.activate("D");

@@ -46,14 +46,14 @@ const tck = [
             //"0007-simpletable-P2",
             //"0008-LX-arithmetic",             
             //"0009-invocation-arithmetic",           
-            //"0010-multi-output-U",
+            //"0010-multi-output-U",                        
             //"0100-feel-constants",
             //"0101-feel-constants",
             //"0102-feel-constants",
             //"0105-feel-math",
-            //"0106-feel-ternary-logic",
+            //"0106-feel-ternary-logic",                      
             //"0107-feel-ternary-logic-not",
-            //"0108-first-hitpolicy",
+            //"0108-first-hitpolicy",                        
             //"0109-ruleOrder-hitpolicy",
             //"0110-outputOrder-hitpolicy",             
             //"0111-first-hitpolicy-singleoutputcol",
@@ -62,8 +62,8 @@ const tck = [
             //"0114-min-collect-hitpolicy",
             //"0115-sum-collect-hitpolicy",
             //"0116-count-collect-hitpolicy",
-            //"0117-multi-any-hitpolicy",
-            //"0118-multi-priority-hitpolicy",
+            //"0117-multi-any-hitpolicy",                    
+            //"0118-multi-priority-hitpolicy",               
             //"0119-multi-collect-hitpolicy"
         ],
         skipCases: {
@@ -73,6 +73,7 @@ const tck = [
         },
         analyse: {
             //"0113-outputOrder-hitpolicy-singleinoutcol": [2]
+            //"0106-feel-ternary-logic": [6]
         }
     },
     {
@@ -93,7 +94,7 @@ const tck = [
             //"0012-list-functions",
             //"0013-sort",
             //"0014-loan-comparison",
-            "0016-some-every",
+            "0016-some-every",                          //<<<<<<<<<<<<<< 3 failed test
             //"0017-tableTests",
             //"0020-vacation-days",             
             //"0021-singleton-list",
@@ -102,12 +103,12 @@ const tck = [
             "0032-conditionals",
             "0033-for-loops",
             "0034-drg-scopes",
-            "0035-test-structure-output",
-            //"0036-dt-variable-input",
+            "0035-test-structure-output",              //<<<<<<<<<<<<<< 3 failed test
+            "0036-dt-variable-input",                  //<<<<<<<<<<<<<< names with keywords are not supported
             "0037-dt-on-bkm-implicit-params",
             "0038-dt-on-bkm-explicit-params",
             "0039-dt-list-semantics",
-            "0040-singlenestedcontext",
+            "0040-singlenestedcontext",               //<<<<<<<<<<<<<< 3 failed test
             "0041-multiple-nestedcontext",
             //"0050-feel-abs-function",
             //"0051-feel-sqrt-function",
@@ -116,7 +117,7 @@ const tck = [
             //"0054-feel-even-function",
             //"0055-feel-odd-function",
             //"0056-feel-modulo-function",                
-            "0057-feel-context",
+            //"0057-feel-context",                        
             //"0058-feel-number-function",                
             "0059-feel-all-function",
             "0060-feel-any-function",
@@ -126,7 +127,7 @@ const tck = [
             "0064-feel-conjunction",
             "0065-feel-disjunction",
             //"0066-feel-negation",
-            "0067-feel-split-function",
+            //"0067-feel-split-function",               
             "0068-feel-equality",
             "0069-feel-list",
             "0070-feel-instance-of",                    //<<<<<<<<<<<<<< 39 failed test
@@ -148,7 +149,7 @@ const tck = [
             "0087-chapter-11-example",
             "0088-no-decision-logic",
             "0089-nested-inputdata-imports",
-            "0090-feel-paths",
+            //"0090-feel-paths",                        
             "0091-local-hrefs",
             "0092-feel-lambda",
             //"0093-feel-at-literals",
@@ -177,14 +178,14 @@ const tck = [
             //"1117-feel-date-and-time-function",
             //"1120-feel-duration-function",                
             //"1121-feel-years-and-months-duration-function",
-            "1130-feel-interval",
+            "1130-feel-interval",                           //<<<<<<<<<<<<<< 5 failed tests  
             "1131-feel-function-invocation",
             "1140-feel-string-join-function",               //<<<<<<<<<<<<<< 12 failed tests
             //"1141-feel-round-up-function",                   
             //"1142-feel-round-down-function",                   
             //"1143-feel-round-half-up-function",              
             //"1144-feel-round-half-down-function",              
-            "1145-feel-context-function",
+            "1145-feel-context-function",                    //<<<<<<<<<<<<<< 18 failed tests
             "1146-feel-context-put-function",
             "1147-feel-context-merge-function",
             //"1148-feel-now-function",
@@ -198,19 +199,12 @@ const tck = [
             "1156-range-function"
         ],
         skipCases: {
-            "0057-feel-context": [5,6,7],                   // field names with special characters ([]) are not supported
+            "0057-feel-context": [5,6,7],                    // field names with special characters ([]) are not supported
             "0099-arithmetic-negation": ["decision_012"],    // -(function(a) a)(10)  is an unvalid (and senseless) expresssion...
-            "0100-arithmetic": ["subtract_lhs_date_minus_rhs_dateAndTime_002",  // date minus date and time not defined according spec -> null
-                                "subtract_lhs_date_minus_rhs_dateAndTime_003",  // date minus date and time not defined according spec -> null      
-                                "subtract_lhs_date_minus_rhs_dateAndTime_004",  // date minus date and time not defined according spec -> null
-                                "subtract_lhs_date_minus_rhs_dateAndTime_005",  // date minus date and time not defined according spec -> null
-                                "subtract_lhs_dateAndTime_minus_rhs_date_002",  // date and time minus date not defined according spec -> null
-                                "subtract_lhs_dateAndTime_minus_rhs_date_003",  // date and time minus date not defined according spec -> null
-                                "subtract_lhs_dateAndTime_minus_rhs_date_004",  // date and time minus date not defined according spec -> null
-                                "subtract_lhs_dateAndTime_minus_rhs_date_005",  // date and time minus date not defined according spec -> null
-                                ]  
+            "0100-arithmetic": []  
         },
         analyse: {
+            "0036-dt-variable-input": ["_9d09e1a1-d573-42f0-a026-da811bb73eeb"]
             //"0099-arithmetic-negation": ["decision_012"],
             //"0062-feel-mode-function": [8]
             //"0058-feel-number-function": [13]
@@ -266,8 +260,8 @@ describe("Test DMN compliance", () => {
                     let result = null;
                     let success = decision.parse({ xml: xmlData });
                     expect(success).toEqual(true);
-                    let input = buildInput(testCase.inputNode);
-                    let expected = buildExpected(testCase.resultNode);
+                    let input = buildInput({ node: testCase.inputNode, testFile, testCase });
+                    let expected = buildExpected({ node: testCase.resultNode, testFile, testCase });
                     expect(expected).toBeDefined();
 
                     let analyse = Object.keys(single.analyse).includes(dir);
@@ -278,7 +272,11 @@ describe("Test DMN compliance", () => {
                         console.log(util.inspect(result, { showHidden: false, depth: null }));
                         result = result?.result ?? null;
                     } else {
-                        result = decision.evaluate({ data: input, decision: testCase.resultNode?._name });
+                        if (Array.isArray(testCase.resultNode)) {
+                            result = decision.evaluate({ data: input });
+                        } else {
+                            result = decision.evaluate({ data: input, decision: testCase.resultNode?._name });
+                        }    
                     }
                     // Get precision for the current test file
                     const precision = getPrecision(testFile);
@@ -287,7 +285,14 @@ describe("Test DMN compliance", () => {
                     // Reduce expected precision
                     expected = reduceResultPrecision(expected, precision);
                     // Assert the result matches the expected value
-                    expect(result).toEqual(expected);
+                    try {
+                        expect(result).toEqual(expected);
+                    } catch (e) {
+                        console.log("Analyse result: ", util.inspect(result, { showHidden: false, depth: null }));
+                        console.log("Expected value: ", util.inspect(expected, { showHidden: false, depth: null }));
+                        throw e;
+                    }
+                    //expect(result).toEqual(expected);
                 });
             }
         });

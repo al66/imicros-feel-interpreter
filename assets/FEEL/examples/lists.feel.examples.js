@@ -350,6 +350,12 @@ const tests = [
             list2: ["x","y","z"]
         },
         result: ["a","b","c","x","y","z"]
+    },
+    {
+        expression: `[{a: {b: 1}}, {a: {b: [2.1, 2.2]}}, {a: {b: 3}}, {a: {b: 4}}, {a: {b: 5}}].a.b`,
+        //analyse: "D",
+        data: {},
+        result: [1, [2.1, 2.2], 3, 4, 5]
     }    
 ];
 

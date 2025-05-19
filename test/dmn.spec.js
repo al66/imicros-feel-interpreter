@@ -45,8 +45,8 @@ describe("Test DMN converter", () => {
                 decision.setAst(JSON.parse(JSON.stringify(decision.getAst()))); // clone
                 if (test.analyse) {
                     console.log(util.inspect(decision.getAst(), { showHidden: false, depth: null, colors: true }));
-                    let result = decision.analyse({ data: structuredClone(test.data), decision: test.decision });
-                    console.log(util.inspect(result, { showHidden: false, depth: null, colors: true }));
+                    let result = decision.analyse({ data: structuredClone(test.data), decision: test.decision || null, level: test.analyse });
+                    console.log(util.inspect(result, { showHidden: false, depth: null, colors: true,    maxArrayLength: null }));
                     console.log(util.inspect(result.result, { showHidden: false, depth: null, colors: true }));
                     console.log(util.inspect(test.result, { showHidden: false, depth: null, colors: true }));
                     expect(result.result).toEqual(test.result);

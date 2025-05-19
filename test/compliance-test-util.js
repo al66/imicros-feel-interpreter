@@ -92,108 +92,102 @@ function toArray( value ) {
     return Array.isArray(value) ? value : ( value ? [value] : [] );
 }
 
-function buildValue( context, name, value ) {
-    if (value._nil) {
-        context[name] = null;
-    } else if (value._type === "xsd:decimal") {
-        context[name] = parseFloat(value["#text"]);
-    } else if (value._type === "xsd:date") {
-        //context[name] = Temporal.parse(String(value["#text"]));
-        context[name] = value["#text"];
-    } else if (value._type === "xsd:string") {
-        context[name] = value["#text"] ? String(value["#text"]) : "";
-    } else if (value.hasOwnProperty("#text")) {
-        context[name] = value["#text"];
-    } else {
-        console.log("Build value failed: ", name, value);
-    }
-}
-
-function buildInput( node ) {
-    const inputs = toArray(node);
-    let input = {};
-    inputs.forEach((node) => {
-        let name = node._name;
-        if(node.value) {
-            buildValue(input, name, node.value);
-        } else if(node.component) {
-            let component = toArray(node.component);
-            let components = {};
-            for (let i = 0; i < component.length; i++) {
-                let name = component[i]._name;
-                let value = component[i].value;
-                buildValue(components, name, value);
-            }
-            input[name] = components;
-            //input["__print"] = true;
-        } else if (node.list) {
-            let items = toArray(node.list.item);
-            let list = [];
-            for (let i = 0; i < items.length; i++) {
-                let name = items[i]._name;
-                let value = items[i].value;
-                let item = {};
-                buildValue(item, name, value);
-                list.push(item[name]);
-            }
-            input[name] = list;
+function buildInput({ result = {}, node, name, testFile = {}, testCase = {} })  {
+    // no inpput node
+    if (node === undefined || node === null) return result;
+    // multiple input nodes...
+    if (Array.isArray(node)) {
+        for (let i = 0; i < node.length; i++) {
+            buildInput({ result, node: node[i], name, testFile, testCase });
         }
-    });
-    if (input["__print"]) {
-        delete input["__print"];
-        console.log("INPUT: ", input);
+        return result;
+    };
+    if (node._name) name = node._name;
+    if (node.value?._nil) {
+        result[name] = null;
+    } else if (node.value?._type === "xsd:decimal") {
+        result[name] = parseFloat(node.value["#text"]);
+    } else if (node.value?._type === "xsd:boolean") {
+        result[name] = node.value["#text"] === "true" || node.value["#text"] === true ? true : false;
+    } else if (node.value?._type === "xsd:date") {
+        result[name] = node.value["#text"];
+    } else if (node.value?._type === "xsd:string") {
+        result[name] = node.value["#text"] ? String(node.value["#text"]) : "";
+    } else if (node.value?.hasOwnProperty("#text")) {
+        result[name] = node.value["#text"];
+    } else if (node.list) {
+        let items = toArray(node.list.item);
+        let list = [];
+        for (let i = 0; i < items.length; i++) {
+            const item = buildInput({ result: {}, node: items[i], name: i, testFile, testCase });
+            list.push(item[i]);
+        }
+        result[name] = list;
+    } else if (node.list === "") {
+        result[name] = [];
+    } else if (node.component) {
+        let context = {};
+        let component = toArray(node.component);
+        for (let i = 0; i < component.length; i++) {
+            buildInput({ result: context, node: component[i], name, testFile, testCase });
+        }
+        result[name] = context;
+        //console.log("Context: ", context);
+    } else {
+        console.log("Build input failed: ", result, node, name, testFile.test, testCase.description || testCase._id );
     }
-    return input;
+    return result;
 }
 
-function buildExpected( node ) {
-    const resultNodeName = node._name;
-    const results = toArray(node);
-    let result = {};
-    let expected = {};
-    results.forEach(() => {
+
+function buildExpected({ result = {}, node, name, testFile = {}, testCase = {} })  {
+    // special case: multiple result nodes...
+    if (Array.isArray(node)) {
+        for (let i = 0; i < node.length; i++) {
+            buildExpected({ result, node: node[i], name, testFile, testCase });
+        }
+        return result;
+    };
+    if (node._name) name = node._name;
+    if (node.expected) {
         let expected = toArray(node.expected);
-        expected.forEach((single) => {
-            let name = node._name || resultNodeName;
-            if (single.value) {
-                buildValue(result, name, single.value);
-            } else if (single.component) {
-                let component = toArray(single.component);
-                for (let i = 0; i < component.length; i++) {
-                    let name = component[i]._name;
-                    let value = component[i].value;
-                    buildValue(result, name, value);
-                }
-            } else if (single.list) {
-                let items = toArray(single.list.item);
-                let list = [];
-                for (let i = 0; i < items.length; i++) {
-                    let components = toArray(items[i].component);
-                    if (components.length > 0) {
-                        let item = {};
-                        for (let j = 0; j < components.length; j++) {
-                            let name = components[j]._name;
-                            let value = components[j].value;
-                            buildValue(item, name, value);
-                        }
-                        list.push(item);
-                    } else {
-                        let name = items[i]._name;
-                        let value = items[i].value;
-                        let item = {};
-                        buildValue(item, name, value);
-                        list.push(item[name]);
-                    }
-                }
-                result[name] = list;
-            } else if (single.list === "") {
-                result[name] = [];
-            }
-        });
-    });
-    //expected[resultNodeName] = result;
-    expected = result;
-    return expected;
+        for (let i = 0; i < expected.length; i++) {
+            buildExpected({ result, node: expected[i], name, testFile, testCase });
+        }
+    } else if (node.value?._nil) {
+        result[name] = null;
+    } else if (node.value?._type === "xsd:decimal") {
+        result[name] = parseFloat(node.value["#text"]);
+    } else if (node.value?._type === "xsd:boolean") {
+        result[name] = node.value["#text"] === "true" || node.value["#text"] === true ? true : false;
+    } else if (node.value?._type === "xsd:date") {
+        result[name] = node.value["#text"];
+    } else if (node.value?._type === "xsd:string") {
+        result[name] = node.value["#text"] ? String(node.value["#text"]) : "";
+    } else if (node.value?.hasOwnProperty("#text")) {
+        result[name] = node.value["#text"];
+    } else if (node.list) {
+        let items = toArray(node.list.item);
+        let list = [];
+        for (let i = 0; i < items.length; i++) {
+            const item = buildExpected({ result: {}, node: items[i], name: i, testFile, testCase });
+            list.push(item[i]);
+        }
+        result[name] = list;
+    } else if (node.list === "") {
+        result[name] = [];
+    } else if (node.component) {
+        let context = {};
+        let component = toArray(node.component);
+        for (let i = 0; i < component.length; i++) {
+            buildExpected({ result: context, node: component[i], name, testFile, testCase });
+        }
+        result[name] = context;
+        //console.log("Context: ", context);
+    } else {
+        console.log("Build expected failed: ", result, node, name, testFile.test, testCase.description || testCase._id );
+    }
+    return result;
 }
 
 const specialPrecisionCases = [

@@ -7,9 +7,11 @@ const tests = [
             A: "banana"
         },
         result: {
-            "Aao": "bonono",
-            "AanplusStarstar": "b**a",
-            "encloseVowels": "b[a]n[a]n[a]"
+            "Replace": {
+                "Aao": "bonono",
+                "AanplusStarstar": "b**a",
+                "encloseVowels": "b[a]n[a]n[a]"
+            }
         }
     }
 ];

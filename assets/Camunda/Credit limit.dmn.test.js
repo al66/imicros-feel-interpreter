@@ -2,6 +2,7 @@
 const tests = [
     {
         case: "Credit Score 4.5, Turnover 200000, Bonität well",
+        //analyse: "E",
         data: {
             "Credit Score": 4.5, 
             "Turnover": 200000,

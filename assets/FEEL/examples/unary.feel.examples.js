@@ -49,6 +49,12 @@ const tests = [
         expression: "2 in [1,2,3,4]",
         data: {},
         result: true
+    },
+    {
+        expression: "Another Date in (<Complex.aDate)",
+        //analyse: "E",
+        data: { "Another Date": "2018-07-29", Complex: { aDate: "2018-07-30" } },
+        result: true
     }
 ];
 

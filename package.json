@@ -17,7 +17,7 @@
     "test-dmn": "jest test/dmn.spec.js --no-cache",
     "test-dmn-error": "jest test/dmn.error.spec.js --no-cache",
     "test-feel": "jest test/feel.spec.js --no-cache --bail[=1]",
-    "test-tck": "jest test/dmn-tck.spec.js --no-cache --runInBand --silent",
+    "test-tck": "jest test/dmn-tck.spec.js --no-cache --runInBand --bail",
     "compile": "nearleyc lib/feel.grammar.ne -o lib/feel.grammar.js"
   },
   "jest": {

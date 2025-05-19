@@ -133,13 +133,22 @@ NonArithmeticExpression -> InstanceOf
     | SimplePositiveUnaryTest
     | "(" _ Expression _ ")" {% (data) => { return new Node({ node: Node.EVAL, expression: data[2] }); } %}
 
-SimplePositiveUnaryTest -> ("!="|"<"|"<="|">"|">=") _ Endpoint {% (data) => { return new Node({ node: Node.UNARY, operator: reduce(data[0]).value, value: reduce(data[2]) }); } %}
+PrePathExpression -> InstanceOf
+    | PathExpression
+    | FilterExpression
     | Interval
-    | "(" _ "-" _ ")" {% (data) => { return new Node({ node: Node.DASH }); } %}
-
-Interval -> ("("|"]"|"[") _ Endpoint _ ".." _ Endpoint _ (")"|"["|"]") {% (data) => { return new Node({ node: Node.INTERVAL, open: reduce(data[0]).value, from: reduce(data[2]), to: reduce(data[6]), close: reduce(data[8]).value }) } %}
     | FunctionInvocation
     | Literal
+    | "(" _ Expression _ ")" {% (data) => { return new Node({ node: Node.EVAL, expression: data[2] }); } %}
+
+SimplePositiveUnaryTest -> ("!="|"<"|"<="|">"|">=") _ Endpoint {% (data) => { return new Node({ node: Node.UNARY, operator: reduce(data[0]).value, value: reduce(data[2]) }); } %}
+    | Interval
+    | FunctionInvocation
+    | Literal
+    | "(" _ "-" _ ")" {% (data) => { return new Node({ node: Node.DASH }); } %}
+
+
+Interval -> ("("|"]"|"[") _ Endpoint _ ".." _ Endpoint _ (")"|"["|"]") {% (data) => { return new Node({ node: Node.INTERVAL, open: reduce(data[0]).value, from: reduce(data[2]), to: reduce(data[6]), close: reduce(data[8]).value }) } %}
 
 PositiveUnarytest -> Expression
 
@@ -220,7 +229,7 @@ NamedParameter -> ParameterName _ ":" _ Expression {% (data) => { return new Nod
 
 PositionalParameterList -> Expression _ ("," _ Expression):*  {% (data) => { return new Node({ node: Node.LIST, entries: [].concat(reduce(data[0])).concat(reduce(extractObj(data[2],2))) });} %}
 
-PathExpression -> NonArithmeticExpression "." Name {% (data) => { return new Node({ node: Node.PATH, object:reduce(data[0]), property:data[2]});} %}
+PathExpression -> PrePathExpression "." Name {% (data) => { return new Node({ node: Node.PATH, object:reduce(data[0]), property:data[2]});} %}
     | BoxedExpression "." Name {% (data) => { return new Node({ node: Node.PATH, object:reduce(data[0]), property:data[2]});} %}
     | Name
 
@@ -235,6 +244,8 @@ LogicalExpression -> LogicalExpression __ ("and"|"or") __ Comparison {% (data) =
     | Comparison
 
 Comparison -> Comparison _ ("="|"!="|"<"|"<="|">"|">=") _ Sum {% (data) => { return new Node({ node: Node.COMPARISON, operator: reduce(data[2]).value, left: reduce(data[0]), right: reduce(data[4])});} %}
+    | Expression __ ("="|"!=") __ List {% (data) => { return new Node({ node: Node.COMPARISON, operator: reduce(data[2]).value, left: reduce(data[0]), right: reduce(data[4])});} %}
+    | List __ ("="|"!=") __ Expression {% (data) => { return new Node({ node: Node.COMPARISON, operator: reduce(data[2]).value, left: reduce(data[0]), right: reduce(data[4])});} %}
     | Expression __ "between" __ Expression __ "and" __ Expression {% (data) => { return new Node({ node: Node.BETWEEN, expression: reduce(data[0]), left: reduce(data[4]), right: reduce(data[8])});} %}
     | Expression __ "in" __ PositiveUnarytest {% (data) => { return new Node({ node: Node.IN, input: reduce(data[0]), test: reduce(data[4])});} %}
     | Expression __ "in" __ UnaryNot {% (data) => { return new Node({ node: Node.IN, input: reduce(data[0]), test: reduce(data[4])});} %}
